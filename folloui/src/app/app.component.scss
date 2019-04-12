@@ -1,0 +1,37 @@
+.search-div {
+    width: 40%;
+    flex-wrap: initial !important;
+}
+
+input[type="search"] {
+    width: 100%;
+}
+
+.bg-color {
+    background-color: white !important;
+}
+
+
+/* hide the blue outline */
+.form-control:focus {
+    outline: 0 !important;
+    border-color: initial;
+    box-shadow: none;
+}
+
+.FolloIcon {
+    display: block;
+    width: 40px;
+    height: 40px;
+    content: url(https://www.redditstatic.com/accountmanager/18e257d5fdea817c0f12cccf8867d930.svg);
+    margin-bottom: 8px;
+}
+
+.navbar-brand {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+   > img {
+     margin-right: 10px;
+     width: 32px;
+     height: 32px;
+   }
+}

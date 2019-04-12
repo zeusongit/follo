@@ -1,3 +1,67 @@
 .signin-modal-img {
     width: 100%;
 }
+
+.login-bottom-text {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.art {
+    background-image: url(https://www.redditstatic.com/accountmanager/bbb584033aa89e39bad69436c504c9bd.png);
+    height: 88vh;
+    min-height: 450px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.modal-content {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    overflow-x: hidden;
+    min-height: 88vh;
+    flex-direction: unset;
+}
+
+.left {
+    width: 156px;
+}
+
+.right {
+    width: 100%;
+}
+
+.right-content {
+    min-width: 260px;
+    max-width: 440px;
+    padding: 24px;
+}
+
+.FolloIcon::before {
+    display: block;
+    width: 40px;
+    height: 40px;
+    content: url(https://www.redditstatic.com/accountmanager/18e257d5fdea817c0f12cccf8867d930.svg);
+    margin-bottom: 8px;
+}
+
+.login-modal-close {
+    position: absolute;
+    right: 22px;
+    top: 16px;
+    background: transparent;
+    border: none;
+    color: black;
+    padding: initial;
+    z-index: 1;
+}
+
+.signin-button {
+  width: 130px;
+  font-weight: 600 !important;
+}

@@ -1,43 +1,42 @@
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large
-  modal</button>
+<button type="button" class="btn btn-primary signin-button" data-toggle="modal" data-target=".bd-example-modal-lg">LOG
+  IN</button>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="row">
-        <div class="col-md-3">
-          <div>
-            <img class="signin-modal-img"
-              src="https://www.redditstatic.com/accountmanager/bbb584033aa89e39bad69436c504c9bd.png" />
-          </div>
-        </div>
-        <div class="col-md-9">
-          <div class="modal-body">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <form>
-              <div class="form-group">
-                <h5>LOGO</h5>
-              </div>
-              <div class="form-group">
-                <h5>Sign in</h5>
-              </div>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Username</label>
-                <input type="text" class="form-control" id="recipient-name">
-              </div>
-              <div class="form-group">
-                <label for="message-text" class="col-form-label">Password</label>
-                <input type="password" class="form-control" id="message-text" />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
 
+    <div class="modal-content">
+
+      <div class="left">
+        <div class="art"></div>
+      </div>
+      <div class="right">
+        <div class="right-content">
+          <div class="FolloIcon"></div>
+          <form>
+            <div class="form-group">
+              <h5>Sign in</h5>
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Username</label>
+              <input type="text" class="form-control" id="recipient-name">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Password</label>
+              <input type="password" class="form-control" id="message-text" />
+            </div>
+            <button type="button" class="btn btn-primary signin-button">Sign in</button>
+          </form>
+          <div class="login-bottom-text">
+            New to Follo? <a class="BottomLink" href="#">Sign up</a>
+          </div>
+        </div>
+        <button type="button" class="close login-modal-close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 
     </div>
   </div>
+
 </div>
