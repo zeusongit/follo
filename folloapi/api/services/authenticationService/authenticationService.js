@@ -1,0 +1,1 @@
+let userModel = require(__dirname+'/../models/userModel/userModel.js');
