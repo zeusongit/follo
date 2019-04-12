@@ -1,1 +1,8 @@
-let userModel = require(__dirname+'/../models/userModel/userModel.js');
+var mongoose = require('mongoose');
+
+var User = mongoose.model('userModel');
+
+module.exports.addUser = (userDetails) => {
+    var user = new User(userDetails);
+    return user.save();
+}
