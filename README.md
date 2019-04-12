@@ -11,6 +11,6 @@ INFO6150 - Final Project
 | Vikas Singh | 001821392 | singh.vika@husky.neu.edu |
 
 ## Technology Stack
-AngularJS
-NodeJS
-PostgreSQL
+- AngularJS
+- NodeJS
+- MongoDB
