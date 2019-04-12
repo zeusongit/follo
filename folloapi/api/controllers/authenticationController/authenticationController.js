@@ -8,3 +8,9 @@ let signup = (req, res) => {
 let login = (req, res) => {
     // call the service to perform login
 }
+
+
+module.exports = {
+    signup,
+    login
+}
