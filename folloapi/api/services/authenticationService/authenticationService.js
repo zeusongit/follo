@@ -32,6 +32,7 @@ let signup = (newUserObj) => {
             resolve({signupSuccess: true})
         })
         .catch((err) => {
+            console.log("cannot save");
             console.log(err);
             reject({signupSuccess: false});
         })

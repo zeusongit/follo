@@ -17,7 +17,7 @@ let userSchemaTemplate = {
 
     email: {
         type: String,
-        unique: false,
+        unique: true,
         validate: (value) => {
             return validator.isEmail(value);
         }
@@ -25,7 +25,8 @@ let userSchemaTemplate = {
 
     username: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
 
     password: {

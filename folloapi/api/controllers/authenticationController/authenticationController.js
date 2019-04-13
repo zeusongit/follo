@@ -13,13 +13,15 @@ let signup = (req, res) => {
                 status: 200
             });
         }
-        else{
+    })
+    .catch((result) => {
+        
             res.status(500);
             res.send({
                 message: "something went wrong",
                 status: 500
-            })
-        }
+            });
+        
     })
 
 }
