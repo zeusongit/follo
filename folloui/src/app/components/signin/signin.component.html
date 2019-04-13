@@ -4,28 +4,33 @@
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">
-
     <div class="modal-content">
-
       <div class="left">
         <div class="art"></div>
       </div>
       <div class="right">
         <div class="right-content">
           <div class="FolloIcon"></div>
-          <form>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
             <div class="form-group">
               <h5>Sign in</h5>
             </div>
             <div class="form-group">
-              <label for="recipient-name" class="col-form-label">Username</label>
-              <input type="text" class="form-control" id="recipient-name">
+              <label for="recipient-name" class="col-form-label required">Username</label>
+              <input type="text" class="form-control" [ngClass]="displayFieldCss('username')" name="username"
+                formControlName="username">
+              <app-field-error-display [displayError]="isFieldValid('username')"
+                [errorMsg]="customErrorMsg('username')">
+              </app-field-error-display>
             </div>
             <div class="form-group">
-              <label for="message-text" class="col-form-label">Password</label>
-              <input type="password" class="form-control" id="message-text" />
+              <label for="message-text" class="col-form-label required">Password</label>
+              <input type="password" class="form-control" [ngClass]="displayFieldCss('password')" name="password"
+                formControlName="password" />
+              <app-field-error-display [displayError]="isFieldValid('password')" [errorMsg]="customErrorMsg('password')">
+              </app-field-error-display>
             </div>
-            <button type="button" class="btn btn-primary signin-button">Sign in</button>
+            <button type="submit" class="btn btn-primary signin-button">Sign in</button>
           </form>
           <div class="login-bottom-text">
             New to Follo? <a class="BottomLink" href="#">Sign up</a>
@@ -35,8 +40,6 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-
     </div>
   </div>
-
 </div>
