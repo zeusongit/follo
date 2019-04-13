@@ -1,5 +1,5 @@
 @import '../../../assets/scss/variables';
-input,input:focus {
+.form-control,.form-control:focus {
 	border: none;
     background-color: #363636;
     color:$white;
@@ -22,3 +22,4 @@ input,input:focus {
 .signup-btn{
     background-color: $accent-color;
 }
+
