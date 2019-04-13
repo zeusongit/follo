@@ -1,22 +1,10 @@
-var express = require('express');
 
-// create our router
-var router = express.Router();
-
-let authenticationController = require (__dirname+'/../controllers/authenticationController/authenticationController.js');
+let authenticationController = require (__dirname+'/../../controllers/authenticationController/authenticationController.js')
+let routes = require('express').Router();
 
 
-let signup = () => {
-    // use authenticationController to signup
-     authenticationController.addUser;
-}
+routes.post('/signup/', authenticationController.signup);
 
+routes.post('/login/', authenticationController.login);
 
-let login = () => {
-    // use authenticationController to signup
-}
-
-module.exports ={
-    signup,
-    login
-}
+module.exports = routes;

@@ -1,25 +1,28 @@
-let service = require(__dirname+'/../services/service.js');
+let authService = require(__dirname+'/../../services/authenticationService/authenticationService.js');
 
 
 let signup = (req, res) => {
     //call the service to perform signup
-
-    let content = req.body;  
-
-      if(!content) {
-        return res.status(400).send({
-            message: "User content cannot be empty"
-        });
-    }
-
-    service.addUser(content).then(data => {
-        res.send(data);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while creating the User."
-        });
-    });
-
+    let newUserJSON = req.body;
+    authService.signup(newUserJSON)
+    .then((result) => {
+        if (result.signupSuccess===true){
+            res.status(200);
+            res.send({
+                message: "Signup Successful",
+                status: 200
+            });
+        }
+    })
+    .catch((result) => {
+        
+            res.status(500);
+            res.send({
+                message: "something went wrong",
+                status: 500
+            });
+        
+    })
 
 }
 

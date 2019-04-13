@@ -1,4 +1,4 @@
-let mongoose = require(__dirname+'/../db/db-mongoose.js');
+let mongoose = require(__dirname+'/../db/mongoose.js');
 
 
 let validator = require('validator');
@@ -17,7 +17,7 @@ let userSchemaTemplate = {
 
     email: {
         type: String,
-        unique: false,
+        unique: true,
         validate: (value) => {
             return validator.isEmail(value);
         }
@@ -25,7 +25,8 @@ let userSchemaTemplate = {
 
     username: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
 
     password: {
@@ -39,9 +40,7 @@ let userSchemaTemplate = {
 
 }
 
-let userSchema = new mongoose.Schema(userSchema, { collection: 'users' });
+let userSchema = new mongoose.Schema(userSchemaTemplate, { collection: 'users' });
 
 
-module.exports = {
-    userSchema
-}
+module.exports = userSchema;
