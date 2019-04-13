@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@import './assets/scss/variables';
+@import './assets/scss/mixins';
+button{
+    border: 0 !important;
+}
+button:focus {outline:0;}
+.custom-btn{
+    color:$white !important;
+    background-color: $accent-color !important;
+}
+.custom-btn:hover {
+  color:$white !important;
+  background-color: $btn-hover-color !important;
+}
