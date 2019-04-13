@@ -1,5 +1,9 @@
+console.log('loading routes')
+
 let routes = require('express').Router();
-const authRouthes = require (__dirname+'/authenticationRoutes/routes.js');
+
+console.log('loading authroutes');
+const authRouthes = require (__dirname+'/authenticationRoutes/authenticationRoute.js');
 
 
 // route for signup

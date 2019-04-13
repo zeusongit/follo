@@ -1,16 +1,10 @@
-let authenticationController = require (__dirname+'/../controllers/authenticationController/authenticationController.js');
+
+let authenticationController = require (__dirname+'/../../controllers/authenticationController/authenticationController.js')
+let routes = require('express').Router();
 
 
-let signup = () => {
-    // use authenticationController to signup
-}
+routes.post('/signup/', authenticationController.signup);
 
+routes.post('/login/', authenticationController.login);
 
-let login = () => {
-    // use authenticationController to signup
-}
-
-module.exports ={
-    signup,
-    login
-}
+module.exports = routes;

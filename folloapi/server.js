@@ -1,12 +1,13 @@
 const express = require ('express');
-const routes = require(__dirname+'/routes/routes.js');
+const authRoutes = require(__dirname+'/api/routes/authenticationRoutes/authenticationRoute.js');
 const bodyParser = require('body-parser');
 var cors = require('cors');
 let app = express();
 
-app.use(cors());
+//console.log(routes);
+app.use(cors())
 app.use(bodyParser.json());
-app.use('/', routes);
+app.use('/', authRoutes);
 
 app.listen(3000, err => {
     if (err){

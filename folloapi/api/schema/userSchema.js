@@ -1,4 +1,4 @@
-let mongoose = require(__dirname+'/../db/db-mongoose.js');
+let mongoose = require(__dirname+'/../db/mongoose.js');
 
 
 let validator = require('validator');
@@ -39,9 +39,7 @@ let userSchemaTemplate = {
 
 }
 
-let userSchema = new mongoose.Schema(userSchema, { collection: 'users' });
+let userSchema = new mongoose.Schema(userSchemaTemplate, { collection: 'users' });
 
 
-module.exports = {
-    userSchema
-}
+module.exports = userSchema;
