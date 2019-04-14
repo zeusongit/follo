@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-sm-8 offset-sm-2">
+    <div *ngIf="communities?.length > 0; else createCommunity">
+      <div class="card community" *ngFor="let com of communities">
+        <h5 class="card-header ">Communities</h5>
+        <div class="card-body">
+          {{com.n}}
+        </div>
+      </div>
+    </div>
+    <ng-template #createCommunity>
+      <div class="no-community">
+        <button type="button" class="btn btn-outline-primary signin-button">Create Community</button>
+      </div>
+    </ng-template>
+  </div>
+</div>

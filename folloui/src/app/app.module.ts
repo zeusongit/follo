@@ -2,25 +2,33 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { SigninComponent } from './components/signin/signin.component';
-import { HeaderComponent } from './components/header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FieldErrorDisplayComponent } from './components/field-error-display/field-error-display.component';
-
+import { SignupComponent } from './components/signup/signup.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { LeftSidebarComponent } from './components/left-sidebar/left-sidebar.component';
+import { FormsModule } from '@angular/forms';
+import { MainContentGridComponent } from './components/main-content-grid/main-content-grid.component';
 @NgModule({
   declarations: [
     AppComponent,
     SigninComponent,
-    HeaderComponent,
-    FieldErrorDisplayComponent
+    FieldErrorDisplayComponent,
+    SignupComponent,
+    NavbarComponent,
+    LeftSidebarComponent,
+    MainContentGridComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,5 @@
-<button type="button" class="btn btn-primary signin-button" data-toggle="modal" data-target=".bd-example-modal-lg">LOG
+<button type="button" class="btn btn-outline-primary signin-button" data-toggle="modal" data-target=".bd-example-modal-lg"
+  (click)="openModel()">LOG
   IN</button>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
@@ -27,7 +28,8 @@
               <label for="message-text" class="col-form-label required">Password</label>
               <input type="password" class="form-control" [ngClass]="displayFieldCss('password')" name="password"
                 formControlName="password" />
-              <app-field-error-display [displayError]="isFieldValid('password')" [errorMsg]="customErrorMsg('password')">
+              <app-field-error-display [displayError]="isFieldValid('password')"
+                [errorMsg]="customErrorMsg('password')">
               </app-field-error-display>
             </div>
             <button type="submit" class="btn btn-primary signin-button">Sign in</button>

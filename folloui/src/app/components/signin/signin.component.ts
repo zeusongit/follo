@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Login } from '../../models/login.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
@@ -16,7 +17,15 @@ export class SigninComponent implements OnInit {
   private isInvalidCred: boolean;
   constructor(private ls: LoginService, private fb: FormBuilder) { }
 
+  openModel() {
+    console.log('INSIDE MODAL');
+    this.formSubmitAttempt = false;
+    this.isInvalidCred = false;
+    this.loginForm.reset();
+  }
+
   ngOnInit() {
+
     this.isInvalidCred = false;
     this.formSubmitAttempt = false;
     this.loginForm = this.fb.group({
@@ -24,7 +33,6 @@ export class SigninComponent implements OnInit {
       password: [null, Validators.required],
     });
   }
-
   onSubmit() {
 
     this.formSubmitAttempt = true;

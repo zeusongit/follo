@@ -1,0 +1,24 @@
+<nav class="navbar fixed-top navbar-light bg-light">
+  <a class="navbar-brand" href="#">
+    <img src="assets/images/f4.png" width="20" height="30" class="d-inline-block align-top" alt="">
+    &nbsp;follo
+  </a>
+  <form class="form-inline search-div input-group">
+    <span class="input-group-prepend">
+      <div class="input-group-text bg-color border-right-0"><i class="fa fa-search"></i></div>
+    </span>
+    <input class="form-control py-2 border-left-0 border" type="search" placeholder="Search" aria-label="Search">
+  </form>
+  <div>
+    <app-signin></app-signin>
+    <app-signup></app-signup>
+  </div>
+</nav>
+<ul class="nav nav-tabs justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="{'active': isDiscover}" href="#" name="discover" (click)="discover(discover)">Discover</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" [ngClass]="{'active': isPersonal}" name="personal" (click)="personal(personal)">Personal</a>
+  </li>
+</ul>
