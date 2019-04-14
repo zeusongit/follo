@@ -1,29 +1,17 @@
 @import '../../../assets/scss/variables';
 @import '../../../assets/scss/mixins';
 .left-sidebar {
-    height: 100%; /* Full-height: remove this if you want "auto" height */
+    height: 100%;
     width: 200px; /* Set the width of the sidebar */
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 1; /* Stay on top */
-    top: 118px; /* Stay at the top */
+    top: 120px; /* Stay at the top */
     left: 0;
-    background-color: $dark-color; /* Black */
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 20px;
-  }
-
-  .left-sidebar div{
-    margin: 0 auto;
-    @include border-radius(10px);
-    background-color: #363636;
-    width: 90%;
-    border: none;
-    background-color: $dark-accent-color-2;
-    color:$white;
-    outline: none;
-	-webkit-box-shadow: inset 0 1px 1px #000, 0 1px 0 0 #a5a5a5;
-    box-shadow: inset 0 1px 1px #000, 0 1px 0 0 #a5a5a5;
-    margin-bottom: 10px;
+    -webkit-box-shadow: 3px 0px 4px 0px rgba(204,204,204,1);
+-moz-box-shadow: 3px 0px 4px 0px rgba(204,204,204,1);
+box-shadow: 3px 0px 4px 0px rgba(204,204,204,1);
   }
   
   /* The navigation menu links */
@@ -37,7 +25,7 @@
   
   /* When you mouse over the navigation links, change their color */
   .left-sidebar a:hover {
-    color: #f1f1f1;
+    color: $accent-color;
   }
   
   /* Style page content */
