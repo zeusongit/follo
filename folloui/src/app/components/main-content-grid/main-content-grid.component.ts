@@ -1,5 +1,6 @@
+import { LoginService } from './../../services/login.service';
 import { Community } from './../../models/community';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NavTabService } from 'src/app/services/main-content.service';
 @Component({
   selector: 'app-main-content-grid',
@@ -8,13 +9,15 @@ import { NavTabService } from 'src/app/services/main-content.service';
 })
 export class MainContentGridComponent implements OnInit {
 
-  // community: Community;
+  isLoggedIn: boolean;
   communities: Community[];
+  @Input() isDiscover: boolean;
 
-  constructor(private navTabService: NavTabService) { }
+  constructor(private navTabService: NavTabService, private ls: LoginService) { }
 
   ngOnInit() {
     this.navTabService.currentTab.subscribe(com => this.communities = com);
+    this.ls.loginStatus.subscribe(status => this.isLoggedIn = status);
   }
 
 }

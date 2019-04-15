@@ -1,8 +1,9 @@
 import { LoginService } from './../../services/login.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Login } from '../../models/login.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-signin',
@@ -15,32 +16,34 @@ export class SigninComponent implements OnInit {
   loginForm: FormGroup;
   private formSubmitAttempt: boolean;
   private isInvalidCred: boolean;
-  constructor(private ls: LoginService, private fb: FormBuilder) { }
+  constructor(private ls: LoginService, private fb: FormBuilder, private location: Location) { }
 
-  openModel() {
-    console.log('INSIDE MODAL');
+  closeModal() {
     this.formSubmitAttempt = false;
     this.isInvalidCred = false;
     this.loginForm.reset();
+    this.location.back();
   }
 
   ngOnInit() {
-
     this.isInvalidCred = false;
     this.formSubmitAttempt = false;
     this.loginForm = this.fb.group({
       username: [null, [Validators.required, Validators.maxLength(20), Validators.minLength(4)]],
       password: [null, Validators.required],
     });
+    console.log('INSIDE LOGIN');
   }
-  onSubmit() {
 
+  onSubmit() {
     this.formSubmitAttempt = true;
     if (this.loginForm.valid) {
       this.loginData = new Login(this.loginForm.value);
       // console.log(JSON.stringify(this.loginData));
-      this.ls.loginService(this.loginData);
-      this.isInvalidCred = true;
+      // this.ls.loginService(this.loginData);
+      this.isInvalidCred = false;
+      this.ls.loggedInStatus(true);
+      this.closeModal();
     }
   }
 

@@ -14,6 +14,7 @@ export class NavTabService {
   constructor() { }
 
   changeCommunityTab(communites: Community[]) {
+    console.log(communites);
     this.communitySource.next(communites);
   }
 }

@@ -11,8 +11,4 @@ export class LeftSidebarComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  addCommunity() {
-
-  }
 }

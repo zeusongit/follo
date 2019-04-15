@@ -26,7 +26,8 @@ button:focus {
 
 div,
 button,
-input {
+input,
+textarea {
     border-radius: 0 !important;
 }
 
@@ -47,7 +48,7 @@ input {
     background-color: #0062cc;
 }
 
-.signin-button {
+.app-button {
     min-width: 130px;
     font-weight: 700 !important;
     font-size: 12px;
@@ -55,4 +56,9 @@ input {
     border-style: solid !important;
     letter-spacing: 0.5px;
     margin-left: 15px;
+}
+
+app-create-community {
+  position: relative;
+  top: 80px;
 }

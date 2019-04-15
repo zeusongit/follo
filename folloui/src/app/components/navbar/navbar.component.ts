@@ -1,47 +1,19 @@
-import { Community } from './../../models/community';
+import { LoginService } from './../../services/login.service';
 import { Component, OnInit } from '@angular/core';
 import { NavTabService } from 'src/app/services/main-content.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
 
-  private communities: Community[];
-  private isDiscover: boolean;
-  private isPersonal: boolean;
-  constructor(private navTabService: NavTabService) { }
+  isLoggedIn: boolean;
+  constructor(private navTabService: NavTabService, private ls: LoginService) { }
 
   ngOnInit() {
-    this.isDiscover = true;
-    this.isPersonal = false;
-    this.communities = [
-      new Community('Travel'),
-      new Community('Adventure'),
-      new Community('Houses')
-    ];
-    this.navTabService.changeCommunityTab(this.communities);
-    // this.navTabService.currentTab.subscribe(com => this.communities = com);
-  }
-
-  personal() {
-    this.isPersonal = true;
-    this.isDiscover = false;
-    this.communities = [];
-    this.navTabService.changeCommunityTab(this.communities);
-  }
-
-  discover() {
-    this.isDiscover = true;
-    this.isPersonal = false;
-    this.communities = [
-      new Community('Travel'),
-      new Community('Adventure'),
-      new Community('Houses')
-    ];
-    this.navTabService.changeCommunityTab(this.communities);
+    this.ls.loginStatus.subscribe(status => this.isLoggedIn = status);
   }
 
 }

@@ -1,6 +1,7 @@
 export class Community {
-  name: string;
-  constructor(public n: string) {
-    this.name = n;
+  communityName: string;
+  commDesc: string;
+  public constructor(init?: Partial<Community>) {
+    Object.assign(this, init);
   }
 }

@@ -1,10 +1,8 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary signin-button" data-toggle="modal" data-target=".sign-up-modal">SIGN
-  UP</button>
 
 
-<div class="modal fade bd-example-modal-lg sign-up-modal" tabindex="-1" role="dialog"
-  aria-labelledby="mySingUpModalLabel" aria-hidden="true">
+<div class="modal fade sign-up-modal" tabindex="-1" role="dialog" aria-labelledby="mySingUpModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="left">
@@ -49,13 +47,14 @@
               </div>
             </div>
             <br>
-            <button type="submit" class="btn btn-primary signup-btn">Sign up</button>
+            <button type="submit" class="btn btn-primary app-button">Sign up</button>
           </form>
           <div class="login-bottom-text">
             Already Follo-ing? <a class="BottomLink" href="#">Sign in</a>
           </div>
         </div>
-        <button type="button" class="close login-modal-close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close login-modal-close" data-dismiss="modal" aria-label="Close"
+          (click)="closeModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>

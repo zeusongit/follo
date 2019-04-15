@@ -13,6 +13,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LeftSidebarComponent } from './components/left-sidebar/left-sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { MainContentGridComponent } from './components/main-content-grid/main-content-grid.component';
+import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.component';
+import { CreateCommunityComponent } from './components/create-community/create-community.component';
+import { HomeComponent } from './components/home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +24,10 @@ import { MainContentGridComponent } from './components/main-content-grid/main-co
     SignupComponent,
     NavbarComponent,
     LeftSidebarComponent,
-    MainContentGridComponent
+    MainContentGridComponent,
+    RightSidebarComponent,
+    CreateCommunityComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
