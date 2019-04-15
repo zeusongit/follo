@@ -35,7 +35,6 @@ let signup = (req, res) => {
 let uploadProfilePicture = (req,res) => {
     const singleUpload = authService.upload.single('image');
     singleUpload(req, res, function(err, some) {
-       // console.log(req);
         signup(req,res);
   });
 }

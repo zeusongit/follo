@@ -1,10 +1,13 @@
 let userModel = require(__dirname+'/../../models/userModel/userModel.js');
+const env = require(__dirname+'/../../../config/s3.env.js');
+ 
 let bcrypt = require('bcrypt');
 
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');
 
+console.log(env.USERS_BUCKET_NAME);
 
 
 let hashPassword = (newUserObj) => {
@@ -27,9 +30,9 @@ let hashPasswordSync = (password) => {
 }
 
 aws.config.update({
-    secretAccessKey: "dvg+11AaBXhMy68YEpaQ3zZXvgYTbqRrmIk0ltPu",  
-    accessKeyId: "AKIAI67WZDSJA64GRTIQ",
-    region: 'us-east-1' // region of your bucket
+    secretAccessKey: env.AWS_SECRET_ACCESS_KEY,  
+    accessKeyId: env.AWS_ACCESS_KEY,
+    region: env.REGION // region of your bucket
 });
 
  const s3Config = new aws.S3();
@@ -38,12 +41,10 @@ aws.config.update({
 const upload = multer({
   storage: multerS3({
     s3: s3Config,
-    bucket: 'hex-clan-follo',
+    bucket: env.USERS_BUCKET_NAME,
     acl: 'public-read',    
-    key: function (req, file, cb) {
-       console.log(file);
-            cb(null, file.originalname);   
-    
+    key: function (req, file, cb) {       
+            cb(null, file.originalname); 
     }
   })
 })
