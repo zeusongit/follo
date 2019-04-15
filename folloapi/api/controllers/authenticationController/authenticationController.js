@@ -1,10 +1,4 @@
-var multer  = require('multer');
-
-
 let authService = require(__dirname+'/../../services/authenticationService/authenticationService.js');
-
-let upload = authService.upload;
-
 
 let signup = (req, res) => {
     //call the service to perform signup
