@@ -3,7 +3,7 @@ let authenticationController = require (__dirname+'/../../controllers/authentica
 let routes = require('express').Router();
 
 
-routes.post('/signup/', authenticationController.signup);
+routes.post('/signup/', authenticationController.uploadProfilePicture);
 
 routes.post('/login/', authenticationController.login);
 

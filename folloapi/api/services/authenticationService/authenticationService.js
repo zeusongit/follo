@@ -39,12 +39,11 @@ const upload = multer({
   storage: multerS3({
     s3: s3Config,
     bucket: 'hex-clan-follo',
-    acl: 'public-read',
-    // metadata: function (req, file, cb) {
-    //   cb(null, {fieldName: file.fieldname});
-    // },
+    acl: 'public-read',    
     key: function (req, file, cb) {
-      cb(null, Date.now().toString())
+       console.log(file);
+            cb(null, file.originalname);   
+    
     }
   })
 })

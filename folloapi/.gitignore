@@ -13,5 +13,4 @@
 .idea/workspace.xml
 dist/docs/
 /dist
-.vscode
 .env

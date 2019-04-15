@@ -1,10 +1,15 @@
+var multer  = require('multer');
+
+
 let authService = require(__dirname+'/../../services/authenticationService/authenticationService.js');
+
+let upload = authService.upload;
 
 
 let signup = (req, res) => {
     //call the service to perform signup
-    let newUserJSON = req.body;
-    newUserJSON.profilePicture = uploadProfilePicture(req,res);
+    let newUserJSON = req.body;     
+    newUserJSON.profilePicture = req.file.location;
     authService.signup(newUserJSON)
     .then((result) => {
         if (result.signupSuccess===true){
@@ -27,25 +32,20 @@ let signup = (req, res) => {
 
 }
 
+let uploadProfilePicture = (req,res) => {
+    const singleUpload = authService.upload.single('image');
+    singleUpload(req, res, function(err, some) {
+       // console.log(req);
+        signup(req,res);
+  });
+}
+
 let login = (req, res) => {
     // call the service to perform login
 }
 
-function uploadProfilePicture(req,res){
-    const singleUpload = authService.upload.single('image');
-    singleUpload(req, res, function(err, some) {
-    // if (err) {
-    //   return res.status(500).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
-    // }
-
-    //return res.json({'imageUrl': req.file.location});
-
-    return req.file.location;
-  });
-}
-
-
 module.exports = {
+    uploadProfilePicture,
     signup,
     login
 }

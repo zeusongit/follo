@@ -7,7 +7,7 @@ const authRouthes = require (__dirname+'/authenticationRoutes/authenticationRout
 
 
 // route for signup
-routes.post('/signup/', authRouthes.signup);
+routes.post('/signup/', authRouthes.uploadProfilePicture);
 // route for login
 routes.post('/login/', authRouthes.login);
 
