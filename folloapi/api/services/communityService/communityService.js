@@ -26,7 +26,6 @@ const upload = multer({
 
 let createCommunity = newCommObj => {
   return new Promise((resolve, reject) => {
-    
     let newCommunity = new commModel(newCommObj);
     newCommunity
       .save()
@@ -43,6 +42,6 @@ let createCommunity = newCommObj => {
 };
 
 module.exports = {
-    upload,
-    createCommunity
-}
+  upload,
+  createCommunity
+};
