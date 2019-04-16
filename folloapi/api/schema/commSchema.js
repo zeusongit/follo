@@ -3,10 +3,10 @@ let mongoose = require(__dirname + "/../db/mongoose.js");
 let validator = require("validator");
 
 let commSchemaTemplate = {
-  cid: {
-    type: Number,
-    default: 0
-  },
+  // cid: {
+  //   type: Number,
+  //   default: 0
+  // },
   cname: {
     type: String,
     required: true,

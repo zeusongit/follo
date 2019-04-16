@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 
 const server = 'mongodb://localhost:27017';
 const db = 'follo';
-const CANNOT_CONNECT_DB = `Cannot Connecto to MondoDB mongodb://localhost:27017`;
+const CANNOT_CONNECT_DB = `Cannot Connect to to MondoDB mongodb://localhost:27017`;
 
 // connect to mongoose
 mongoose.connect(`${server}/${db}`, {useNewUrlParser: true});
