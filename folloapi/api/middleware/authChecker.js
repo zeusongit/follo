@@ -1,12 +1,14 @@
 const jwt = require('jsonwebtoken');
-const jwtkey = 'follo';
 const config = require(__dirname+'/../../config/config.js');
+const jwtKey = config.JWT_KEY;
+console.log(jwtKey);
 let User = require(__dirname+'/../models/userModel/userModel.js');
 
 let authChecker = async (req, res, next) => {
     if (req.header('Authorization')){
         const token = req.header('Authorization').replace('Bearer ','');
-        const decodedToken = jwt.verify(token, config.jwtkey);
+        console.log(token);
+        const decodedToken = jwt.verify(token, jwtKey);
         const user = await User.findOne({email: decodedToken.email, 'tokens.token': token});
         
         
