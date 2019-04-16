@@ -63,8 +63,8 @@ let logout = async (req, res) => {
     try{
         //console.log(req.user.token);
         let token = req.header('Authorization').replace('Bearer ','');
-        console.log(token)
-        authService.logout(token).then((status)=>{
+        let user = req.user;
+        await authService.logout(user, token).then((status)=>{
             res.send({status: 200, message: 'logged out'})
         })
         .catch((e) => {

@@ -1,7 +1,8 @@
 let User = require(__dirname+'/../../models/userModel/userModel.js');
 let bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const jwtkey = 'follo';
+const config = require(__dirname+'/../../../config/config.js');
+const jwtkey = config.JWT_KEY;
 
 
 let hashPassword = (pwd) => {
@@ -65,13 +66,13 @@ let login = async (loginObj) => {
         }
 }
 
-let logout = async (jwttoken) => {
+let logout = async (user, jwttoken) => {
 
     try{
-        
-        let user = await User.findByEmail(jwt.decode(jwttoken, jwtkey).email);
-        console.log('removing token');
+        //console.log(user);
+        await user.ok();
         await user.removeToken(jwttoken);
+
         await user.save();
         return true;
     }

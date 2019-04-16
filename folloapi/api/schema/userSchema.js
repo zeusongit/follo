@@ -2,6 +2,16 @@ let mongoose = require(__dirname+'/../db/mongoose.js');
 let validator = require('validator');
 let bcrypt = require('bcryptjs');
 
+const communityTemplate = {
+    id: String,
+    name: String
+}
+
+const postTemplate = {
+    id: String,
+    name: String
+}
+
 let userSchemaTemplate = {
     firstName: {
         type: String,
@@ -36,6 +46,28 @@ let userSchemaTemplate = {
     profilePicture: {
         type: String,
     },
+
+    createdCommunities: [{
+        community: communityTemplate
+    }],
+
+    followingCommunities: [{
+        community: communityTemplate
+    }],
+
+    createdPosts: [{
+        post: postTemplate
+    }],
+
+    upvotes: [{
+        post: postTemplate
+    }],
+
+    downvotes: [{
+        post: postTemplate
+    }],
+
+
 
     tokens: [{
         token:{
@@ -72,16 +104,22 @@ userSchema.statics.findByEmail = async function (email) {
     return user
 }
 
+
 userSchema.methods.removeToken = async function (jwttoken){
-    this.tokens.filter(token => {
+    this.tokens = this.tokens.filter(token => {
         if (token.token === jwttoken){
-            console.log(token);
+            console.log(`removing ${token}`);
             return false
         }else{
             return true;
         }
     })
 
+}
+
+userSchema.methods.ok = async function(){
+    console.log("OK");
+    return true;
 }
 
 module.exports = userSchema;
