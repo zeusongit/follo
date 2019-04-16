@@ -17,11 +17,13 @@ JWT_KEY=test
 
 ## Build
 
-Run npm install
+Run 
+npm install
 
 ## Run
 
-Run npm start
+Run 
+npm start
 
 ## API End Points with sample payload and headers
 
