@@ -41,8 +41,8 @@ let signup = (req, res) => {
 let login = async (req, res) => {
     // call the service to perform login
     console.log(req.body);
-    let user = await authService.login(req.body);
-    console.log(user);
+    let result = await authService.login(req.body);
+    console.log(result);
     if (result) {
         res.send({
             email: result.user.email,
