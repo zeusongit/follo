@@ -1,6 +1,6 @@
 let mongoose = require('mongoose');
-
-const server = 'mongodb://localhost:27017';
+const config = require(__dirname+'/../../config/config.js');
+const server = config.DB_HOST;
 const db = 'follo';
 const CANNOT_CONNECT_DB = `Cannot Connecto to MondoDB mongodb://localhost:27017`;
 
