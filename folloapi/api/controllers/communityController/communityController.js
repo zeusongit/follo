@@ -31,7 +31,20 @@ let createCommunity = (req, res) => {
     });
 };
 
+let getAllCommunities = (req, res) => {
+  commService.getAllCommunities()
+  .then(communities => {
+    res.send(communities);
+  }).catch(err => {
+    res.status(500).send({
+        message: err.message || "Some error occurred while retrieving Communities."
+    });
+});
+
+};
+
 module.exports = {
   addCommunity,
-  createCommunity
+  createCommunity,
+  getAllCommunities
 };
