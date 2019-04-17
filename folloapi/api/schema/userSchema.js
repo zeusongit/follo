@@ -22,10 +22,12 @@ let userSchemaTemplate = {
     lastName: {
         type: String,
         required: false,
+        default: ''
     },
 
     email: {
         type: String,
+        require: true,
         unique: true,
         validate: (value) => {
             return validator.isEmail(value);
@@ -45,6 +47,7 @@ let userSchemaTemplate = {
 
     profilePicture: {
         type: String,
+        default: ''
     },
 
     createdCommunities: [{
@@ -67,18 +70,16 @@ let userSchemaTemplate = {
         post: postTemplate
     }],
 
-
-
     tokens: [{
         token:{
             type: String
         }
     }]
+};
 
-}
-
-let userSchema = new mongoose.Schema(userSchemaTemplate, { collection: 'users' });
-
+let userSchema = new mongoose.Schema(userSchemaTemplate, {
+  collection: "users"
+});
 
 userSchema.statics.findByCredentials = async function (email, password){
     let user = await this.findOne({email })
