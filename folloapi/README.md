@@ -6,7 +6,9 @@ This project provides the Follo-API
 Create a .env file at the root directory with the following properties 
 
 DB_HOST=<your mongo host>:<port>
+
 SERVER_PORT=<port for express server>
+
 JWT_KEY=<jwt key>
 
 ## Default Config
@@ -65,6 +67,28 @@ response : {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MTU1NTM5ODczMH0.CQU4keiDtk98FJ-7OaY0HGgP0Z85bNRRvkFoDPrtJWc"
 
 }
+
+### POST /user/me 
+### This will return the user details, provided the user is authenticated.
+```
+headers: {
+    Content-Type: application/json
+}
+```
+```
+body: {
+	"email": "u1@u1.com",
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MTU1NTM5ODczMH0.CQU4keiDtk98FJ-7OaY0HGgP0Z85bNRRvkFoDPrtJWc"
+}
+```
+```
+response : {
+    "firstName": "u1",
+	"lastName": "u1",
+	"email": "u1@u1.com",
+	"username": "u1"
+}
+```
 
 ### POST /user/logout
 ### This will logout the user
