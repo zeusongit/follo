@@ -93,9 +93,9 @@ body: {
 ```
 response : {
     "firstName": "u1",    
-	"lastName": "u1",    
-	"email": "u1@u1.com",
-	"username": "u1"
+    "lastName": "u1",    
+    "email": "u1@u1.com",
+    "username": "u1"
 }
 ```
 
