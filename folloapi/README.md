@@ -104,7 +104,7 @@ response : {
 ```
 headers: {
     Content-Type: application/json,
-    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MTU1NTM5ODczMH0
+    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MT
 }
 ```
 ```
