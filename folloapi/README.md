@@ -52,7 +52,7 @@ body: {
 ```
 response : {
     "email": "u1@u1.com",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MTU1NTM5ODcwM30.mDkc_lPcxFv1WFwhZPPYfcx0S"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MTU1NTM5ODcwM30"
 }
 ```
 
@@ -73,7 +73,7 @@ body: {
 response : {
     
     "user": "u1@u1.com",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MTU1NTM5ODczMH0.CQU4keiDtk98FJ-7O"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MTU1NTM5ODczMH0"
 
 }
 ```
@@ -87,13 +87,13 @@ headers: {
 ```
 body: {
 	"email": "u1@u1.com",
-	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MTU1NTM5ODczMH0.CQU4keiDtk98FJ-"
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MTU1NTM5ODczMH0"
 }
 ```
 ```
 response : {
-    "firstName": "u1",
-	"lastName": "u1",
+    "firstName": "u1",    
+	"lastName": "u1",    
 	"email": "u1@u1.com",
 	"username": "u1"
 }
@@ -104,7 +104,7 @@ response : {
 ```
 headers: {
     Content-Type: application/json,
-    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MTU1NTM5ODczMH0.CQU4keiDtk98FJ-7Oa
+    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MTU1NTM5ODczMH0
 }
 ```
 ```
