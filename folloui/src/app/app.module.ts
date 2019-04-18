@@ -16,6 +16,8 @@ import { MainContentGridComponent } from './components/main-content-grid/main-co
 import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.component';
 import { CreateCommunityComponent } from './components/create-community/create-community.component';
 import { HomeComponent } from './components/home/home.component';
+import { StoreModule } from '@ngrx/store';
+import { loginReducer } from './reducers/login.reducers';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +36,10 @@ import { HomeComponent } from './components/home/home.component';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    StoreModule.forRoot({
+      isLoggedIn: loginReducer
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

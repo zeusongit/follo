@@ -79,8 +79,22 @@
 .community {
     max-height: 50vh;
 
-    .card-body {
+    ul {
         overflow-y: scroll;
+        overflow-x: hidden;
+
+        a {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+
+            &:hover {
+                overflow: visible;
+                white-space: normal;
+                height: auto;
+                /* just added this line */
+            }
+        }
     }
 
     a {

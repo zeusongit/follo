@@ -1,9 +1,12 @@
+import { AppState } from './../../app.state';
 import { LoginService } from './../../services/login.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Login } from '../../models/login.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+import { Store } from '@ngrx/store';
+import * as LoginActions from './../../actions/login.actions';
 
 @Component({
   selector: 'app-signin',
@@ -16,7 +19,8 @@ export class SigninComponent implements OnInit {
   loginForm: FormGroup;
   private formSubmitAttempt: boolean;
   private isInvalidCred: boolean;
-  constructor(private ls: LoginService, private fb: FormBuilder, private location: Location) { }
+  errorMsg: string;
+  constructor(private ls: LoginService, private fb: FormBuilder, private location: Location, private store: Store<AppState>) { }
 
   closeModal() {
     this.formSubmitAttempt = false;
@@ -39,11 +43,18 @@ export class SigninComponent implements OnInit {
     this.formSubmitAttempt = true;
     if (this.loginForm.valid) {
       this.loginData = new Login(this.loginForm.value);
-      // console.log(JSON.stringify(this.loginData));
-      // this.ls.loginService(this.loginData);
       this.isInvalidCred = false;
-      this.ls.loggedInStatus(true);
-      this.closeModal();
+      this.ls.doLogin(this.loginData).toPromise().then(res => {
+        if (res.status === 200) {
+          this.store.dispatch(new LoginActions.LoggedInStatus(true));
+          this.isInvalidCred = false;
+          this.closeModal();
+        } else {
+          // Show error on UI
+          this.isInvalidCred = true;
+          this.errorMsg = res.statusText;
+        }
+      });
     }
   }
 
@@ -63,7 +74,7 @@ export class SigninComponent implements OnInit {
       if (!this.isInvalidCred) {
         return 'Username must be between 3 and 20 characters';
       } else {
-        return 'Incorrect username or password';
+        return this.errorMsg;
       }
     }
     if (field === 'password') {

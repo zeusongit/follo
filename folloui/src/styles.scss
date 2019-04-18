@@ -27,7 +27,8 @@ button:focus {
 div,
 button,
 input,
-textarea {
+textarea,
+label {
     border-radius: 0 !important;
 }
 
@@ -59,6 +60,6 @@ textarea {
 }
 
 app-create-community {
-  position: relative;
-  top: 80px;
+    position: relative;
+    top: 80px;
 }

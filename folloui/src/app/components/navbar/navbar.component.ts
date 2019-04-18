@@ -1,6 +1,9 @@
+import { AppState } from './../../app.state';
+import { Store } from '@ngrx/store';
 import { LoginService } from './../../services/login.service';
 import { Component, OnInit } from '@angular/core';
 import { NavTabService } from 'src/app/services/main-content.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -10,10 +13,12 @@ import { NavTabService } from 'src/app/services/main-content.service';
 export class NavbarComponent implements OnInit {
 
   isLoggedIn: boolean;
-  constructor(private navTabService: NavTabService, private ls: LoginService) { }
-
-  ngOnInit() {
-    this.ls.loginStatus.subscribe(status => this.isLoggedIn = status);
+  constructor(private store: Store<AppState>, private ls: LoginService) {
+    store.select('isLoggedIn').subscribe((status) => {
+      this.isLoggedIn = status;
+    });
   }
 
+  ngOnInit() {
+  }
 }

@@ -1,6 +1,7 @@
-import { LoginService } from './../../services/login.service';
+import { CommunityService } from './../../services/community.service';
+import { Store } from '@ngrx/store';
+import { AppState } from './../../app.state';
 import { Community } from './../../models/community';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NavTabService } from 'src/app/services/main-content.service';
 
@@ -13,13 +14,12 @@ export class HomeComponent implements OnInit {
 
   isLoggedIn: boolean;
   isDiscover: boolean;
-  private isPersonal: boolean;
   private communities: Community[];
   createCommunity: string;
-  constructor(private navTabService: NavTabService, private ls: LoginService) { }
+  constructor(private navTabService: NavTabService, private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.ls.loginStatus.subscribe(status => this.isLoggedIn = status);
+    this.store.select('isLoggedIn').subscribe((status) => { this.isLoggedIn = status; });
     if (!this.isLoggedIn) {
       this.populateMainContent('discover');
     } else {
@@ -31,17 +31,25 @@ export class HomeComponent implements OnInit {
     console.log('REDIRECTING');
     if (path === 'discover') {
       this.isDiscover = true;
-      this.isPersonal = false;
       this.communities = [
         new Community({ communityName: 'Travel', commDesc: 'Travel' }),
         new Community({ communityName: 'Adventure', commDesc: 'Adventure' }),
         new Community({ communityName: 'Sports', commDesc: 'Sports' })
       ];
+      // this.commService.getAllCommunities().toPromise().then(res => {
+      //   if (res.status === 200) {
+      //     this.communities = res.body;
+      //   }
+      // });
     } else {
       this.isDiscover = false;
-      this.isPersonal = true;
       this.communities = [];
     }
+    // this.commService.getAllCommunitiesForUser('username').toPromise().then(res => {
+    //   if (res.status === 200) {
+    //     this.communities = res.body;
+    //   }
+    // });
     this.navTabService.changeCommunityTab(this.communities);
   }
 }
