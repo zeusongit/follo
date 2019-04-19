@@ -4,6 +4,8 @@ let routes = require('express').Router();
 const authChecker = require (__dirname+'/../../middleware/authChecker.js');
 
 routes.post('/user/me', authChecker, userController.getUser);
+routes.post('/user/post', authChecker, userController.getUser);
+routes.post('/user/post', authChecker, userController.getUser);
 
 
 module.exports = routes;
