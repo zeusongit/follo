@@ -6,7 +6,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
+import { HttpClient } from  "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
 import * as LoginActions from './../../actions/login.actions';
+import * as TokenActions from './../../token-store/actions';
 
 @Component({
   selector: 'app-signin',
@@ -20,7 +23,7 @@ export class SigninComponent implements OnInit {
   private formSubmitAttempt: boolean;
   private isInvalidCred: boolean;
   errorMsg: string;
-  constructor(private ls: LoginService, private fb: FormBuilder, private location: Location, private store: Store<AppState>) { }
+  constructor(private ls: LoginService, private fb: FormBuilder, private location: Location, private store: Store<any>, private http: HttpClient) { }
 
   reset() {
     this.formSubmitAttempt = false;
@@ -43,6 +46,19 @@ export class SigninComponent implements OnInit {
     this.formSubmitAttempt = true;
     if (this.loginForm.valid) {
       this.loginData = new Login(this.loginForm.value);
+      
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json'
+        })
+      };
+      
+      
+      //contonue from here
+      this.http.post('http://localhost:3000/login/', {username: this.loginData.username, password: this.loginData.password}, httpOptions)
+      .subscribe((data) =>{
+        
+      })
       this.store.dispatch(new LoginActions.LoggedInStatus(true));
       this.isInvalidCred = false;
       this.reset();

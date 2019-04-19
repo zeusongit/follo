@@ -18,7 +18,10 @@ import { CreateCommunityComponent } from './components/create-community/create-c
 import { HomeComponent } from './components/home/home.component';
 import { StoreModule } from '@ngrx/store';
 import { loginReducer } from './reducers/login.reducers';
+import { reducer as authTokenReducer } from "./token-store/reducer";
 import { ViewCommunityDetailComponent } from './components/view-community-detail/view-community-detail.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +43,7 @@ import { ViewCommunityDetailComponent } from './components/view-community-detail
     HttpClientModule,
     FormsModule,
     StoreModule.forRoot({
-      isLoggedIn: loginReducer
+      authToken: authTokenReducer
     })
   ],
   providers: [],
