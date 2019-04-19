@@ -5,4 +5,6 @@ let routes = require('express').Router();
 
 routes.post('/createComm/', commController.addCommunity);
 
+routes.get('/getCommunities/', commController.getAllCommunities);
+
 module.exports = routes;

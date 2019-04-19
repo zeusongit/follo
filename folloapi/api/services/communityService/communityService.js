@@ -18,7 +18,7 @@ const upload = multer({
     s3: s3Config,
     bucket: env.COMMUNITY_BUCKET_NAME,
     acl: "public-read",
-    key: function(req, file, cb) {
+    key: function (req, file, cb) {
       cb(null, file.originalname);
     }
   })
@@ -30,18 +30,26 @@ let createCommunity = newCommObj => {
     newCommunity
       .save()
       .then(doc => {
-        console.log(doc);
-        resolve({ createSuccess: true });
+        resolve({
+          createSuccess: true
+        });
       })
       .catch(err => {
-        console.log("cannot create");
         console.log(err);
-        reject({ createSuccess: false });
+        reject({
+          createSuccess: false
+        });
       });
   });
 };
 
+let getAllCommunities = () => {
+  const communities = commModel.find().exec();
+  return communities;
+};
+
 module.exports = {
   upload,
-  createCommunity
+  createCommunity,
+  getAllCommunities
 };

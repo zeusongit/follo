@@ -1,68 +1,91 @@
-let userModel = require(__dirname + "/../../models/userModel/userModel.js");
+let User = require(__dirname + '/../../models/userModel/userModel.js');
+let bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const config = require(__dirname + '/../../../config/config.js');
+const jwtkey = config.JWT_KEY;
 const env = require(__dirname + "/../../../config/s3.env.js");
 
-let bcrypt = require("bcrypt");
 
-const multer = require("multer");
-const multerS3 = require("multer-s3");
-const aws = require("aws-sdk");
-
-let hashPassword = newUserObj => {
+let hashPassword = (pwd) => {
   return new Promise((resolve, reject) => {
-    bcrypt.hash(newUserObj.password, 10, (err, hash) => {
+    bcrypt.hash(pwd, 10, (err, hash) => {
       if (!err) {
-        newUserObj.password = hash;
-        resolve(newUserObj);
-        return;
+        resolve(hash);
       } else {
-        reject(err);
+        reject(err)
       }
-    });
-  });
-};
-
-let hashPasswordSync = password => {
-  return bcrypt.hashSync(password, 10);
-};
-
-aws.config.update({
-  secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
-  accessKeyId: env.AWS_ACCESS_KEY,
-  region: env.REGION // region of your bucket
-});
-
-const s3Config = new aws.S3();
-
-const upload = multer({
-  storage: multerS3({
-    s3: s3Config,
-    bucket: env.USERS_BUCKET_NAME,
-    acl: "public-read",
-    key: function(req, file, cb) {
-      cb(null, file.originalname);
-    }
+    })
   })
-});
+}
 
-let signup = newUserObj => {
+let hashPasswordSync = (password) => {
+  return bcrypt.hashSync(password, 10);
+}
+
+
+//creates a new model instance, then insets the jwt auth, and attempts to save
+//resolve with the new user or rejects with null
+let signup = (newUserObj) => {
   return new Promise((resolve, reject) => {
     newUserObj.password = hashPasswordSync(newUserObj.password);
-    let newUser = new userModel(newUserObj);
-    newUser
-      .save()
-      .then(doc => {
+    let newUser = new User(newUserObj);
+    let jwttoken = jwt.sign({ email: newUser.email }, jwtkey);
+    newUser.tokens.push({ token: jwttoken })
+    newUser.save()
+      .then((doc) => {
         console.log(doc);
-        resolve({ signupSuccess: true });
+        resolve({
+          user: doc,
+          newToken: jwttoken
+        });
+
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("cannot save");
         console.log(err);
-        reject({ signupSuccess: false });
-      });
-  });
-};
+        reject(null);
+      })
+  })
+}
+
+
+// searches for a user with credentials, adds a new jwt token, and returns the user
+let login = async (loginObj) => {
+
+  try {
+    let user = await User.findByCredentials(loginObj.email, loginObj.password);
+    let jwttoken = jwt.sign({ email: user.email }, jwtkey);
+    user.tokens.push({ token: jwttoken });
+    user = await user.save();
+    return { user, token: jwttoken };
+  }
+  catch (e) {
+    console.log(e);
+    return null;
+
+  }
+}
+
+let logout = async (user, jwttoken) => {
+
+  try {
+    //console.log(user);
+    await user.ok();
+    await user.removeToken(jwttoken);
+
+    await user.save();
+    return true;
+  }
+  catch (e) {
+    console.log('cannot logout');
+    console.log(e);
+    return false;
+  }
+}
 
 module.exports = {
   signup,
-  upload
-};
+  login,
+  logout,
+
+}
