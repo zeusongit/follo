@@ -1,5 +1,5 @@
 ul {
-    margin-top: 65px;
+    margin-top: 11px;
 }
 
 a:not([href]) {
@@ -11,9 +11,6 @@ a:not([href]) {
 
 
 app-right-sidebar {
-    top: 107px;
-    position: absolute;
-    right: 18px;
-    width: 100%;
-    z-index: -1;
+    top: -405px;
+    position: relative;
 }

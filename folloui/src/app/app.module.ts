@@ -18,6 +18,7 @@ import { CreateCommunityComponent } from './components/create-community/create-c
 import { HomeComponent } from './components/home/home.component';
 import { StoreModule } from '@ngrx/store';
 import { loginReducer } from './reducers/login.reducers';
+import { ViewCommunityDetailComponent } from './components/view-community-detail/view-community-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,8 @@ import { loginReducer } from './reducers/login.reducers';
     MainContentGridComponent,
     RightSidebarComponent,
     CreateCommunityComponent,
-    HomeComponent
+    HomeComponent,
+    ViewCommunityDetailComponent
   ],
   imports: [
     BrowserModule,
