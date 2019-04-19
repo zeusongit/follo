@@ -22,7 +22,7 @@ export class SigninComponent implements OnInit {
   errorMsg: string;
   constructor(private ls: LoginService, private fb: FormBuilder, private location: Location, private store: Store<AppState>) { }
 
-  closeModal() {
+  reset() {
     this.formSubmitAttempt = false;
     this.isInvalidCred = false;
     this.loginForm.reset();
@@ -48,7 +48,7 @@ export class SigninComponent implements OnInit {
         if (res.status === 200) {
           this.store.dispatch(new LoginActions.LoggedInStatus(true));
           this.isInvalidCred = false;
-          this.closeModal();
+          this.reset();
         } else {
           // Show error on UI
           this.isInvalidCred = true;
@@ -71,17 +71,18 @@ export class SigninComponent implements OnInit {
 
   customErrorMsg(field: string) {
     if (field === 'username') {
-      if (!this.isInvalidCred) {
+      if (this.loginForm.get(field).hasError('required') ||
+        this.loginForm.get(field).hasError('minlength')
+        || this.loginForm.get(field).hasError('maxlength')) {
         return 'Username must be between 3 and 20 characters';
       } else {
         return this.errorMsg;
       }
     }
     if (field === 'password') {
-      if (!this.isInvalidCred) {
+      if (this.loginForm.get(field).hasError('required')) {
         return 'Please enter password';
       } else {
-        this.loginForm.get(field).reset();
         return '';
       }
     }

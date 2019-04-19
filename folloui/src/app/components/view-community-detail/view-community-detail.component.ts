@@ -1,3 +1,4 @@
+import { Post } from './../../models/post';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewCommunityDetailComponent implements OnInit {
 
-  posts: [];
+  posts: Post[];
   communityName: string;
   constructor(private route: ActivatedRoute) { }
 

@@ -10,11 +10,9 @@
     <input class="form-control py-2 border-left-0 border" type="search" placeholder="Search" aria-label="Search">
   </form>
   <div *ngIf="!isLoggedIn">
-    <button type="button" class="btn btn-outline-primary app-button" data-toggle="modal"
-      data-target=".bd-example-modal-lg" [routerLink]="[ '/login' ]" data-backdrop="static" data-keyboard="false">LOG
+    <button type="button" class="btn btn-outline-primary app-button" [routerLink]="[ '/login' ]">LOG
       IN</button>
-    <button type="button" class="btn btn-primary app-button" data-toggle="modal" data-target=".sign-up-modal"
-      data-backdrop="static" data-keyboard="false" [routerLink]="[ '/signup' ]">SIGN
+    <button type="button" class="btn btn-primary app-button" [routerLink]="[ '/signup' ]">SIGN
       UP</button>
   </div>
   <div *ngIf="isLoggedIn">
