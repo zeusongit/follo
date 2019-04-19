@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
 
   isLoggedIn: boolean;
   isDiscover: boolean;
+  isPersonal: boolean;
   private communities: Community[];
   createCommunity: string;
   constructor(private navTabService: NavTabService, private store: Store<AppState>) { }
@@ -31,6 +32,7 @@ export class HomeComponent implements OnInit {
     console.log('REDIRECTING');
     if (path === 'discover') {
       this.isDiscover = true;
+      this.isPersonal = false;
       this.communities = [
         new Community({ communityName: 'Travel', commDesc: 'Travel' }),
         new Community({ communityName: 'Adventure', commDesc: 'Adventure' }),
@@ -43,6 +45,7 @@ export class HomeComponent implements OnInit {
       // });
     } else {
       this.isDiscover = false;
+      this.isPersonal = true;
       this.communities = [];
     }
     // this.commService.getAllCommunitiesForUser('username').toPromise().then(res => {

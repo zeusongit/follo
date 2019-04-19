@@ -1,6 +1,6 @@
-<nav class="navbar fixed-top navbar-light bg-light">
+<nav class="navbar fixed-top navbar-dark bg-dark">
   <a class="navbar-brand" href="#">
-    <img src="assets/images/f4.png" width="20" height="30" class="d-inline-block align-top" alt="">
+    <img src="assets/images/f2.png" width="20" height="30" class="d-inline-block align-top" alt="">
     &nbsp;follo
   </a>
   <form class="form-inline search-div input-group">
@@ -16,6 +16,8 @@
       UP</button>
   </div>
   <div *ngIf="isLoggedIn">
-    <span>Welcome Username</span>
+    <span class="welcome" title="Username Username">Welcome <b>Username Username</b></span>
+    <button type="button" class="btn btn-primary app-button" (click)="logout()" [routerLink]="[ '' ]">SIGN
+      OUT</button>
   </div>
 </nav>

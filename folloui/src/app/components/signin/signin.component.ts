@@ -43,18 +43,20 @@ export class SigninComponent implements OnInit {
     this.formSubmitAttempt = true;
     if (this.loginForm.valid) {
       this.loginData = new Login(this.loginForm.value);
+      this.store.dispatch(new LoginActions.LoggedInStatus(true));
       this.isInvalidCred = false;
-      this.ls.doLogin(this.loginData).toPromise().then(res => {
-        if (res.status === 200) {
-          this.store.dispatch(new LoginActions.LoggedInStatus(true));
-          this.isInvalidCred = false;
-          this.reset();
-        } else {
-          // Show error on UI
-          this.isInvalidCred = true;
-          this.errorMsg = res.statusText;
-        }
-      });
+      this.reset();
+      // this.ls.doLogin(this.loginData).toPromise().then(res => {
+      //   if (res.status === 200) {
+      //     this.store.dispatch(new LoginActions.LoggedInStatus(true));
+      //     this.isInvalidCred = false;
+      //     this.reset();
+      //   } else {
+      //     // Show error on UI
+      //     this.isInvalidCred = true;
+      //     this.errorMsg = res.statusText;
+      //   }
+      // });
     }
   }
 

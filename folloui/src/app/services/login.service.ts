@@ -8,12 +8,23 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LoginService {
 
+
   constructor(private http: HttpClient) { }
-  httpHeaders = new HttpHeaders({
-    'content-type': 'application/x-www-form-urlencoded',
-    'Cache-Control': 'no-cache'
-  });
+
   doLogin(loginData: Login) {
-    return this.http.post<string>('http://localhost:3000/api/login', loginData, { headers: this.httpHeaders, observe: 'response' });
+    const httpHeaders = new HttpHeaders({
+      'content-type': 'application/json',
+      'Cache-Control': 'no-cache'
+    });
+    return this.http.post<string>('http://localhost:3000/api/login', loginData, { headers: httpHeaders, observe: 'response' });
+  }
+
+
+  doLogout(token: string) {
+    const httpHeaders = new HttpHeaders({
+      'content-type': 'application/json',
+      Authorization: 'Bearer ' + token
+    });
+    return this.http.post<string>('http://localhost:3000/api/logout', null, { headers: httpHeaders, observe: 'response' });
   }
 }

@@ -19,7 +19,7 @@
 }
 
 .input-group-prepend {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .search-div {
@@ -42,4 +42,14 @@ input[type="search"] {
     outline: 0 !important;
     border-color: initial;
     box-shadow: none;
+}
+
+.welcome {
+    color: white;
+    font-style: italic;
+    max-width: 144px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    float: left;
 }
