@@ -1,4 +1,4 @@
-# Folloapi
+# Follo-API
 
 This project provides the Follo-API
 
@@ -30,11 +30,12 @@ npm install
 
 Run 
 npm start
-
+---
 ## API End Points with sample payload and headers
 
+### User Authentication Endpoints
 ### POST /user/signup/
-### This will signup the user and provide authentication token
+### This will signup the user and provide authentication token.
 ```
 headers: {
     Content-Type: application/json
@@ -57,7 +58,7 @@ response : {
 ```
 
 ### POST /user/login
-### This will login the user and provide provide authentication token
+### This will login the user and provide provide authentication token.
 ```
 headers: {
     Content-Type: application/json
@@ -78,7 +79,7 @@ response : {
 }
 ```
 ### POST /user/me 
-### This will return the user details, provided the user is authenticated.
+#### This will return the user details, provided the user is authenticated (protected).
 ```
 headers: {
     Content-Type: application/json
@@ -100,7 +101,7 @@ response : {
 ```
 
 ### POST /user/logout
-### This will logout the user
+#### This will logout the user (protected).
 ```
 headers: {
     Content-Type: application/json,
@@ -111,5 +112,29 @@ headers: {
 response: {
     "status": 200,
     "message": "logged out"
+}
+```
+---
+### Post Related Endpoints
+### POST /user/signup/
+### This will signup the user and provide authentication token (protected).
+```
+headers: {
+    Content-Type: application/json
+}
+```
+```
+body: {
+	"firstName": "u1",
+	"lastName": "u1",
+	"email": "u1@u1.com",
+	"password": "u1",
+	"username": "u1"
+}
+```
+```
+response : {
+    "email": "u1@u1.com",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InUxQHUxLmNvbSIsImlhdCI6MTU1NTM5ODcwM30"
 }
 ```
