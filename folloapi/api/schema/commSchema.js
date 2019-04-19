@@ -45,4 +45,6 @@ let commSchema = new mongoose.Schema(commSchemaTemplate, {
   collection: "communities"
 });
 
+
+
 module.exports = commSchema;
