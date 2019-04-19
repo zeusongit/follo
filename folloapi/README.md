@@ -24,18 +24,19 @@ JWT_KEY=test
 ## Build
 
 Run 
-npm install
+`npm install`
 
 ## Run
 
 Run 
-npm start
+`npm start`
+
 ---
 ## API End Points with sample payload and headers
 
 ### User Authentication Endpoints
 ### POST /user/signup/
-### This will signup the user and provide authentication token.
+#### This will signup the user and provide authentication token.
 ```
 headers: {
     Content-Type: application/json
@@ -58,7 +59,7 @@ response : {
 ```
 
 ### POST /user/login
-### This will login the user and provide provide authentication token.
+#### This will login the user and provide provide authentication token.
 ```
 headers: {
     Content-Type: application/json
@@ -117,7 +118,7 @@ response: {
 ---
 ### Post Related Endpoints
 ### POST /user/signup/
-### This will signup the user and provide authentication token (protected).
+#### This will signup the user and provide authentication token (protected).
 ```
 headers: {
     Content-Type: application/json
