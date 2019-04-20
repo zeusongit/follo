@@ -3,7 +3,7 @@ let commModel = require(__dirname + "/../../models/community/commModel.js");
 let createCommunity = (newCommObj, userId) => {
   return new Promise((resolve, reject) => {
     let newCommunity = new commModel(newCommObj);
-    newCommunity.memberIds.push(userId);
+    newCommunity.memberIds.push({member: userId});
     newCommunity
       .save()
       .then((doc) => {
@@ -36,10 +36,10 @@ let joinCommunity = (communityName, userId) => {
     commModel.findOneAndUpdate({
       cname: communityName,
       $push: {
-        "memberIds": userId
+        "memberIds":{member: userId }
       },
       upsert: false,
-      new: true
+      new: true      
     }).then((doc) => {
       console.log(doc);
       resolve({
