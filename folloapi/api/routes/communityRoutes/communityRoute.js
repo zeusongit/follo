@@ -12,4 +12,6 @@ routes.get("/community/", commController.getAllCommunities);
 
 routes.get("/community/:name", commController.findCommunity);
 
+routes.put("/community/join/:name", authChecker, commController.joinCommunity);
+
 module.exports = routes;

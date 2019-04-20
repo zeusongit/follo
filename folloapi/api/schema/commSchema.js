@@ -11,11 +11,10 @@ let commSchemaTemplate = {
     required: true,
     unique: false
   },
-  memberIds: {
-    type: String,
-    required: true,
-    unique: false
-  },
+  memberIds: [{
+    member: String
+  }
+],
   postids: {
     type: String,
     required: false,

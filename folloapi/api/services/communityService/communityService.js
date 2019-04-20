@@ -1,8 +1,9 @@
 let commModel = require(__dirname + "/../../models/community/commModel.js");
 
-let createCommunity = newCommObj => {
+let createCommunity = (newCommObj, userId) => {
   return new Promise((resolve, reject) => {
     let newCommunity = new commModel(newCommObj);
+    newCommunity.memberIds.push(userId);
     newCommunity
       .save()
       .then((doc) => {
@@ -30,8 +31,32 @@ let findCommunity = (communityName) => {
   return community;
 }
 
+let joinCommunity = (communityName, userId) => {
+  return new Promise((resolve, reject) => {     
+    commModel.findOneAndUpdate({
+      cname: communityName,
+      $push: {
+        "memberIds": userId
+      },
+      upsert: false,
+      new: true
+    }).then((doc) => {
+      console.log(doc);
+      resolve({
+        community: doc,
+        joinStatus: true
+      })
+    }).catch(err => {
+      console.log(err);
+      reject({
+        joinStatus: false
+      });
+    });
+  })
+}
 module.exports = {
   createCommunity,
   getAllCommunities,
-  findCommunity
+  findCommunity,
+  joinCommunity
 };

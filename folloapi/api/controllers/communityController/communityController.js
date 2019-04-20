@@ -11,10 +11,8 @@ let createCommunity = (req, res) => {
   if (req.file) {
     newCommunity.communityPicture = req.file.location;
   }
-  newCommunity.memberIds = req.user._id;
   newCommunity.createdBy = req.user._id;
-
-  commService.createCommunity(newCommunity)
+  commService.createCommunity(newCommunity, req.user._id)
     .then((result) => {
       if (result) {
         let community = {
@@ -62,6 +60,12 @@ let getAllCommunities = (req, res) => {
     });
 };
 
+/**
+ * List Community by name.
+ *
+ * @param {*} req
+ * @param {*} res
+ */
 let findCommunity = (req, res) => {
   commService.findCommunity(req.params.name).then(community => {
     res.send(community);
@@ -72,8 +76,30 @@ let findCommunity = (req, res) => {
   });
 }
 
+let joinCommunity = (req, res) => {
+  let userId = req.user._id;
+  commService.joinCommunity(req.params.name,userId).then((result) => {
+    if (result) {
+      res.send({
+        message: " Community joined Successfully",
+        joinStatus: result.joinStatus,
+        community : result.community
+      })
+    } else {
+       res.send({
+        message: " Community joined failed",
+        joinStatus: result.joinStatus
+       })
+    }
+  }).catch((err) => {
+    res.status(500).send({
+      message: err.message || "Error while Joining Community"
+    });
+  });
+}
 module.exports = {
   createCommunity,
   getAllCommunities,
-  findCommunity
+  findCommunity,
+  joinCommunity
 };
