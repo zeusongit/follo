@@ -2,7 +2,9 @@ import { AppState } from './../../app.state';
 import { Store } from '@ngrx/store';
 import { LoginService } from './../../services/login.service';
 import { Component, OnInit } from '@angular/core';
-import * as LoginActions from './../../actions/login.actions';
+import * as TokenActions from './../../token-store/actions';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-navbar',
@@ -12,11 +14,11 @@ import * as LoginActions from './../../actions/login.actions';
 export class NavbarComponent implements OnInit {
 
   loggedInUser: any;
-  constructor(private store: Store<AppState>, private ls: LoginService) {
-    store.select('authToken').subscribe((authToken) => {
-      console.log(`TOKENS STATUS CHANGED: ${authToken}`);
-      console.log(authToken);
-      this.loggedInUser = authToken;
+  constructor(private store: Store<AppState>, private ls: LoginService, private router: Router) {
+    store.select('userAuth').subscribe((userAuth) => {
+      console.log(`TOKENS STATUS CHANGED: ${userAuth}`);
+      console.log(userAuth);
+      this.loggedInUser = userAuth;
     });
   }
 
@@ -24,11 +26,14 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.ls.doLogout('token').toPromise().then(res => {
+    console.log('logging you out');
+    this.ls.doLogout(this.loggedInUser.token).toPromise().then(res => {
       if (res.status === 200) {
-        this.store.dispatch(new LoginActions.LoggedInStatus(false));
+        this.store.dispatch(new TokenActions.RemoveToken(null));
+        localStorage.removeItem('userAuth');
       } else {
         // Show error on UI
+        this.router.navigate(['']);
       }
     });
   }

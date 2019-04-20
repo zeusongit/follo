@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import {Store } from '@ngrx/store';
+import { store } from '@angular/core/src/render3';
+import * as TokenActions from './token-store/actions';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +13,17 @@ export class AppComponent implements OnInit {
   title = 'follo-ing';
   createCommunity: string;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private store: Store<any>) {
   }
   ngOnInit() {
-    // this.createCommunity = '';
-    // this.route.queryParams.subscribe(params => {
-    //   this.createCommunity = params.create;
-    // });
-    // if (this.createCommunity === undefined) {
-    //   this.createCommunity = 'false';
-    // }
-    // console.log('IN APP COMP ', this.createCommunity);
+      console.log('loading userAuth from localStorage');
+      let userAuth = localStorage.getItem('userAuth');
+      if (userAuth.length !== 0){
+        this.store.dispatch(new TokenActions.AddToken(JSON.parse(userAuth)));
+      }
+      else{
+        console.log("no userAuth in localStorage");
+      }
+
   }
 }

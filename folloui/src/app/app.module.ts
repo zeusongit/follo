@@ -43,7 +43,7 @@ import { ViewCommunityDetailComponent } from './components/view-community-detail
     HttpClientModule,
     FormsModule,
     StoreModule.forRoot({
-      authToken: authTokenReducer
+      userAuth: authTokenReducer
     })
   ],
   providers: [],
