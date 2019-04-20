@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
       console.log('loading userAuth from localStorage');
       let userAuth = localStorage.getItem('userAuth');
-      if (userAuth.length !== 0){
+      if (userAuth && userAuth.length !== 0){
         this.store.dispatch(new TokenActions.AddToken(JSON.parse(userAuth)));
       }
       else{
