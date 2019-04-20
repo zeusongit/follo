@@ -13,7 +13,7 @@ let commSchemaTemplate = {
   },
   memberIds: [{
     member: String
-  }
+  }  
 ],
   postids: {
     type: String,
