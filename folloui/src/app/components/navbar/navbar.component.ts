@@ -11,10 +11,12 @@ import * as LoginActions from './../../actions/login.actions';
 })
 export class NavbarComponent implements OnInit {
 
-  isLoggedIn: boolean;
+  loggedInUser: any;
   constructor(private store: Store<AppState>, private ls: LoginService) {
-    store.select('isLoggedIn').subscribe((status) => {
-      this.isLoggedIn = status;
+    store.select('authToken').subscribe((authToken) => {
+      console.log(`TOKENS STATUS CHANGED: ${authToken}`);
+      console.log(authToken);
+      this.loggedInUser = authToken;
     });
   }
 

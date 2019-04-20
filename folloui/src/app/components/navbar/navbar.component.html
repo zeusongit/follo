@@ -9,14 +9,14 @@
     </span>
     <input class="form-control py-2 border-left-0 border" type="search" placeholder="Search" aria-label="Search">
   </form>
-  <div *ngIf="!isLoggedIn">
+  <div *ngIf="!loggedInUser">
     <button type="button" class="btn btn-outline-primary app-button" [routerLink]="[ '/login' ]">LOG
       IN</button>
     <button type="button" class="btn btn-primary app-button" [routerLink]="[ '/signup' ]">SIGN
       UP</button>
   </div>
-  <div *ngIf="isLoggedIn">
-    <span class="welcome" title="Username Username">Welcome <b>Username Username</b></span>
+  <div *ngIf="loggedInUser">
+    <span class="welcome" title="Username Username">Welcome <b>{{loggedInUser.firstName}}</b></span>
     <button type="button" class="btn btn-primary app-button" (click)="logout()" [routerLink]="[ '' ]">SIGN
       OUT</button>
   </div>

@@ -16,7 +16,7 @@ export class LoginService {
       'content-type': 'application/json',
       'Cache-Control': 'no-cache'
     });
-    return this.http.post<string>('http://localhost:3000/api/login', loginData, { headers: httpHeaders, observe: 'response' });
+    return this.http.post<string>('http://localhost:3000/user/login/', loginData, { headers: httpHeaders, observe: 'response' });
   }
 
 

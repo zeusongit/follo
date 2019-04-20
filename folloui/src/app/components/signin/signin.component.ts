@@ -6,9 +6,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { HttpClient } from  "@angular/common/http";
-import { HttpHeaders } from "@angular/common/http";
-import * as LoginActions from './../../actions/login.actions';
 import * as TokenActions from './../../token-store/actions';
 
 @Component({
@@ -23,7 +20,7 @@ export class SigninComponent implements OnInit {
   private formSubmitAttempt: boolean;
   private isInvalidCred: boolean;
   errorMsg: string;
-  constructor(private ls: LoginService, private fb: FormBuilder, private location: Location, private store: Store<any>, private http: HttpClient) { }
+  constructor(private ls: LoginService, private fb: FormBuilder, private location: Location, private store: Store<any>) { }
 
   reset() {
     this.formSubmitAttempt = false;
@@ -36,7 +33,7 @@ export class SigninComponent implements OnInit {
     this.isInvalidCred = false;
     this.formSubmitAttempt = false;
     this.loginForm = this.fb.group({
-      username: [null, [Validators.required, Validators.maxLength(20), Validators.minLength(4)]],
+      email: [null, [Validators.required, Validators.maxLength(50), Validators.minLength(4)]],
       password: [null, Validators.required],
     });
     console.log('INSIDE LOGIN');
@@ -46,33 +43,34 @@ export class SigninComponent implements OnInit {
     this.formSubmitAttempt = true;
     if (this.loginForm.valid) {
       this.loginData = new Login(this.loginForm.value);
-      
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type':  'application/json'
-        })
-      };
-      
-      
-      //contonue from here
-      this.http.post('http://localhost:3000/login/', {username: this.loginData.username, password: this.loginData.password}, httpOptions)
-      .subscribe((data) =>{
-        
-      })
-      this.store.dispatch(new LoginActions.LoggedInStatus(true));
-      this.isInvalidCred = false;
-      this.reset();
-      // this.ls.doLogin(this.loginData).toPromise().then(res => {
-      //   if (res.status === 200) {
-      //     this.store.dispatch(new LoginActions.LoggedInStatus(true));
-      //     this.isInvalidCred = false;
-      //     this.reset();
-      //   } else {
-      //     // Show error on UI
-      //     this.isInvalidCred = true;
-      //     this.errorMsg = res.statusText;
-      //   }
-      // });
+
+      // const httpOptions = {
+      //   headers: new HttpHeaders({
+      //     'Content-Type': 'application/json'
+      //   })
+      // };
+
+
+      // contonue from here
+      // this.http.post('http://localhost:3000/login/', {username: this.loginData.username, password: this.loginData.password}, httpOptions)
+      // .subscribe((data) =>{
+      //   console.log()
+      // })
+      // this.store.dispatch(new LoginActions.LoggedInStatus(true));
+      // this.isInvalidCred = false;
+      // this.reset();
+      this.ls.doLogin(this.loginData).toPromise().then(res => {
+        if (res.status === 200) {
+          console.log('LOGGED IN', res);
+          this.store.dispatch(new TokenActions.AddToken(res.body));
+          this.isInvalidCred = false;
+          this.reset();
+        } else {
+          // Show error on UI
+          this.isInvalidCred = true;
+          this.errorMsg = res.statusText;
+        }
+      });
     }
   }
 
@@ -88,11 +86,11 @@ export class SigninComponent implements OnInit {
   }
 
   customErrorMsg(field: string) {
-    if (field === 'username') {
+    if (field === 'email') {
       if (this.loginForm.get(field).hasError('required') ||
         this.loginForm.get(field).hasError('minlength')
         || this.loginForm.get(field).hasError('maxlength')) {
-        return 'Username must be between 3 and 20 characters';
+        return 'Username must be between 3 and 50 characters';
       } else {
         return this.errorMsg;
       }

@@ -1,3 +1,5 @@
+import * as TokenActions from './../../token-store/actions';
+import { Store } from '@ngrx/store';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { SignupService } from './../../services/signup.service';
@@ -5,6 +7,8 @@ import { Signup } from '../../models/signup.model';
 import { FormBuilder, FormGroup, ControlContainer } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { MustMatch } from '../../_helpers/must-match.validator';
+import { Router } from '@angular/router';
+import { AppState } from 'src/app/app.state';
 
 @Component({
   selector: 'app-signup',
@@ -17,7 +21,8 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   private formSubmitAttempt: boolean;
   private isInvalidCred: boolean;
-  constructor(private ss: SignupService, private fb: FormBuilder, private location: Location) { }
+  // tslint:disable-next-line:max-line-length
+  constructor(private ss: SignupService, private fb: FormBuilder, private location: Location, private route: Router, private store: Store<AppState>) { }
 
   reset() {
     console.log('INSIDE MODAL');
@@ -38,8 +43,8 @@ export class SignupComponent implements OnInit {
       username: [null, [Validators.required, Validators.maxLength(20), Validators.minLength(4)]],
       password: [null, [Validators.required, Validators.maxLength(60), Validators.minLength(6)]],
       cpassword: [null, [Validators.required, Validators.maxLength(60), Validators.minLength(6)]],
-      firstname: [null, [Validators.required, Validators.maxLength(100), Validators.minLength(2)]],
-      lastname: [null, [Validators.required, Validators.maxLength(100), Validators.minLength(2)]],
+      firstName: [null, [Validators.required, Validators.maxLength(100), Validators.minLength(2)]],
+      lastName: [null, [Validators.required, Validators.maxLength(100), Validators.minLength(2)]],
       email: [null, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]]
     }, {
         validator: MustMatch('password', 'cpassword')
@@ -50,8 +55,21 @@ export class SignupComponent implements OnInit {
     if (this.signupForm.valid) {
       this.signupData = new Signup(this.signupForm.value);
       // console.log(JSON.stringify(this.SignupData));
-      this.ss.signupService(this.signupData);
-      this.isInvalidCred = true;
+      this.ss.signupService(this.signupData).toPromise()
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            console.log('user sign up ed', res);
+            this.route.navigate(['login']);
+            this.isInvalidCred = true;
+          } else {
+            console.log(' Status text : ', res.statusText);
+          }
+        })
+        .catch(e => {
+          console.log(e);
+          console.log('user signup in error');
+        });
     }
   }
 
@@ -86,7 +104,6 @@ export class SignupComponent implements OnInit {
       }
     }
     if (field === 'email') {
-      console.log(this.signupForm.get(field).hasError('pattern'));
       if (this.signupForm.get(field).hasError('required')) {
         return 'Please enter email';
       } else if (this.signupForm.get(field).hasError('pattern')) {

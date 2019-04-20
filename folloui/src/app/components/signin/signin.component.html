@@ -11,11 +11,11 @@
               <h5>Sign in</h5>
             </div>
             <div class="form-group">
-              <label for="recipient-name" class="col-form-label required">Username</label>
-              <input type="text" class="form-control" [ngClass]="displayFieldCss('username')" name="username"
-                formControlName="username">
-              <app-field-error-display [displayError]="isFieldValid('username')"
-                [errorMsg]="customErrorMsg('username')">
+              <label for="recipient-name" class="col-form-label required">Email</label>
+              <input type="email" class="form-control" [ngClass]="displayFieldCss('email')" name="email"
+                formControlName="email">
+              <app-field-error-display [displayError]="isFieldValid('email')"
+                [errorMsg]="customErrorMsg('email')">
               </app-field-error-display>
             </div>
             <div class="form-group">

@@ -9,11 +9,10 @@ export class SignupService {
 
   constructor(private http: HttpClient) { }
   httpHeaders = new HttpHeaders({
-    'content-type': 'application/x-www-form-urlencoded',
-    'Cache-Control': 'no-cache'
+    'content-type': 'application/json'
   });
   signupService(signupData: Signup) {
     console.log('Inside Service', signupData);
-    // return this.http.post<string>('http://localhost:3000/api/signup', SignupData, { headers: this.httpHeaders });
+    return this.http.post<string>('http://localhost:3000/user/signup/', signupData, { headers: this.httpHeaders, observe: 'response' });
   }
 }
