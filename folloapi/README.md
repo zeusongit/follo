@@ -136,30 +136,59 @@ headers: {
 In case of Text Post:
 ```
 body: {
-	"title": "My Post",
     "type":"text",
-	"content": "This is my text post"
+    "title": "My Post",
+    "content": "This is my text post"
 }
 ```
-In case of Image Post:
+In case of Media Post:
 ```
 body: {
-	"title": "My Post",
+    "title": "My Post",
     "type":"image",
-	"content": "This is my image post",
-    "images":[
+    "content": "This is my image post",
+    "post_media":[
         {
+            "name":"aaaa.jpg",
             "url":"s3_location_of_image1"
         },
         {
+            "name":"bbbb.jpg",
             "url":"s3_location_of_image2"
         }
     ]
 }
 ```
+In case of Event Post:
+```
+body: {
+    "title": "My Post",
+    "type":"event",
+    "content": "This is my event post",
+}
+```
 ```
 response : {
-    "id": "9999999999999999"
+    "post": {
+        "parent_community": {
+            "_id": "5cb66e8af948654a7c8dc947",
+            "cname": "carr1"
+        },
+        "created_by": {
+            "_id": "5cb919bbdb53e2273481680e",
+            "username": "u1"
+        },
+        "content": "This is my text post",
+        "type": "text",
+        "is_active": true,
+        "_id": "5cbb21d290ba7017e49e6a21",
+        "title": "My Post",
+        "event_desc": [],
+        "post_media": [],
+        "posted_on": "2019-04-20T13:42:42.235Z",
+        "last_updated_on": "2019-04-20T13:42:42.235Z",
+        "__v": 0
+    }
 }
 ```
 ### PUT /user/:username/post/:postid
