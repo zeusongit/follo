@@ -29,16 +29,15 @@ let createCommunity = newCommObj => {
     let newCommunity = new commModel(newCommObj);
     newCommunity
       .save()
-      .then(doc => {
+      .then((doc)=>{
+        console.log(doc);
         resolve({
-          createSuccess: true
+          community: doc          
         });
       })
       .catch(err => {
         console.log(err);
-        reject({
-          createSuccess: false
-        });
+        reject(null);
       });
   });
 };

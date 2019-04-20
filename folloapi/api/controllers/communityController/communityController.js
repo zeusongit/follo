@@ -1,39 +1,56 @@
 let commService = require(__dirname +
   "/../../services/communityService/communityService.js");
-
-let addCommunity = (req, res) => {
-  const singleUpload = commService.upload.single("commImage");
-  singleUpload(req, res, function(err, some) {
-    createCommunity(req, res);
-  });
-};
-
+/**
+ * Method to create community by a user
+ *
+ * @param {*} req - details that are required to create community ie cname, description
+ * @param {*} res - object of community that was created
+ */
 let createCommunity = (req, res) => {
-  let newCommJSON = req.body;
-  newCommJSON.communityPicture = req.file.location;
-  newCommJSON.memberIds = req.user._id;
-  newCommJSON.createdBy = req.user._id;
-  commService
-    .createCommunity(newCommJSON)
-    .then(result => {
-      if (result.createSuccess === true) {
-        res.status(200);
-        res.send({
-          message: "Community Created Successfully",
-          status: 200
-        });
+  let newCommunity = req.body;
+  if (req.file) {
+    newCommunity.communityPicture = req.file.location;
+  }
+  newCommunity.memberIds = req.user._id;
+  newCommunity.createdBy = req.user._id;
+  
+  commService.createCommunity(newCommunity)
+    .then((result) => {
+      if (result) {
+        let community = {
+          cname: result.community.cname,
+          description: result.community.description,
+          memberIds: result.community.memberIds,                    
+          createdBy: result.community.createdBy,
+          createdDate: result.community.createdDate
+        }
+        res.send(community);
+      } else {
+        res.status(400).send({
+          status: 400,
+          message: 'Community already exists'
+        })
       }
     })
-    .catch(result => {
-      res.status(500);
+    .catch((result) => {
+      res.status(400);
       res.send({
-        message: result.message,
-        status: 500
+        message: "Cannot create Community",
+        status: 400
       });
-    });
-};
 
+    })
+}
+
+
+/**
+ *
+ * Getting list of al communities that are present
+ * @param {*} req
+ * @param {*} res
+ */
 let getAllCommunities = (req, res) => {
+  
   commService
     .getAllCommunities()
     .then(communities => {
@@ -41,14 +58,15 @@ let getAllCommunities = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving Communities."
+        message: err.message || "Some error occurred while retrieving Communities."
       });
     });
 };
 
-module.exports = {
-  addCommunity,
+
+
+
+module.exports = {  
   createCommunity,
   getAllCommunities
 };
