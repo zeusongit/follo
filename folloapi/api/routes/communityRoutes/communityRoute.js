@@ -10,4 +10,6 @@ routes.post("/community/", authChecker, imageUploadForCommunity, commController.
 
 routes.get("/community/", commController.getAllCommunities);
 
+routes.get("/community/:name", commController.findCommunity);
+
 module.exports = routes;

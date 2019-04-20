@@ -13,14 +13,14 @@ let createCommunity = (req, res) => {
   }
   newCommunity.memberIds = req.user._id;
   newCommunity.createdBy = req.user._id;
-  
+
   commService.createCommunity(newCommunity)
     .then((result) => {
       if (result) {
         let community = {
           cname: result.community.cname,
           description: result.community.description,
-          memberIds: result.community.memberIds,                    
+          memberIds: result.community.memberIds,
           createdBy: result.community.createdBy,
           createdDate: result.community.createdDate
         }
@@ -28,7 +28,7 @@ let createCommunity = (req, res) => {
       } else {
         res.status(400).send({
           status: 400,
-          message: 'Community already exists'
+          message: 'Cannot create Community'
         })
       }
     })
@@ -42,7 +42,6 @@ let createCommunity = (req, res) => {
     })
 }
 
-
 /**
  *
  * Getting list of al communities that are present
@@ -50,7 +49,7 @@ let createCommunity = (req, res) => {
  * @param {*} res
  */
 let getAllCommunities = (req, res) => {
-  
+
   commService
     .getAllCommunities()
     .then(communities => {
@@ -63,10 +62,18 @@ let getAllCommunities = (req, res) => {
     });
 };
 
+let findCommunity = (req, res) => {
+  commService.findCommunity(req.params.name).then(community => {
+    res.send(community);
+  }).catch((err) => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving Community."
+    });
+  });
+}
 
-
-
-module.exports = {  
+module.exports = {
   createCommunity,
-  getAllCommunities
+  getAllCommunities,
+  findCommunity
 };
