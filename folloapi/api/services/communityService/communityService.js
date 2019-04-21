@@ -43,13 +43,32 @@ let createCommunity = newCommObj => {
   });
 };
 
-let getAllCommunities = () => {
-  const communities = commModel.find().exec();
-  return communities;
-};
+let getCommunityByName = async (communityname) => {
+  try {   
+    let community = await commModel.findCommunityByName(communityname);
+    console.log("cc:"+community);
+    return community;
+  }
+  catch (e) {
+    console.log("cce:"+e);
+    return null;
+  }
+}
+let getAllCommunities = async () => {
+  try {   
+    let communities = await commModel.findAllCommunities();
+    console.log("cc:"+communities);
+    return communities;
+  }
+  catch (e) {
+    console.log("cce:"+e);
+    return null;
+  }
+}
 
 module.exports = {
   upload,
   createCommunity,
-  getAllCommunities
+  getAllCommunities,
+  getCommunityByName
 };

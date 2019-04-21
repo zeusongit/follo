@@ -96,9 +96,8 @@ userSchema.statics.findByCredentials = async function (email, password){
 
 
 userSchema.statics.findByEmail = async function (email) {
-    let user = await this.findOne(
-        {"email": email}
-    )
+    console.log("em:"+JSON.stringify(email));
+    let user = await this.findOne({"email":email}).select('-tokens -__v -password')
     if (!user){
         throw new Error('not found')
     }
@@ -115,7 +114,6 @@ userSchema.methods.removeToken = async function (jwttoken){
             return true;
         }
     })
-
 }
 
 userSchema.methods.ok = async function(){
