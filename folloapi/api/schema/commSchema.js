@@ -1,5 +1,9 @@
 let mongoose = require(__dirname + "/../db/mongoose.js");
 
+const postTemplate = {
+  id: String
+}
+
 let commSchemaTemplate = {
   cname: {
     type: String,
@@ -11,15 +15,14 @@ let commSchemaTemplate = {
     required: true,
     unique: false
   },
+
   memberIds: [{
     member: String
   }  
-],
-  postids: {
-    type: String,
-    required: false,
-    unique: false
-  },
+],  
+  posts: [{
+    post: postTemplate
+  }],
   communityPicture: {
     type: String
   },
@@ -41,5 +44,22 @@ let commSchemaTemplate = {
 let commSchema = new mongoose.Schema(commSchemaTemplate, {
   collection: "communities"
 });
+
+commSchema.statics.findCommunityByName = async function (name) {
+  console.log("nm"+name);
+  let comm = await this.findOne({"cname":name})
+  if (!comm){
+      throw new Error('not found')
+  }
+  return comm
+}
+
+commSchema.statics.findAllCommunities = async function () {
+  let comm = await this.find()
+  if (!comm){
+      throw new Error('not found')
+  }
+  return comm
+}
 
 module.exports = commSchema;

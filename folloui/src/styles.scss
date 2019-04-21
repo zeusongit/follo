@@ -61,6 +61,34 @@ label {
     margin-left: 15px;
 }
 
+.left-sidebar {
+    position: fixed;
+    left:0;
+}
+
+.right-sidebar {
+    position: fixed;
+    right:0;
+}
+
+.margin-top-5 {
+    margin-top: 5%;
+}
+
+.content {
+    margin-top: 5%;
+    margin-bottom:3%;
+    margin-left:2%;
+    margin-right:2%
+}
+
+.center-content {
+    margin: 0px auto;
+    display: block;
+}
+
+
+
 // app-create-community {
 //     position: relative;
 //     top: 80px;
