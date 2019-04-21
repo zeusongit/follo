@@ -1,14 +1,27 @@
 <div class="row view-comm">
-  <div class="col-sm-12">
-    <div>
-      <div class="card community">
-        <!-- *ngFor="let post of posts"> -->
-        <div class="card-header "><img src="../../../assets/images/create-community-header.png">
-          <h4>{{communityName}}</h4>
-        </div>
-        <div class="card-body">
-          desc
-        </div>
+  <div class="col-sm-12 community">
+    <div class="card ">
+      <!-- *ngFor="let post of posts"> -->
+      <div class="card-header "><img
+          [src]="community.communityPicture != null ? community.communityPicture : '../../../assets/images/create-community-header.png'">
+        <h4>{{community.cname}}</h4>
+        <button type="button" class="btn btn-success join"><i class="fas fa-plus"></i> JOIN</button>
+      </div>
+      <div class="card-body">
+        <div class="comm-created-by"><span>{{community.createdBy}} on {{community.createdDate}}</span></div>
+        {{community.description}}
+      </div>
+    </div>
+    <div class="card post" *ngFor="let post of posts">
+      <div class="card-body">
+        <span class="posted-by">Posted by {{post.created_by.username}} on {{post.posted_on |  date:'MM/dd/yyyy'}}</span>
+        <h5 class="card-title">{{post.title}}</h5>
+        <hr>
+        <p>{{post.content}}</p>
+        <hr>
+        <button type="button" class="btn btn-link comment"><i class="fas fa-comments"></i></button>
+        <button type="button" class="btn btn-link up"><i class="fas fa-angle-double-up"></i></button>
+        <button type="button" class="btn btn-link down"><i class="fas fa-angle-double-down"></i></button>
       </div>
     </div>
   </div>

@@ -26,7 +26,7 @@ export class SigninComponent implements OnInit {
     this.formSubmitAttempt = false;
     this.isInvalidCred = false;
     this.loginForm.reset();
-    this.location.back();
+    // this.location.back();
   }
 
   ngOnInit() {
@@ -61,24 +61,24 @@ export class SigninComponent implements OnInit {
       // this.isInvalidCred = false;
       // this.reset();
       this.ls.doLogin(this.loginData).toPromise()
-      .then(res => {
-        if (res.status === 200) {
-          console.log('LOGGED IN', res);
-          localStorage.setItem('userAuth',JSON.stringify(res.body));
-          console.log('localStorage');
-          console.log(localStorage.getItem('userAuth'));
-          this.store.dispatch(new TokenActions.AddToken(res.body));
-          this.isInvalidCred = false;
-          this.reset();
-        } else {
-          // Show error on UI
-          this.isInvalidCred = true;
-          this.errorMsg = res.statusText;
-        }
-      }).catch(e => {
-        console.log(e);
-      })
-      ;
+        .then(res => {
+          if (res.status === 200) {
+            console.log('LOGGED IN', res);
+            localStorage.setItem('userAuth', JSON.stringify(res.body));
+            console.log('localStorage');
+            console.log(localStorage.getItem('userAuth'));
+            this.store.dispatch(new TokenActions.AddToken(res.body));
+            this.isInvalidCred = false;
+            this.reset();
+          } else {
+            // Show error on UI
+            this.isInvalidCred = true;
+            this.errorMsg = res.statusText;
+          }
+        }).catch(e => {
+          console.log(e);
+        })
+        ;
     }
   }
 

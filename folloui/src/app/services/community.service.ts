@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { Post } from './../models/post';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Community } from './../models/community';
 import { Injectable } from '@angular/core';
 
@@ -22,6 +23,26 @@ export class CommunityService {
   }
 
   getAllCommunitiesForUser(username: string) {
-    return this.http.get(username + '/getAllCommunitiesForUser', { observe: 'response' });
+    return this.http.get(username + 'http://localhost:3000/getAllCommunitiesForUser', { observe: 'response' });
+  }
+
+  getCommunityPostsByCommName(commName: string, token: string) {
+    return this.http.get('http://localhost:3000/community/' + commName + '/post/', {
+      headers: {
+        'Content-Type': 'application/json',
+        // tslint:disable-next-line:object-literal-key-quotes
+        'Authorization': 'Bearer ' + token
+      }, observe: 'response'
+    });
+  }
+
+  getCommunityDetails(commName: string, token: string) {
+    return this.http.get('http://localhost:3000/community/' + commName, {
+      headers: {
+        'Content-Type': 'application/json',
+        // tslint:disable-next-line:object-literal-key-quotes
+        'Authorization': 'Bearer ' + token
+      }, observe: 'response'
+    });
   }
 }

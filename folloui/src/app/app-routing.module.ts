@@ -1,3 +1,4 @@
+import { MainComponent } from './main/main.component';
 import { ViewCommunityDetailComponent } from './components/view-community-detail/view-community-detail.component';
 import { CreateCommunityComponent } from './components/create-community/create-community.component';
 import { HomeComponent } from './components/home/home.component';
@@ -9,7 +10,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SigninComponent } from './components/signin/signin.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  // { path: '', component: MainComponent },
   { path: 'login', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'createcommunity', component: CreateCommunityComponent },
