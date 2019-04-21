@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const config = require(__dirname+'/../../config/config.js');
+const jwt = require("jsonwebtoken");
+const config = require(__dirname + "/../../config/config.js");
 const jwtKey = config.JWT_KEY;
 console.log(jwtKey);
-let User = require(__dirname+'/../models/userModel/userModel.js');
+let User = require(__dirname + "/../models/userModel/userModel.js");
 
 let authChecker = async (req, res, next) => {
     if (req.header('Authorization')){
@@ -35,8 +35,15 @@ let authChecker = async (req, res, next) => {
             status: 401,
             msg:"unauthenticated"
         });
-    }
-}
 
+    }
+  } else {
+    res.status(401).send({
+      status: 401,
+      msg: "unauthenticated"
+    });
+  }
+};
 
 module.exports = authChecker;
+

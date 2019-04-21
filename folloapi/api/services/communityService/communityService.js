@@ -1,47 +1,41 @@
-const multer = require("multer");
-const multerS3 = require("multer-s3");
-const aws = require("aws-sdk");
-
 let commModel = require(__dirname + "/../../models/community/commModel.js");
-const env = require(__dirname + "/../../../config/s3.env.js");
+let userModel = require(__dirname + "/../../models/userModel/userModel.js");
 
-aws.config.update({
-  secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
-  accessKeyId: env.AWS_ACCESS_KEY,
-  region: env.REGION // region of your bucket
-});
-
-const s3Config = new aws.S3();
-
-const upload = multer({
-  storage: multerS3({
-    s3: s3Config,
-    bucket: env.COMMUNITY_BUCKET_NAME,
-    acl: "public-read",
-    key: function (req, file, cb) {
-      cb(null, file.originalname);
-    }
-  })
-});
-
-let createCommunity = newCommObj => {
+let createCommunity = (newCommObj, user) => {
   return new Promise((resolve, reject) => {
     let newCommunity = new commModel(newCommObj);
+    newCommunity.memberIds.push({
+      member: user._id
+    });
     newCommunity
       .save()
-      .then(doc => {
+      .then((doc) => {
+        updateUser(user, doc);
         resolve({
-          createSuccess: true
+          community: doc
         });
       })
       .catch(err => {
         console.log(err);
-        reject({
-          createSuccess: false
-        });
+        reject(null);
       });
   });
 };
+
+let updateUser = (user, community) => {
+  userModel.findByIdAndUpdate(user._id, {
+    $push: {
+      "createdCommunities": {
+        "community.id": community._id,
+        "community.name": community.cname
+      }
+    }
+  }, {
+    new: true,
+    upsert: false
+  }).exec();
+
+}
 
 let getCommunityByName = async (communityname) => {
   try {   
@@ -66,9 +60,119 @@ let getAllCommunities = async () => {
   }
 }
 
+
+let findCommunity = (communityName) => {
+  const community = commModel.findOne({
+    cname: communityName
+  }).exec();
+  return community;
+}
+
+let joinCommunity = (communityName, user) => {
+  return new Promise((resolve, reject) => {
+    commModel.findOneAndUpdate({
+      cname: communityName,
+      $push: {
+        "memberIds": {
+          member: user._id
+        }
+      },
+      upsert: false,
+      new: true
+    }).then((doc) => {
+      console.log(doc);
+      updateUserFollowCommunity(user, doc)
+      resolve({
+        community: doc,
+        joinStatus: true
+      })
+    }).catch(err => {
+      console.log(err);
+      reject({
+        joinStatus: false
+      });
+    });
+  })
+}
+
+let updateUserFollowCommunity = (user, community) => {
+  console.log(user._id, community._id, community.cname);
+  userModel.findByIdAndUpdate(user._id, {
+    $push: {
+      "followingCommunities": {
+        "community.id": community._id,
+        "community.name": community.cname
+      }
+    }
+  }, {
+    new: true,
+    upsert: false
+  }).exec();
+}
+
+let deleteCommunity = (communityName) => {
+  return new Promise((resolve, reject) => {
+    commModel.findOneAndUpdate({
+      cname: communityName,
+      $set: {
+        isActive: false
+      },
+      upsert: false,
+      new: true
+    }).then(() => {
+      resolve({
+        deleteStatus: true
+      })
+    }).catch(err => {
+      console.log(err);
+      reject({
+        deleteStatus: false
+      });
+    });
+
+  });
+}
+
+let unfollowCommunity = (communityName, user) => {
+  return new Promise((resolve, reject) => {
+    let userId = user._id;    
+    commModel.findOneAndUpdate({
+      cname: communityName,
+      $pull: {
+        "memberIds": {
+         "member" : userId
+        }
+      }
+    }).then(() => {
+      unfollowUserCommunity(userId,communityName);
+      resolve({
+        unfollowStatus: true
+      })
+    }).catch(err => {
+      console.log(err);
+      reject({
+        unfollowStatus: false
+      });
+    });
+  });
+}
+
+let unfollowUserCommunity = (userId,communityName) => {
+  userModel.findByIdAndUpdate(userId,{
+    $pull: {
+      "followingCommunities" :{
+        "community.name" : communityName
+      }
+    }
+  }).exec();
+}
+
 module.exports = {
-  upload,
   createCommunity,
   getAllCommunities,
+  findCommunity,
+  joinCommunity,
+  deleteCommunity,
+  unfollowCommunity,
   getCommunityByName
 };

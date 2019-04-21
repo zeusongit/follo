@@ -15,11 +15,11 @@ let commSchemaTemplate = {
     required: true,
     unique: false
   },
-  memberIds: {
-    type: String,
-    required: true,
-    unique: false
-  },
+
+  memberIds: [{
+    member: String
+  }  
+],  
   posts: [{
     post: postTemplate
   }],
@@ -34,6 +34,10 @@ let commSchemaTemplate = {
   createdDate: {
     type: Date,
     default: Date.now
+  },
+  isActive: {
+    type: Boolean,
+    default:true
   }
 };
 
