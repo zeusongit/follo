@@ -1,3 +1,4 @@
+import { MainComponent } from './main/main.component';
 import { ViewCommunityDetailComponent } from './components/view-community-detail/view-community-detail.component';
 import { CreateCommunityComponent } from './components/create-community/create-community.component';
 import { HomeComponent } from './components/home/home.component';
