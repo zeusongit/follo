@@ -39,4 +39,21 @@ let commSchema = new mongoose.Schema(commSchemaTemplate, {
   collection: "communities"
 });
 
+commSchema.statics.findCommunityByName = async function (name) {
+  console.log("nm"+name);
+  let comm = await this.findOne({"cname":name})
+  if (!comm){
+      throw new Error('not found')
+  }
+  return comm
+}
+
+commSchema.statics.findAllCommunities = async function () {
+  let comm = await this.find()
+  if (!comm){
+      throw new Error('not found')
+  }
+  return comm
+}
+
 module.exports = commSchema;

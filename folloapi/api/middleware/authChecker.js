@@ -38,4 +38,5 @@ let authChecker = async (req, res, next) => {
     }
 }
 
+
 module.exports = authChecker;

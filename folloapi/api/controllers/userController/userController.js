@@ -1,17 +1,6 @@
 let userService = require(__dirname +
     "/../../services/userService/userService.js");
     
-//   let getUser = (req, res) => {
-//     userService.getUser()
-//     .then(user => {
-//       res.send(user);
-//     }).catch(err => {
-//       res.status(500).send({
-//           message: err.message || "Some error occurred while retrieving User."
-//       });
-//   });
-  
-//   };
 
   let getUser = async (req, res) => {
     console.log(req.body);
@@ -28,7 +17,7 @@ let userService = require(__dirname +
     }
 
 }
-  
+
   module.exports = {
     getUser
   };
