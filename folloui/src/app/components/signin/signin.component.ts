@@ -43,7 +43,8 @@ export class SigninComponent implements OnInit {
     this.formSubmitAttempt = true;
     if (this.loginForm.valid) {
       this.loginData = new Login(this.loginForm.value);
-
+      console.log('logging in with');
+      console.log(this.loginData);
       // const httpOptions = {
       //   headers: new HttpHeaders({
       //     'Content-Type': 'application/json'
@@ -59,9 +60,13 @@ export class SigninComponent implements OnInit {
       // this.store.dispatch(new LoginActions.LoggedInStatus(true));
       // this.isInvalidCred = false;
       // this.reset();
-      this.ls.doLogin(this.loginData).toPromise().then(res => {
+      this.ls.doLogin(this.loginData).toPromise()
+      .then(res => {
         if (res.status === 200) {
           console.log('LOGGED IN', res);
+          localStorage.setItem('userAuth',JSON.stringify(res.body));
+          console.log('localStorage');
+          console.log(localStorage.getItem('userAuth'));
           this.store.dispatch(new TokenActions.AddToken(res.body));
           this.isInvalidCred = false;
           this.reset();
@@ -70,7 +75,10 @@ export class SigninComponent implements OnInit {
           this.isInvalidCred = true;
           this.errorMsg = res.statusText;
         }
-      });
+      }).catch(e => {
+        console.log(e);
+      })
+      ;
     }
   }
 
