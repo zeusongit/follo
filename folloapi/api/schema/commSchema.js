@@ -3,7 +3,7 @@ let mongoose = require(__dirname + "/../db/mongoose.js");
 const postTemplate = {
   id: String
 }
-const createdByTemplate = {
+const userTemplate = {
   id: String,
   username: String
 }
@@ -20,7 +20,7 @@ let commSchemaTemplate = {
   },
 
   memberIds: [{
-    member: String
+    member: userTemplate
   }  
 ],  
   posts: [{
@@ -30,7 +30,7 @@ let commSchemaTemplate = {
     type: String
   },
   createdBy: {
-    user : createdByTemplate    
+    user : userTemplate    
   },
   createdDate: {
     type: Date,
