@@ -5,7 +5,8 @@ let createCommunity = (newCommObj, user) => {
   return new Promise((resolve, reject) => {
     let newCommunity = new commModel(newCommObj);
     newCommunity.memberIds.push({
-      member: user._id
+      "member.id": user._id,
+      "member.username" : user.username
     });
     newCommunity.createdBy.user.id = user._id;
     newCommunity.createdBy.user.username = user.username;
@@ -77,7 +78,8 @@ let joinCommunity = (communityName, user) => {
       cname: communityName,
       $push: {
         "memberIds": {
-          member: user._id
+          "member.id": user._id,
+          "member.username" : user.username
         }
       },
       upsert: false,
