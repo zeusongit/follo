@@ -46,17 +46,25 @@ let createCommunity = (req, res) => {
  * @param {*} req
  * @param {*} res
  */
-let getAllCommunities = (req, res) => {
-  commService
-    .getAllCommunities()
-    .then(communities => {
-      res.send(communities);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while retrieving Communities."
-      });
-    });
+let getAllCommunities = async (req, res) => {
+  let result = {};
+
+  if (req.query.key) {
+    result = await commService.searchCommunityByKey(req.query.key);
+  } else {
+    result = await commService.getAllCommunities(req.params.community);
+  }  
+
+  console.log(result);
+    if (result.length != 0) {
+        res.status(200).send(result);
+    }
+    else {
+        res.status(404).send({
+            status: 404,
+            message: 'cannot get communities'
+        });
+    }
 };
 
 /**
@@ -71,7 +79,7 @@ let findCommunity = (req, res) => {
       return res.status(200).send(community);
     } else {
       return res.status(404).send({
-        message: req.params.name +" Community not found" 
+        message: req.params.name + " Community not found"
       });
     }
   }).catch((err) => {
