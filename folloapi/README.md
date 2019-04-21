@@ -228,7 +228,7 @@ response : {
 ```
 ### GET /community/:community/post/
 #### This will get all posts of the community (protected).
-### GET /community/:community/post?key=<search-key>
+### GET /community/:community/post?key=search-key
 #### This will get all posts of the community that has the search-key in its title or content (protected).
 ```
 headers: {
