@@ -127,12 +127,12 @@ let unfollowCommunity = (communityName, user) => {
     }).then(() => {
       unfollowUserCommunity(userId,communityName);
       resolve({
-        deleteStatus: true
+        unfollowStatus: true
       })
     }).catch(err => {
       console.log(err);
       reject({
-        deleteStatus: false
+        unfollowStatus: false
       });
     });
   });
