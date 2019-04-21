@@ -20,6 +20,7 @@ import { StoreModule } from '@ngrx/store';
 import { loginReducer } from './reducers/login.reducers';
 import { reducer as authTokenReducer } from "./token-store/reducer";
 import { ViewCommunityDetailComponent } from './components/view-community-detail/view-community-detail.component';
+import { MainComponent } from './main/main.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { ViewCommunityDetailComponent } from './components/view-community-detail
     RightSidebarComponent,
     CreateCommunityComponent,
     HomeComponent,
-    ViewCommunityDetailComponent
+    ViewCommunityDetailComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
