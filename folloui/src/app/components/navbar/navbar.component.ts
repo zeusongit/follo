@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   loggedInUser: any;
-  constructor(private store: Store<AppState>, private ls: LoginService, private router: Router) {
+  constructor(private store: Store<any>, private ls: LoginService, private router: Router) {
     store.select('userAuth').subscribe((userAuth) => {
       console.log(`TOKENS STATUS CHANGED: ${userAuth}`);
       console.log(userAuth);

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-right-sidebar',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RightSidebarComponent implements OnInit {
 
-  constructor() { }
+  user: any;
+  constructor(private store: Store<any>) {
+    store.select('userAuth').subscribe((userAuth) => {
+      console.log(`RIGHT BAR: ${userAuth}`);
+      console.log(userAuth);
+      this.user = userAuth;
+    });
+   }
 
   ngOnInit() {
   }

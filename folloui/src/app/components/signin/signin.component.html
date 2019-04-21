@@ -1,6 +1,5 @@
-  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="left">
+      <div class="left max-height">
         <div class="art"></div>
       </div>
       <div class="right">
@@ -27,6 +26,9 @@
               </app-field-error-display>
             </div>
             <button type="submit" class="btn btn-primary app-button">SIGN IN</button>
+            <span class="login-error">
+              {{loginError}}
+            </span>
           </form>
           <div class="login-bottom-text">
             New to Follo? <a class="BottomLink" (click)="reset()" [routerLink]="[ '/signup' ]">Sign up</a>
@@ -34,4 +36,4 @@
         </div>
       </div>
     </div>
-  </div>
+
