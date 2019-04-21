@@ -3,10 +3,10 @@ let authService = require(__dirname + '/../../services/authenticationService/aut
 let signup = (req, res) => {
     //call the service to perform signup
     let newUserJSON = req.body;
-    if (req.file){
+    if (req.file) {
         newUserJSON.profilePicture = req.file.location;
     }
-    
+
     authService.signup(newUserJSON)
         .then((result) => {
             if (result) {
@@ -18,8 +18,7 @@ let signup = (req, res) => {
                     token: result.newToken
                 }
                 res.send(user);
-            }
-            else {
+            } else {
                 res.status(400).send({
                     status: 400,
                     message: 'user already exists'
@@ -27,7 +26,6 @@ let signup = (req, res) => {
             }
         })
         .catch((result) => {
-
             res.status(400);
             res.send({
                 message: "Cannot signup",
@@ -35,7 +33,6 @@ let signup = (req, res) => {
             });
 
         })
-
 }
 
 let login = async (req, res) => {
@@ -51,14 +48,12 @@ let login = async (req, res) => {
             lastName: result.user.lastName,
             token: result.token
         });
-    }
-    else {
+    } else {
         res.status(400).send({
             status: 400,
             message: 'cannot login'
         });
     }
-
 }
 
 
@@ -68,13 +63,15 @@ let logout = async (req, res) => {
         let token = req.header('Authorization').replace('Bearer ', '');
         let user = req.user;
         await authService.logout(user, token).then((status) => {
-            res.send({ status: 200, message: 'logged out' })
-        })
+                res.send({
+                    status: 200,
+                    message: 'logged out'
+                })
+            })
             .catch((e) => {
                 res.send(e);
             })
-    }
-    catch (e) {
+    } catch (e) {
         console.log("cannot logout");
         console.log(e);
         res.status(400).send({

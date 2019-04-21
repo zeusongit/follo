@@ -6,17 +6,17 @@ const jwtkey = config.JWT_KEY;
 const env = require(__dirname + "/../../../config/s3.env.js");
 
 
-let hashPassword = (pwd) => {
-  return new Promise((resolve, reject) => {
-    bcrypt.hash(pwd, 10, (err, hash) => {
-      if (!err) {
-        resolve(hash);
-      } else {
-        reject(err)
-      }
-    })
-  })
-}
+// let hashPassword = (pwd) => {
+//   return new Promise((resolve, reject) => {
+//     bcrypt.hash(pwd, 10, (err, hash) => {
+//       if (!err) {
+//         resolve(hash);
+//       } else {
+//         reject(err)
+//       }
+//     })
+//   })
+// }
 
 let hashPasswordSync = (password) => {
   return bcrypt.hashSync(password, 10);
@@ -51,7 +51,6 @@ let signup = (newUserObj) => {
 
 // searches for a user with credentials, adds a new jwt token, and returns the user
 let login = async (loginObj) => {
-
   try {
     let user = await User.findByCredentials(loginObj.email, loginObj.password);
     let jwttoken = jwt.sign({ email: user.email }, jwtkey);
@@ -67,7 +66,6 @@ let login = async (loginObj) => {
 }
 
 let logout = async (user, jwttoken) => {
-
   try {
     //console.log(user);
     await user.ok();
@@ -83,9 +81,21 @@ let logout = async (user, jwttoken) => {
   }
 }
 
+let jwtDecode = async (jwttoken) => {
+    try{
+        const token = jwttoken;           
+        const decodedToken = await jwt.verify(token, jwtkey);
+        console.log("dejwt: "+JSON.stringify(decodedToken));
+        return decodedToken.email;
+    }catch(e){
+        console.log(e);
+        return null;
+    }
+}
+
 module.exports = {
   signup,
   login,
   logout,
-
+  jwtDecode
 }
