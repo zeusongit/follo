@@ -92,8 +92,7 @@ let updateUserFollowCommunity = (user, community) => {
 }
 
 let deleteCommunity = (communityName) => {
-  return new Promise ((resolve,reject) => {
-
+  return new Promise((resolve, reject) => {
     commModel.findOneAndUpdate({
       cname: communityName,
       $set: {
@@ -111,13 +110,49 @@ let deleteCommunity = (communityName) => {
         deleteStatus: false
       });
     });
-    
+
   });
 }
+
+let unfollowCommunity = (communityName, user) => {
+  return new Promise((resolve, reject) => {
+    let userId = user._id;    
+    commModel.findOneAndUpdate({
+      cname: communityName,
+      $pull: {
+        "memberIds": {
+         "member" : userId
+        }
+      }
+    }).then(() => {
+      unfollowUserCommunity(userId,communityName);
+      resolve({
+        deleteStatus: true
+      })
+    }).catch(err => {
+      console.log(err);
+      reject({
+        deleteStatus: false
+      });
+    });
+  });
+}
+
+let unfollowUserCommunity = (userId,communityName) => {
+  userModel.findByIdAndUpdate(userId,{
+    $pull: {
+      "followingCommunities" :{
+        "community.name" : communityName
+      }
+    }
+  }).exec();
+}
+
 module.exports = {
   createCommunity,
   getAllCommunities,
   findCommunity,
   joinCommunity,
-  deleteCommunity
+  deleteCommunity,
+  unfollowCommunity
 };

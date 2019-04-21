@@ -77,26 +77,25 @@ let findCommunity = (req, res) => {
 }
 
 let joinCommunity = (req, res) => {  
-  console.log(req.params.name);
-  
-  // commService.joinCommunity(req.params.name,req.user).then((result) => {
-  //   if (result) {
-  //     res.send({
-  //       message: " Community joined Successfully",
-  //       joinStatus: result.joinStatus,
-  //       community : result.community
-  //     })
-  //   } else {
-  //      res.send({
-  //       message: " Community joined failed",
-  //       joinStatus: result.joinStatus
-  //      })
-  //   }
-  // }).catch((err) => {
-  //   res.status(500).send({
-  //     message: err.message || "Error while Joining Community"
-  //   });
-  // });
+  console.log(req.params.name);  
+  commService.joinCommunity(req.params.name,req.user).then((result) => {
+    if (result) {
+      res.send({
+        message: " Community joined Successfully",
+        joinStatus: result.joinStatus,
+        community : result.community
+      })
+    } else {
+       res.send({
+        message: " Community joined failed",
+        joinStatus: result.joinStatus
+       })
+    }
+  }).catch((err) => {
+    res.status(500).send({
+      message: err.message || "Error while Joining Community"
+    });
+  });
 }
 
 let deleteCommunity = (req, res) => {
@@ -116,10 +115,27 @@ let deleteCommunity = (req, res) => {
   })
 }
 
+let unfollowCommunity = (req,res) => { 
+  commService.unfollowCommunity(req.params.name,req.user).then((result) => {
+    if(result){
+      res.status(500).send({
+        message: " Community unfollowed successfully",
+        deleteStatus: result.unfollowStatus
+      })
+    }else{
+      res.status(400).send({
+        message: " Community unfollowed Failed",
+        deleteStatus: result.unfollowStatus
+      })
+    }
+  })
+}
+
 module.exports = {
   createCommunity,
   getAllCommunities,
   findCommunity,
   joinCommunity,
-  deleteCommunity
+  deleteCommunity,
+  unfollowCommunity
 };
