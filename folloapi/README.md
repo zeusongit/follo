@@ -125,8 +125,8 @@ response: {
 ```
 ---
 ### Post Related Endpoints
-### POST /user/:username/post/
-#### This will add a post to the user account (protected).
+### POST /community/:community/post/
+#### This will add a post to the community (protected).
 ```
 headers: {
     Content-Type: application/json,
@@ -191,8 +191,8 @@ response : {
     }
 }
 ```
-### PUT /user/:username/post/:postid
-#### This will update user's post (protected).
+### PUT /community/:community/post/:id
+#### This will update community's post by creator (protected).
 ```
 headers: {
     Content-Type: application/json,
@@ -226,8 +226,10 @@ response : {
     "id": "9999999999999999"
 }
 ```
-### GET /user/:username/post/
-#### This will get all posts of the user (protected).
+### GET /community/:community/post/
+#### This will get all posts of the community (protected).
+### GET /community/:community/post?key=<search-key>
+#### This will get all posts of the community that has the search-key in its title or content (protected).
 ```
 headers: {
     Content-Type: application/json,
@@ -235,40 +237,30 @@ headers: {
 }
 ```
 ```
-response : {
-    "posts":[
-        {
-            "id":"2123121",
-            "title": "My Post",
-            "type":"text",
-	        "content": "This is my text post",
-            "last_updated_on":"01/01/2019 00:00:00",
-            "posted_on":"01/01/2019 00:00:00",
-            "upvotes":1,
-            "downvotes":0
+response : [
+    {
+        "parent_community": {
+            "_id": "5cb66e8af948654a7c8dc947",
+            "cname": "carr1"
         },
-        {
-            "id":"2123122",
-            "title": "My Post2",
-            "type":"image",
-	        "content": "This is my image post",
-            "images":[
-                {
-                    "url":"S3://s3_location_of_image1"
-                },
-                {
-                    "url":"S3://s3_location_of_image2"
-                }
-            ]            
-            "last_updated_on":"01/01/2019 00:00:00",
-            "posted_on":"01/01/2019 00:00:00",
-            "upvotes":1,
-            "downvotes":0
-        }
-    ]
-}
+        "created_by": {
+            "_id": "5cb919bbdb53e2273481680e",
+            "username": "u1"
+        },
+        "content": "This is my text post",
+        "type": "text",
+        "is_active": true,
+        "_id": "5cbb21d290ba7017e49e6a21",
+        "title": "My Post",
+        "event_desc": [],
+        "post_media": [],
+        "posted_on": "2019-04-20T13:42:42.235Z",
+        "last_updated_on": "2019-04-20T13:42:42.235Z",
+        "__v": 0
+    }
+]
 ```
-### GET /user/:username/post/:postid
+### GET /community/:community/post/:postid
 #### This will get a specific post (protected).
 ```
 headers: {
@@ -278,6 +270,23 @@ headers: {
 ```
 ```
 response : {
-    "id": "9999999999999999"
+    "parent_community": {
+        "_id": "5cb66e8af948654a7c8dc947",
+        "cname": "carr1"
+    },
+    "created_by": {
+        "_id": "5cb919bbdb53e2273481680e",
+        "username": "u1"
+    },
+    "content": "This is my text post",
+    "type": "text",
+    "is_active": true,
+    "_id": "5cbb21d290ba7017e49e6a21",
+    "title": "My Post",
+    "event_desc": [],
+    "post_media": [],
+    "posted_on": "2019-04-20T13:42:42.235Z",
+    "last_updated_on": "2019-04-20T13:42:42.235Z",
+    "__v": 0
 }
 ```

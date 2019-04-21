@@ -20,9 +20,9 @@ let createPost = async (req, res) => {
 }
 
 let updatePost = async (req, res) => {
-    console.log(req.body);
+    console.log(req.body+req.params.id);
     let postJSON=req.body;
-    let result = await postService.updatePost(postJSON,req.params.community);
+    let result = await postService.updatePost(req.params.id,postJSON);
     console.log(result);
     if (result) {
         res.send(result);
@@ -30,13 +30,14 @@ let updatePost = async (req, res) => {
     else {
         res.status(400).send({
             status: 400,
-            message: 'cannot create post'
+            message: 'cannot update post'
         });
     }
   }
 
 let getAllPostOfUser = async (req, res) => {
-    let result = await postService.getAllPostsByUser();
+    const token = req.header('Authorization').replace('Bearer ','');           
+    let result = await postService.getAllPostsByUser(token);
     console.log(result);
     if (result) {
         res.send(result);
@@ -50,7 +51,13 @@ let getAllPostOfUser = async (req, res) => {
   }
 
   let getAllPostOfComm = async (req, res) => {
-    let result = await postService.getAllPostsByCommunity(req.params.community);
+    let result={}
+    if(req.query.key){
+        result = await postService.searchPosts(req.query.key);
+    }
+    else{
+        result = await postService.getAllPostsByCommunity(req.params.community);
+    }
     console.log(result);
     if (result) {
         res.send(result);

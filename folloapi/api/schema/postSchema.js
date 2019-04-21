@@ -77,17 +77,25 @@ postSchema.statics.findById = async function (id){
     return post;
 }
 
+postSchema.statics.updateById = async function (id,oldPost){
+    let post = await this.findOne({"_id":id})
+    if (!post){
+        return null;
+    }
+    return post;
+}
+
 
 postSchema.statics.findByCommunity = async function (community) {
-    let posts = await this.find({"parent_community.community.cname": community})
+    let posts = await this.find({"parent_community.cname": community})
     if (!posts){
         return [];
     }
     return posts;
 }
 
-postSchema.statics.findByUser = async function (user) {
-    let posts = await this.find({"created_by.user.username": user})
+postSchema.statics.findByUser = async function (username) {
+    let posts = await this.find({"created_by.username": username})
     if (!posts){
         return [];
     }
@@ -96,10 +104,11 @@ postSchema.statics.findByUser = async function (user) {
 
 postSchema.statics.searchPost = async function (key) {
     //let posts = await this.find({title: new RegExp('^'+key+'$', "i")})
+    console.log(key)
     let posts = await this.find({
         $and: [
-            { $or: { "title" : new RegExp('^'+key+'$', "i") } },
-            { $or: { "content" : new RegExp('^'+key+'$', "i") } }
+            { $or: [{title: { $regex: '.*' + key + '.*', $options: 'i' } }] },
+            { $or: [{content: { $regex: '.*' + key + '.*', $options: 'i' } }] }
         ]
     })
     if (!posts){

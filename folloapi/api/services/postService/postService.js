@@ -28,22 +28,21 @@ let createPost = async (newPostObj,commname,token) => {
     })
   }
 
-  let updatePost = (newPostObj) => {
+  let updatePost = (id,newPostObj) => {
     return new Promise((resolve, reject) => {
-      let newPost = new Post(newPostObj);
-      newPost.last_updated_on=Date.now;
-      newPost.save()
+      newPostObj.last_updated_on=Date.now();
+      Post.findByIdAndUpdate(id, newPostObj,{new:true})
         .then((doc) => {
-          console.log(doc);
-          resolve({
-            post: doc
-          });
-        })
-        .catch((err) => {
-          console.log("cannot save post");
-          console.log(err);
-          reject(null);
-        })
+            console.log(doc);
+            resolve({
+              post: doc
+            });
+          })
+          .catch((err) => {
+            console.log("cannot update post");
+            console.log(err);
+            reject(null);
+          })
     })
   }
 
@@ -59,9 +58,10 @@ let createPost = async (newPostObj,commname,token) => {
     }
   }
 
-  let getAllPostsByUser = async (user) => {
+  let getAllPostsByUser = async (token) => {
     try {
-      let posts = await User.findByUser(user);
+      let user = await userService.getUser(false,token); //get user
+      let posts = await Post.findByUser(user.username);
       return posts;
     }
     catch (e) {
@@ -72,7 +72,9 @@ let createPost = async (newPostObj,commname,token) => {
   }
   let getAllPostsByCommunity = async (community) => {
     try {
-      let posts = await User.findByCommunity(community);
+      console.log(community);
+      let posts = await Post.findByCommunity(community);
+      console.log(posts);
       return posts;
     }
     catch (e) {
@@ -83,7 +85,7 @@ let createPost = async (newPostObj,commname,token) => {
   }
   let searchPosts = async (key) => {
     try {
-      let posts = await User.searchPost(key);
+      let posts = await Post.searchPost(key);
       return posts;
     }
     catch (e) {
