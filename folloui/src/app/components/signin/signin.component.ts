@@ -22,13 +22,13 @@ export class SigninComponent implements OnInit {
   private formSubmitAttempt: boolean;
   private isInvalidCred: boolean;
   errorMsg: string;
+  loginError: string;
   constructor(private ls: LoginService, private fb: FormBuilder, private location: Location, private store: Store<any>, private router: Router) { }
 
   reset() {
     this.formSubmitAttempt = false;
     this.isInvalidCred = false;
     this.loginForm.reset();
-    this.location.back();
   }
 
   ngOnInit() {
@@ -56,13 +56,11 @@ export class SigninComponent implements OnInit {
           this.reset();
           console.log('now navigating');
           this.router.navigate(['content']);
-        } else {
-          // Show error on UI
-          this.isInvalidCred = true;
-          this.errorMsg = res.statusText;
         }
       }).catch(e => {
         console.log(e);
+        this.isInvalidCred = true;
+        this.loginError = "Invalid Credentials";
       })
       ;
     }
@@ -96,5 +94,6 @@ export class SigninComponent implements OnInit {
         return '';
       }
     }
+
   }
 }

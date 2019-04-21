@@ -4,11 +4,17 @@
     <h5 class="card-header ">
       Your Communities
     </h5>
-    <ul class="list-group list-group-flush scrollable">
+    <ul *ngIf="user" class="list-group list-group-flush scrollable">
       <li class="list-group-item" *ngFor='let favComm of favCommunities'><a
           [routerLink]="[ '/community', favComm.communityName ]">{{favComm.communityName}}</a>
       </li>
     </ul>
+    <ul *ngIf="!user" class="list-group list-group-flush scrollable">
+        <li class="list-group-item">
+          Please Login to Curate your communities
+        </li>
+        
+      </ul>
   </div>
 </div>
 <!-- </div> -->

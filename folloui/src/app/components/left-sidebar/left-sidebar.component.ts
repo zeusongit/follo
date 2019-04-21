@@ -2,6 +2,7 @@ import { CommunityService } from './../../services/community.service';
 import { Community } from './../../models/community';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store'
 
 @Component({
   selector: 'app-left-sidebar',
@@ -11,16 +12,17 @@ import { ActivatedRoute } from '@angular/router';
 export class LeftSidebarComponent implements OnInit {
 
   favCommunities: Community[];
-  constructor(private comService: CommunityService, private activatedRoute: ActivatedRoute) {
+  user: any;
+  constructor(private comService: CommunityService, private activatedRoute: ActivatedRoute, private store: Store<any>) {
+    store.select('userAuth').subscribe((userAuth) => {
+      console.log(`RIGHT BAR: ${userAuth}`);
+      console.log(userAuth);
+      this.user = userAuth;
+    });
    }
 
   ngOnInit() {
-    // Call community service to get all fav communities
-    // this.comService.getAllCommunitiesForUser('username').toPromise().then(res => {
-    //   if (res.status === 200) {
-    //     this.favCommunities = res.body;
-    //   }
-    // });
+
     const c = new Community();
     c.commDesc = 'Hello';
     c.communityName = 'Testing Comm';

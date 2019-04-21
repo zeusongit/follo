@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'content', pathMatch: 'full'},
   { path: 'login', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'createcommunity', component: CreateCommunityComponent },
+  { path: 'community/create', component: CreateCommunityComponent },
   { path: 'community/:commname',  component: ViewCommunityDetailComponent },
   { path: 'content', component: ContentComponent}
 ];
