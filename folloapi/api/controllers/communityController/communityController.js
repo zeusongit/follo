@@ -48,7 +48,6 @@ let createCommunity = (req, res) => {
  * @param {*} res
  */
 let getAllCommunities = (req, res) => {
-
   commService
     .getAllCommunities()
     .then(communities => {
@@ -77,30 +76,50 @@ let findCommunity = (req, res) => {
   });
 }
 
-let joinCommunity = (req, res) => {
-  let userId = req.user._id;
-  commService.joinCommunity(req.params.name,userId).then((result) => {
-    if (result) {
-      res.send({
-        message: " Community joined Successfully",
-        joinStatus: result.joinStatus,
-        community : result.community
-      })
-    } else {
-       res.send({
-        message: " Community joined failed",
-        joinStatus: result.joinStatus
-       })
-    }
-  }).catch((err) => {
-    res.status(500).send({
-      message: err.message || "Error while Joining Community"
-    });
-  });
+let joinCommunity = (req, res) => {  
+  console.log(req.params.name);
+  
+  // commService.joinCommunity(req.params.name,req.user).then((result) => {
+  //   if (result) {
+  //     res.send({
+  //       message: " Community joined Successfully",
+  //       joinStatus: result.joinStatus,
+  //       community : result.community
+  //     })
+  //   } else {
+  //      res.send({
+  //       message: " Community joined failed",
+  //       joinStatus: result.joinStatus
+  //      })
+  //   }
+  // }).catch((err) => {
+  //   res.status(500).send({
+  //     message: err.message || "Error while Joining Community"
+  //   });
+  // });
 }
+
+let deleteCommunity = (req, res) => {
+  commService.deleteCommunity(req.params.name).then((result) => {
+    if(result){
+      res.send({
+        message: " Community deleted successfully",
+        deleteStatus: result.deleteStatus
+      })
+    }else{
+      res.send({
+        message: " Community Deletion Failed",
+        deleteStatus: result.deleteStatus
+      })
+    }
+
+  })
+}
+
 module.exports = {
   createCommunity,
   getAllCommunities,
   findCommunity,
-  joinCommunity
+  joinCommunity,
+  deleteCommunity
 };

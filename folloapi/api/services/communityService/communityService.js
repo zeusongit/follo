@@ -23,7 +23,6 @@ let createCommunity = (newCommObj, user) => {
 };
 
 let updateUser = (user, community) => {
-  console.log(user._id, community._id, community.cname);
   userModel.findByIdAndUpdate(user._id, {
     $push: {
       "createdCommunities": {
@@ -50,19 +49,20 @@ let findCommunity = (communityName) => {
   return community;
 }
 
-let joinCommunity = (communityName, userId) => {
+let joinCommunity = (communityName, user) => {
   return new Promise((resolve, reject) => {
     commModel.findOneAndUpdate({
       cname: communityName,
       $push: {
         "memberIds": {
-          member: userId
+          member: user._id
         }
       },
       upsert: false,
       new: true
     }).then((doc) => {
       console.log(doc);
+      updateUserFollowCommunity(user, doc)
       resolve({
         community: doc,
         joinStatus: true
@@ -75,9 +75,49 @@ let joinCommunity = (communityName, userId) => {
     });
   })
 }
+
+let updateUserFollowCommunity = (user, community) => {
+  console.log(user._id, community._id, community.cname);
+  userModel.findByIdAndUpdate(user._id, {
+    $push: {
+      "followingCommunities": {
+        "community.id": community._id,
+        "community.name": community.cname
+      }
+    }
+  }, {
+    new: true,
+    upsert: false
+  }).exec();
+}
+
+let deleteCommunity = (communityName) => {
+  return new Promise ((resolve,reject) => {
+
+    commModel.findOneAndUpdate({
+      cname: communityName,
+      $set: {
+        isActive: false
+      },
+      upsert: false,
+      new: true
+    }).then(() => {
+      resolve({
+        deleteStatus: true
+      })
+    }).catch(err => {
+      console.log(err);
+      reject({
+        deleteStatus: false
+      });
+    });
+    
+  });
+}
 module.exports = {
   createCommunity,
   getAllCommunities,
   findCommunity,
-  joinCommunity
+  joinCommunity,
+  deleteCommunity
 };

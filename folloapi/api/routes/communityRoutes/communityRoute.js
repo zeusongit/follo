@@ -14,4 +14,8 @@ routes.get("/community/:name", commController.findCommunity);
 
 routes.put("/community/join/:name", authChecker, commController.joinCommunity);
 
+routes.put("/community/delete/:name",commController.deleteCommunity);
+
+//routes.put("/community/unfollow/:name",commController.unfollowCommunity);
+
 module.exports = routes;
