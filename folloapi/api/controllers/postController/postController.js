@@ -55,12 +55,12 @@ let getAllPostOfUser = async (req, res) => {
         result = await postService.getAllPostsByCommunity(req.params.community);
     }
     console.log(result);
-    if (result) {
-        res.send(result);
+    if (result.length != 0) {
+        res.status(200).send(result);
     }
     else {
-        res.status(400).send({
-            status: 400,
+        res.status(404).send({
+            status: 404,
             message: 'cannot get posts'
         });
     }

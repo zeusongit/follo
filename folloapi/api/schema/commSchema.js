@@ -1,5 +1,9 @@
 let mongoose = require(__dirname + "/../db/mongoose.js");
 
+const postTemplate = {
+  id: String
+}
+
 let commSchemaTemplate = {
   cname: {
     type: String,
@@ -16,11 +20,9 @@ let commSchemaTemplate = {
     required: true,
     unique: false
   },
-  postids: {
-    type: String,
-    required: false,
-    unique: false
-  },
+  posts: [{
+    post: postTemplate
+  }],
   communityPicture: {
     type: String
   },
