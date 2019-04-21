@@ -37,13 +37,7 @@ let authChecker = async (req, res, next) => {
         });
 
     }
-  } else {
-    res.status(401).send({
-      status: 401,
-      msg: "unauthenticated"
-    });
   }
-};
 
 module.exports = authChecker;
 
