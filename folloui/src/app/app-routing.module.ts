@@ -4,7 +4,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SigninComponent } from './components/signin/signin.component';
-import { ContentComponent } from './components/content/content.component'
+import { ContentComponent } from './components/content/content.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'content', pathMatch: 'full' },
