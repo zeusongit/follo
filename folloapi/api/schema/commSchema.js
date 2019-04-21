@@ -3,7 +3,10 @@ let mongoose = require(__dirname + "/../db/mongoose.js");
 const postTemplate = {
   id: String
 }
-
+const createdByTemplate = {
+  id: String,
+  username: String
+}
 let commSchemaTemplate = {
   cname: {
     type: String,
@@ -27,9 +30,7 @@ let commSchemaTemplate = {
     type: String
   },
   createdBy: {
-    type: String,
-    required: true,
-    unique: false
+    user : createdByTemplate    
   },
   createdDate: {
     type: Date,

@@ -7,6 +7,9 @@ let createCommunity = (newCommObj, user) => {
     newCommunity.memberIds.push({
       member: user._id
     });
+    newCommunity.createdBy.user.id = user._id;
+    newCommunity.createdBy.user.username = user.username;
+
     newCommunity
       .save()
       .then((doc) => {

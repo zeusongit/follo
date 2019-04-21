@@ -11,7 +11,6 @@ let createCommunity = (req, res) => {
   if (req.file) {
     newCommunity.communityPicture = req.file.location;
   }
-  newCommunity.createdBy = req.user._id;
   commService.createCommunity(newCommunity, req.user)
     .then((result) => {
       if (result) {
