@@ -12,7 +12,7 @@ routes.get("/community/", commController.getAllCommunities);
 
 routes.get("/community/:name", commController.findCommunity);
 
-routes.put("/community/join/:name", authChecker, commController.joinCommunity);
+routes.put("/community/follow/:name", authChecker, commController.joinCommunity);
 
 routes.put("/community/delete/:name",commController.deleteCommunity);
 

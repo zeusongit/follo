@@ -5,8 +5,12 @@ let createCommunity = (newCommObj, user) => {
   return new Promise((resolve, reject) => {
     let newCommunity = new commModel(newCommObj);
     newCommunity.memberIds.push({
-      member: user._id
+      "member.id": user._id,
+      "member.username": user.username
     });
+    newCommunity.createdBy.user.id = user._id;
+    newCommunity.createdBy.user.username = user.username;
+
     newCommunity
       .save()
       .then((doc) => {
@@ -38,24 +42,23 @@ let updateUser = (user, community) => {
 }
 
 let getCommunityByName = async (communityname) => {
-  try {   
+  try {
     let community = await commModel.findCommunityByName(communityname);
-    console.log("cc:"+community);
+    console.log("cc:" + community);
     return community;
-  }
-  catch (e) {
-    console.log("cce:"+e);
+  } catch (e) {
+    console.log("cce:" + e);
     return null;
   }
 }
+
 let getAllCommunities = async () => {
-  try {   
+  try {
     let communities = await commModel.findAllCommunities();
-    console.log("cc:"+communities);
+    console.log("cc:" + communities);
     return communities;
-  }
-  catch (e) {
-    console.log("cce:"+e);
+  } catch (e) {
+    console.log("cce:" + e);
     return null;
   }
 }
@@ -63,18 +66,41 @@ let getAllCommunities = async () => {
 
 let findCommunity = (communityName) => {
   const community = commModel.findOne({
-    cname: communityName
+    cname: communityName,
+    isActive: true
   }).exec();
   return community;
 }
 
+let searchCommunityByKey = async function (key) {
+  console.log(key);
+
+  let communities = await commModel.find({
+    "isActive": true,
+    $and: [{
+        $or: [{
+          cname: {
+            $regex: '.*' + key + '.*',
+            $options: 'i'
+          }
+        }]
+      }
+    ]
+  })
+
+  if (!communities) {
+    return [];
+  }
+  return communities;
+}
 let joinCommunity = (communityName, user) => {
   return new Promise((resolve, reject) => {
     commModel.findOneAndUpdate({
       cname: communityName,
       $push: {
         "memberIds": {
-          member: user._id
+          "member.id": user._id,
+          "member.username": user.username
         }
       },
       upsert: false,
@@ -135,16 +161,16 @@ let deleteCommunity = (communityName) => {
 
 let unfollowCommunity = (communityName, user) => {
   return new Promise((resolve, reject) => {
-    let userId = user._id;    
+    let userId = user._id;
     commModel.findOneAndUpdate({
       cname: communityName,
       $pull: {
         "memberIds": {
-         "member" : userId
+          "member.id": userId
         }
       }
     }).then(() => {
-      unfollowUserCommunity(userId,communityName);
+      unfollowUserCommunity(userId, communityName);
       resolve({
         unfollowStatus: true
       })
@@ -157,11 +183,11 @@ let unfollowCommunity = (communityName, user) => {
   });
 }
 
-let unfollowUserCommunity = (userId,communityName) => {
-  userModel.findByIdAndUpdate(userId,{
+let unfollowUserCommunity = (userId, communityName) => {
+  userModel.findByIdAndUpdate(userId, {
     $pull: {
-      "followingCommunities" :{
-        "community.name" : communityName
+      "followingCommunities": {
+        "community.name": communityName
       }
     }
   }).exec();
@@ -174,5 +200,6 @@ module.exports = {
   joinCommunity,
   deleteCommunity,
   unfollowCommunity,
-  getCommunityByName
+  getCommunityByName,
+  searchCommunityByKey
 };
