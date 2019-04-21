@@ -145,7 +145,7 @@ let unfollowCommunity = (communityName, user) => {
       cname: communityName,
       $pull: {
         "memberIds": {
-         "member" : userId
+         "member.id" : userId
         }
       }
     }).then(() => {
