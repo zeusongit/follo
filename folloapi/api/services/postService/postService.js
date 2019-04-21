@@ -4,8 +4,8 @@ let userService = require(__dirname +
 let communityService = require(__dirname +
 "/../../services/communityService/communityService.js");   
 
-let createPost = async (newPostObj,commname,token) => {
-    let user = await userService.getUser(false,token); //get user
+let createPost = async (newPostObj,commname,user) => {
+  
     let community = await communityService.getCommunityByName(commname); //get community
     console.log(commname);
     return new Promise((resolve, reject) => {    
@@ -58,9 +58,8 @@ let createPost = async (newPostObj,commname,token) => {
     }
   }
 
-  let getAllPostsByUser = async (token) => {
+  let getAllPostsByUser = async (user) => {
     try {
-      let user = await userService.getUser(false,token); //get user
       let posts = await Post.findByUser(user.username);
       return posts;
     }

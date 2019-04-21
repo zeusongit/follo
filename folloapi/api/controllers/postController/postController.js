@@ -2,11 +2,8 @@ let postService = require(__dirname +
     "/../../services/postService/postService.js");         
     
 let createPost = async (req, res) => {
-  const token = req.header('Authorization').replace('Bearer ','');           
-  console.log(req.body);
   let postJSON=req.body;
-  console.log("params:"+JSON.stringify(req.params));
-  let result = await postService.createPost(postJSON,req.params.community,token);
+  let result = await postService.createPost(postJSON,req.params.community,req.user);
   console.log(result);
   if (result) {
       res.send(result);
@@ -36,8 +33,7 @@ let updatePost = async (req, res) => {
   }
 
 let getAllPostOfUser = async (req, res) => {
-    const token = req.header('Authorization').replace('Bearer ','');           
-    let result = await postService.getAllPostsByUser(token);
+    let result = await postService.getAllPostsByUser(req.user);
     console.log(result);
     if (result) {
         res.send(result);
