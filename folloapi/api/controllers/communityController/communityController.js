@@ -12,7 +12,7 @@ let createCommunity = (req, res) => {
     newCommunity.communityPicture = req.file.location;
   }
   newCommunity.createdBy = req.user._id;
-  commService.createCommunity(newCommunity, req.user._id)
+  commService.createCommunity(newCommunity, req.user)
     .then((result) => {
       if (result) {
         let community = {
@@ -21,7 +21,7 @@ let createCommunity = (req, res) => {
           memberIds: result.community.memberIds,
           createdBy: result.community.createdBy,
           createdDate: result.community.createdDate
-        }
+        }       
         res.send(community);
       } else {
         res.status(400).send({
@@ -39,6 +39,7 @@ let createCommunity = (req, res) => {
 
     })
 }
+
 
 /**
  *

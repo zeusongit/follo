@@ -24,7 +24,6 @@ const upload = multer({
 });
 
 let uploadImage = (req, res, next) => {
-
     const singleUpload = upload.single('commImage');
     singleUpload(req, res, function (err, some) {
         if (!err){

@@ -1,13 +1,16 @@
 let commModel = require(__dirname + "/../../models/community/commModel.js");
+let userModel = require(__dirname + "/../../models/userModel/userModel.js");
 
-let createCommunity = (newCommObj, userId) => {
+let createCommunity = (newCommObj, user) => {
   return new Promise((resolve, reject) => {
     let newCommunity = new commModel(newCommObj);
-    newCommunity.memberIds.push({member: userId});
+    newCommunity.memberIds.push({
+      member: user._id
+    });
     newCommunity
       .save()
       .then((doc) => {
-        console.log(doc);
+        updateUser(user, doc);
         resolve({
           community: doc
         });
@@ -18,6 +21,22 @@ let createCommunity = (newCommObj, userId) => {
       });
   });
 };
+
+let updateUser = (user, community) => {
+  console.log(user._id, community._id, community.cname);
+  userModel.findByIdAndUpdate(user._id, {
+    $push: {
+      "createdCommunities": {
+        "community.id": community._id,
+        "community.name": community.cname
+      }
+    }
+  }, {
+    new: true,
+    upsert: false
+  }).exec();
+
+}
 
 let getAllCommunities = () => {
   const communities = commModel.find().exec();
@@ -32,14 +51,16 @@ let findCommunity = (communityName) => {
 }
 
 let joinCommunity = (communityName, userId) => {
-  return new Promise((resolve, reject) => {     
+  return new Promise((resolve, reject) => {
     commModel.findOneAndUpdate({
       cname: communityName,
       $push: {
-        "memberIds":{member: userId }
+        "memberIds": {
+          member: userId
+        }
       },
       upsert: false,
-      new: true      
+      new: true
     }).then((doc) => {
       console.log(doc);
       resolve({
