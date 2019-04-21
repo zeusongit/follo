@@ -3,7 +3,10 @@ let mongoose = require(__dirname + "/../db/mongoose.js");
 const postTemplate = {
   id: String
 }
-
+const userTemplate = {
+  id: String,
+  username: String
+}
 let commSchemaTemplate = {
   cname: {
     type: String,
@@ -17,7 +20,7 @@ let commSchemaTemplate = {
   },
 
   memberIds: [{
-    member: String
+    member: userTemplate
   }  
 ],  
   posts: [{
@@ -27,9 +30,7 @@ let commSchemaTemplate = {
     type: String
   },
   createdBy: {
-    type: String,
-    required: true,
-    unique: false
+    user : userTemplate    
   },
   createdDate: {
     type: Date,
@@ -55,7 +56,7 @@ commSchema.statics.findCommunityByName = async function (name) {
 }
 
 commSchema.statics.findAllCommunities = async function () {
-  let comm = await this.find()
+  let comm = await this.find({ isActive : true })
   if (!comm){
       throw new Error('not found')
   }
