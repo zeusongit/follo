@@ -63,7 +63,7 @@ let getAllCommunities = async () => {
 
 let findCommunity = (communityName) => {
   const community = commModel.findOne({
-    cname: communityName
+    cname: communityName, isActive: true
   }).exec();
   return community;
 }

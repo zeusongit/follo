@@ -55,7 +55,7 @@ commSchema.statics.findCommunityByName = async function (name) {
 }
 
 commSchema.statics.findAllCommunities = async function () {
-  let comm = await this.find()
+  let comm = await this.find({ isActive : true })
   if (!comm){
       throw new Error('not found')
   }
