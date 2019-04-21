@@ -1,6 +1,7 @@
 import { CommunityService } from './../../services/community.service';
 import { Community } from './../../models/community';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-left-sidebar',
@@ -10,7 +11,8 @@ import { Component, OnInit } from '@angular/core';
 export class LeftSidebarComponent implements OnInit {
 
   favCommunities: Community[];
-  constructor(private comService: CommunityService) { }
+  constructor(private comService: CommunityService, private activatedRoute: ActivatedRoute) {
+   }
 
   ngOnInit() {
     // Call community service to get all fav communities
@@ -21,7 +23,7 @@ export class LeftSidebarComponent implements OnInit {
     // });
     const c = new Community();
     c.commDesc = 'Hello';
-    c.communityName = 'Testing Comm asjdkajslkdjaslkdjalkdj';
+    c.communityName = 'Testing Comm';
     this.favCommunities = [c];
   }
 }

@@ -7,13 +7,15 @@ import { SignupComponent } from './components/signup/signup.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SigninComponent } from './components/signin/signin.component';
+import { ContentComponent } from './components/content/content.component'
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', redirectTo: 'content', pathMatch: 'full'},
   { path: 'login', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'createcommunity', component: CreateCommunityComponent },
-  { path: 'viewcommunity/:commname',  component: ViewCommunityDetailComponent }
+  { path: 'community/:commname',  component: ViewCommunityDetailComponent },
+  { path: 'content', component: ContentComponent}
 ];
 
 @NgModule({
