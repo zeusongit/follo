@@ -1,16 +1,15 @@
 <div class="row view-comm">
   <div class="col-sm-12 community" *ngIf="community">
     <div class="card ">
-      <!-- *ngFor="let post of posts"> -->
       <div class="card-header "><img
-          [src]="(community !=null && community.communityPicture != null) ? community.communityPicture : '../../../assets/images/create-community-header.png'">
+          [src]="(community?.communityPicture != null) ? community.communityPicture : '../../../assets/images/create-community-header.png'">
         <div class="commDetail">
           <h4>{{community.cname | titlecase}}</h4>
-          <button type="button" class="btn btn-success join"><i class="fas fa-plus"></i> JOIN</button>
+          <button type="button" class="btn btn-success join"><i class="fas fa-plus"></i> FOLLOW</button>
         </div>
       </div>
       <div class="card-body">
-        <div class="comm-created-by"><span>Create by {{community.createdBy}} on
+        <div class="comm-created-by"><span>Create by {{community.createdBy?.user?.username}} on
             {{community.createdDate |  date:'MM/dd/yyyy'}}</span></div>
         {{community.description}}
       </div>

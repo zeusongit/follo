@@ -31,10 +31,10 @@ export class NavbarComponent implements OnInit {
       if (res.status === 200) {
         this.store.dispatch(new TokenActions.RemoveToken(null));
         localStorage.removeItem('userAuth');
-      } else {
-        // Show error on UI
         this.router.navigate(['']);
       }
+    }).catch(err => {
+      console.log('ERROR LOGGING OUT', err);
     });
   }
 }

@@ -19,7 +19,7 @@ export class RemoveToken implements Action {
 
 export class ProvideToken implements Action {
   readonly type = TokenActionTypes.PROVIDE_TOKEN;
-  constructor(public payload: any){ }
+  constructor(public payload: any) { }
 }
 
 

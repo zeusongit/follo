@@ -21,10 +21,12 @@ export class LoginService {
 
 
   doLogout(token: string) {
-    const httpHeaders = new HttpHeaders({
-      'content-type': 'application/json',
-      Authorization: 'Bearer ' + token
+    return this.http.post('http://localhost:3000/user/logout', null, {
+      headers: {
+        'content-type': 'application/json',
+        // tslint:disable-next-line:object-literal-key-quotes
+        'Authorization': 'Bearer ' + token
+      }, observe: 'response'
     });
-    return this.http.post<string>('http://localhost:3000/user/logout', null, { headers: httpHeaders, observe: 'response' });
   }
 }

@@ -19,11 +19,11 @@ export class CommunityService {
   }
 
   getAllCommunities() {
-    return this.http.get('/getAllCommunities', { observe: 'response' });
+    return this.http.get('http://localhost:3000/community', { observe: 'response' });
   }
 
   getAllCommunitiesForUser(username: string) {
-    return this.http.get(username + 'http://localhost:3000/getAllCommunitiesForUser', { observe: 'response' });
+    return this.http.get('http://localhost:3000/' + username + '/community', { observe: 'response' });
   }
 
   getCommunityPostsByCommName(commName: string, token: string) {

@@ -18,17 +18,24 @@ export class ViewCommunityDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute, private commService: CommunityService, private store: Store<any>) { }
 
   ngOnInit() {
-    this.route.params.subscribe(name => {
-      this.communityName = name.commname;
-    });
+    console.log('INSIDE VIEW DETAILS');
 
+    this.route.params.subscribe(name => {
+      this.community = [];
+      this.posts = [];
+      this.communityName = name.commname;
+      this.viewCommunityDetails();
+    });
+  }
+
+  viewCommunityDetails() {
     this.store.select('userAuth').subscribe((userAuth) => {
       console.log(`TOKENS STATUS CHANGED IN VIEW COMMUNITY: ${userAuth}`);
       console.log(userAuth);
       this.authToken = userAuth.token;
     });
 
-    this.commService.getCommunityDetails('carr1', this.authToken).toPromise()
+    this.commService.getCommunityDetails(this.communityName, this.authToken).toPromise()
       .then(res => {
         if (res.status === 200) {
           console.log('RESPONSE FOR GET COMM DETAILS ', res);
@@ -38,7 +45,7 @@ export class ViewCommunityDetailComponent implements OnInit {
         console.log('ERROR GETTING COMMUNITY DETAILS', err);
       });
 
-    this.commService.getCommunityPostsByCommName('carr1', this.authToken).toPromise()
+    this.commService.getCommunityPostsByCommName(this.communityName, this.authToken).toPromise()
       .then(res => {
         if (res.status === 200) {
           console.log(res);
