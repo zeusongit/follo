@@ -38,6 +38,7 @@ let updateUser = (user, community) => {
     new: true,
     upsert: false
   }).exec();
+  updateUserFollowCommunity(user, community);
 
 }
 
@@ -107,7 +108,7 @@ let joinCommunity = (communityName, user) => {
       new: true
     }).then((doc) => {
       console.log(doc);
-      updateUserFollowCommunity(user, doc)
+      updateUserFollowCommunity(user, doc);
       resolve({
         community: doc,
         joinStatus: true

@@ -133,12 +133,12 @@ let unfollowCommunity = (req, res) => {
     if (result) {
       res.status(500).send({
         message: " Community unfollowed successfully",
-        deleteStatus: result.unfollowStatus
+        unfollowStatus: result.unfollowStatus
       })
     } else {
       res.status(400).send({
         message: " Community unfollowed Failed",
-        deleteStatus: result.unfollowStatus
+        unfollowStatus: result.unfollowStatus
       })
     }
   })
