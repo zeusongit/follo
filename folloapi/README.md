@@ -290,3 +290,18 @@ response : {
     "__v": 0
 }
 ```
+### Community Creation Endpoints
+### POST /community/
+#### The following API will be used for creating communities
+### GET /community/
+#### The following API will be used for listing all communities that are active
+### GET /community/:name
+#### The following API will be used to find an active community with name
+### GET /community/?key=<subsetOfCommunityName>
+#### The following API will be used to get list of active communities that will get begin with the value passed in key
+### PUT /community/follow/:name
+#### The following API will be used for any user to join a particular community
+### PUT /community/unfollow/:name
+#### The following endpoint will allow a user to unfollow a community that he follows
+### PUT /community/delete/:name
+#### The following API will be used to deleting a community that a user has created. This will update the isActive value of the community schema to false
