@@ -291,17 +291,4 @@ response : {
 }
 ```
 ### Community Creation Endpoints
-### POST /community/
-#### The following API will be used for creating communities
-### GET /community/
-#### The following API will be used for listing all communities that are active
-### GET /community/:name
-#### The following API will be used to find an active community with name
-### GET /community/?key=<subsetOfCommunityName>
-#### The following API will be used to get list of active communities that will get begin with the value passed in key
-### PUT /community/follow/:name
-#### The following API will be used for any user to join a particular community
-### PUT /community/unfollow/:name
-#### The following endpoint will allow a user to unfollow a community that he follows
-### PUT /community/delete/:name
-#### The following API will be used to deleting a community that a user has created. This will update the isActive value of the community schema to false
+https://web.postman.co/collections/6342875-c6163ceb-29b9-4fc3-8994-b36b4e4e5002?workspace=92c46228-b716-4880-88f1-444f32cbbd7e
