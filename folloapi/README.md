@@ -290,3 +290,204 @@ response : {
     "__v": 0
 }
 ```
+### Community Endpoints
+https://web.postman.co/collections/6342875-c6163ceb-29b9-4fc3-8994-b36b4e4e5002?workspace=92c46228-b716-4880-88f1-444f32cbbd7e
+
+#### Create Community 
+#### /POST /community
+
+ ```
+ headers
+ Authorization <Token Key>
+ ```
+ ```
+ Request Body
+    Body - form-data
+
+    commImage - <Image To Upload>
+    cname - Friends
+    description - Watching Friends
+```
+```json
+Response
+{
+    "cname": "Friends",
+    "description": "Watching Friends",
+    "memberIds": [
+        {
+            "member": {
+                "id": "5cbe4a33f47c6d06a89337ea",
+                "username": "u6"
+            },
+            "_id": "5cbe4ab1f47c6d06a89337f3"
+        }
+    ],
+    "createdBy": {
+        "user": {
+            "id": "5cbe4a33f47c6d06a89337ea",
+            "username": "u6"
+        }
+    },
+    "createdDate": "2019-04-22T23:13:53.410Z"
+}
+```
+
+#### Find Community By Name
+#### GET /community/:name
+
+```json
+Response
+{
+    "createdBy": {
+        "user": {
+            "id": "5cbe4a33f47c6d06a89337ea",
+            "username": "u6"
+        }
+    },
+    "isActive": true,
+    "_id": "5cbe4a75f47c6d06a89337ee",
+    "cname": "Northeastern University",
+    "description": "Grad School",
+    "memberIds": [
+        {
+            "member": {
+                "id": "5cbe4a33f47c6d06a89337ea",
+                "username": "u6"
+            },
+            "_id": "5cbe4a75f47c6d06a89337ef"
+        }
+    ],
+    "posts": [],
+    "createdDate": "2019-04-22T23:12:53.942Z",
+    "cid": 1,
+    "__v": 0
+}
+```
+### GET ALL COMMUNITIES
+ #### GET /communities
+
+ ```json
+ Response
+ [
+    {
+        "createdBy": {
+            "user": {
+                "id": "5cbe4a33f47c6d06a89337ea",
+                "username": "u6"
+            }
+        },
+        "isActive": true,
+        "_id": "5cbe4a75f47c6d06a89337ee",
+        "cname": "Northeastern University",
+        "description": "Grad School",
+        "memberIds": [
+            {
+                "member": {
+                    "id": "5cbe4a33f47c6d06a89337ea",
+                    "username": "u6"
+                },
+                "_id": "5cbe4a75f47c6d06a89337ef"
+            }
+        ],
+        "posts": [],
+        "createdDate": "2019-04-22T23:12:53.942Z",
+        "cid": 1,
+        "__v": 0
+    },
+    {
+        "createdBy": {
+            "user": {
+                "id": "5cbe4a33f47c6d06a89337ea",
+                "username": "u6"
+            }
+        },
+        "isActive": true,
+        "_id": "5cbe4ab1f47c6d06a89337f2",
+        "cname": "Friends",
+        "description": "Watching Friends",
+        "communityPicture": "https://hex-clan-follo-community.s3.amazonaws.com/WIN_20190420_11_22_42_Pro.jpg",
+        "memberIds": [
+            {
+                "member": {
+                    "id": "5cbe4a33f47c6d06a89337ea",
+                    "username": "u6"
+                },
+                "_id": "5cbe4ab1f47c6d06a89337f3"
+            }
+        ],
+        "posts": [],
+        "createdDate": "2019-04-22T23:13:53.410Z",
+        "cid": 2,
+        "__v": 0
+    }
+]
+```
+### Follow Community
+ #### PUT /community/follow/:name
+
+ ``` 
+ header
+  Authrization Bearer <Token>
+```
+```json
+Response
+{
+    "message": " Community joined Successfully",
+    "joinStatus": true,
+    "community": {
+        "createdBy": {
+            "user": {
+                "id": "5cbe4a33f47c6d06a89337ea",
+                "username": "u6"
+            }
+        },
+        "isActive": true,
+        "_id": "5cbe4e87e47f684534e6b3fc",
+        "cname": "Breaking Bad",
+        "description": "Meth",
+        "communityPicture": "https://hex-clan-follo-community.s3.amazonaws.com/WIN_20190420_11_22_42_Pro.jpg",
+        "memberIds": [
+            {
+                "member": {
+                    "id": "5cbe4a33f47c6d06a89337ea",
+                    "username": "u6"
+                },
+                "_id": "5cbe4e87e47f684534e6b3fd"
+            }
+        ],
+        "posts": [],
+        "createdDate": "2019-04-22T23:30:15.294Z",
+        "cid": 5,
+        "__v": 0
+    }
+}
+```
+#### Unfollow Community
+#### PUT /community/unfollow/:name
+
+``` 
+headers
+
+Authorization Bearer <Token>
+```
+```
+Response
+{
+    "message": " Community unfollowed successfully",
+    "unfollowStatus": true
+}
+```
+#### DELETE COMMUNITY
+
+#### /PUT /communtiy/delete/:name
+
+```
+Authorization   Bearer <Token>
+
+```
+```json
+{
+    "message": " Community deleted successfully",
+    "deleteStatus": true
+}
+```
