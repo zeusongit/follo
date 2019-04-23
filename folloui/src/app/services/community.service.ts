@@ -12,12 +12,17 @@ export class CommunityService {
 
   createCommunity(community: Community, commImage: File, token: string) {
     const formData = new FormData();
-    formData.append('commImage', commImage, commImage.name);
-    formData.append('commName', community.communityName);
-    formData.append('commDesc', community.commDesc);
-    return this.http.post<any>('http:.//localhost:3000/community', formData, {
+    console.log('community details');
+    console.log(community);
+    if (commImage){
+      formData.append('commImage', commImage, commImage.name);
+    }
+    formData.append('cname', community.cname);
+    formData.append('description', community.description);
+    console.log('formDAta');
+    console.log(formData);
+    return this.http.post<any>('http://localhost:3000/community', formData, {
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       }, observe: 'response'
     });

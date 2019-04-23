@@ -17,14 +17,16 @@ export class CreateCommunityComponent implements OnInit {
   fileToUpload: File;
   @ViewChild('labelImport')
   labelImport: ElementRef;
-  authToken: string;
+  authToken: any;
   constructor(private commService: CommunityService, private store: Store<any>, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.store.select('userAuth').subscribe((userAuth) => {
-      console.log(`TOKENS STATUS CHANGED IN CREATE POST: ${userAuth}`);
+      
       console.log(userAuth);
-      this.authToken = userAuth.token;
+      this.authToken = userAuth;
+
+      
     });
 
     this.createComForm = this.fb.group({
@@ -44,7 +46,7 @@ export class CreateCommunityComponent implements OnInit {
     if (this.createComForm.valid) {
       this.community = new Community(this.createComForm.value);
       // Call the community service to add this community to the fav list
-      this.commService.createCommunity(this.community, this.fileToUpload, this.authToken)
+      this.commService.createCommunity(this.community, this.fileToUpload, this.authToken.token)
         .toPromise().then(resp => {
           if (resp.status === 200) {
             console.log("SUCCESS CREATE COMMUNITY");
