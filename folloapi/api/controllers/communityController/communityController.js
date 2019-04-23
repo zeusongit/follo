@@ -131,7 +131,7 @@ let deleteCommunity = (req, res) => {
 let unfollowCommunity = (req, res) => {
   commService.unfollowCommunity(req.params.name, req.user).then((result) => {
     if (result) {
-      res.status(500).send({
+      res.send({
         message: " Community unfollowed successfully",
         unfollowStatus: result.unfollowStatus
       })

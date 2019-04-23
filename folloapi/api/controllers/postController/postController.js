@@ -90,10 +90,8 @@ let searchPost = async (req, res) => {
 }
 
 let createComment = async (req, res) => {
-    let commentJSON = req.body
+    let commentJSON = req.body;
     let result = await postService.createCommentForPost(commentJSON, req.params.post, req.user);
-    console.log(result);
-
     if (result) {
         res.send(result);
     } else {
@@ -104,6 +102,69 @@ let createComment = async (req, res) => {
     }
 }
 
+let checkCreator = (req, res, next) => {
+    postService.checkCreator(req.params.post, req.user).then(result => {
+        if (result.follower) {
+            next()
+        } else {
+            res.status(400).send({
+                message: "Creator mismatch"
+            })
+        }
+    }).catch((err) => {
+        res.status(500).send({
+            message: err.message
+        });
+    });
+}
+
+let deleteComment = (req, res) => {
+    postService.deleteComment(req.params.post, req.params.comment).then(result => {
+        if (result) {
+            res.send({
+                message: " Comment deleted Successfully",
+                deleteStatus: result.deleteStatus
+            })
+        } else {
+            res.status(400).send({
+                message: " Error while deleting",
+                deleteStatus: result.deleteStatus
+            })
+        }
+    }).catch((err) => {
+        res.status(500).send({
+            message: err.message || "Error while Deleting Comment"
+        });
+    })
+}
+// let updateComment = async (req,res) => {
+//     let updateCommentJSON = req.body;
+//     let result = await postService.updateComment(updateCommentJSON, req.params.comment, req.user);
+//     if (result) {
+//         res.send(result);
+//     } else {
+//         res.status(400).send({
+//             status: 400,
+//             message: 'cannot update comment'
+//         });
+//     }
+// }
+
+
+
+let checkFollower = (req) => {
+    let user = req.user;
+    let communityName = req.params.community;
+    let follower = postService.checkFollower(user, communityName);
+    if (follower) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
 module.exports = {
     createPost,
     updatePost,
@@ -111,5 +172,9 @@ module.exports = {
     getAllPostOfComm,
     getSinglePost,
     searchPost,
-    createComment
+    createComment,
+    checkFollower,
+    //updateComment,
+    checkCreator,
+    deleteComment
 };

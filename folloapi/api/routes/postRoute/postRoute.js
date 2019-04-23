@@ -8,12 +8,16 @@ routes.post('/:community/post', authChecker, postController.createPost);
 
 routes.put('/:community/post/:id', authChecker, postController.updatePost);
 
-//routes.get('/:community/post', authChecker, postController.getAllPostOfComm);
+routes.get('/:community/post', authChecker, postController.getAllPostOfComm);
 
-routes.get('/:community/post', postController.getAllPostOfComm);
+//routes.get('/:community/post', postController.getAllPostOfComm);
 
 routes.get('/:community/post/:id', authChecker, postController.getSinglePost);
 
-routes.put('/:post/comment',authChecker, postController.createComment);
+routes.post('/:community/:post/comment',authChecker, postController.createComment);
+
+//routes.put('/:commentId',authChecker, postController.updateComment);
+
+routes.put('/:post/delete/:comment',authChecker, postController.checkCreator, postController.deleteComment);
 
 module.exports = routes;

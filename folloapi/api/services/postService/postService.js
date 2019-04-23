@@ -1,6 +1,7 @@
 let Post = require(__dirname + "/../../models/post/postModel.js");
-let userService = require(__dirname +
-  "/../../services/userService/userService.js");
+
+let commModel = require(__dirname + "/../../models/community/commModel.js");
+
 let communityService = require(__dirname +
   "/../../services/communityService/communityService.js");
 
@@ -106,9 +107,7 @@ let searchPosts = async (key) => {
 
 let createCommentForPost = (comments, postId, user) => {
   return new Promise((resolve, reject) => {
-    console.log(comments, postId, user);
-
-    Post.findByIdAndUpdate(id, {
+    Post.findByIdAndUpdate(postId, {
       $push: {
         "comments": {
           "comment.username": user.username,
@@ -130,12 +129,91 @@ let createCommentForPost = (comments, postId, user) => {
   })
 
 }
-module.exports = {
-  createPost,
-  getPostById,
-  getAllPostsByUser,
-  getAllPostsByCommunity,
-  updatePost,
-  searchPosts,
-  createCommentForPost
-};
+
+let checkCreator = (postId, user) => {
+  return new Promise((resolve, reject) => {
+    Post.findById(postId).then((doc) => {
+      console.log("Community Creator "+doc.created_by._id);
+      console.log("Authorozed Use"+ user._id);
+      console.log(doc.created_by._id == user._id);    
+      
+      
+      if (doc.created_by._id == user._id) {
+        resolve({
+          follower: true
+        })
+      } else {
+        resolve({
+          follower: false
+        })
+      }
+    }).catch((err) => {
+      console.log("cannot find post");
+      console.log(err);
+      reject(null);
+    })
+  })
+}
+
+// let updateComment = (updatedComment, postId, user) => {
+//   console.log(updatedComment, postId, user);
+//   Post.update({'comments._id': })
+// }
+
+let checkFollower = (user, communityName) => {
+  return new Promise((resolve, reject) => {
+    commModel.findOne({
+      cname: communityName,
+      isActive: true
+    }).exec().then((doc) => {
+      console.log(doc);
+      if (doc.memberIds.members.filter(e => e.id === user._id)) {
+        resolve({
+          follower: true
+        })
+      } else {
+        resolve({
+          follower: false
+        })
+      }
+    }).catch(err => {
+      console.log(err);
+      reject(null);
+    });
+  })
+}
+
+let deleteComment = (postId, commentId) => {
+    return new Promise((resolve, reject) => {
+        Post.findByIdAndUpdate(postId, {
+          $pull: {
+            "comments": {
+              "_id": commentId
+            }
+          },
+          new: true
+        }).then(() => {
+          resolve({
+            deleteStatus: true
+          })
+        }).catch(err => {
+          console.log(err);
+          reject({
+            deleteStatus: false
+          })
+        })
+      })
+    }
+
+    module.exports = {
+      createPost,
+      getPostById,
+      getAllPostsByUser,
+      getAllPostsByCommunity,
+      updatePost,
+      searchPosts,
+      createCommentForPost,
+      checkFollower,
+      checkCreator,
+      deleteComment
+    };
