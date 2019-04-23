@@ -1,6 +1,8 @@
 import { CommunityService } from './../../services/community.service';
-import { Community } from './../../models/community';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-left-sidebar',
@@ -9,19 +11,40 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeftSidebarComponent implements OnInit {
 
-  favCommunities: Community[];
-  constructor(private comService: CommunityService) { }
+  followingCommunities: any;
+  createdCommunities: any;
+  user: any;
+  constructor(private userService: UserService, private router: Router, private store: Store<any>) {
+  }
 
   ngOnInit() {
-    // Call community service to get all fav communities
-    // this.comService.getAllCommunitiesForUser('username').toPromise().then(res => {
-    //   if (res.status === 200) {
-    //     this.favCommunities = res.body;
-    //   }
-    // });
-    const c = new Community();
-    c.commDesc = 'Hello';
-    c.communityName = 'Testing Comm asjdkajslkdjaslkdjalkdj';
-    this.favCommunities = [c];
+    this.store.select('userAuth').subscribe((userAuth) => {
+      console.log(`LEFT BAR: ${userAuth}`);
+      console.log(userAuth);
+      this.user = userAuth;
+      this.populateCommunity();
+    });
+  }
+
+  populateCommunity() {
+    if (this.user != null) {
+
+      this.userService.getUserDetail(this.user.token, this.user.email).toPromise()
+        .then(res => {
+          if (res.status === 200) {
+            console.log('GET ALL USER', res.body.createdCommunities);
+            this.followingCommunities = res.body.followingCommunities;
+            this.createdCommunities = res.body.createdCommunities;
+          }
+        }).catch(err => {
+          console.log('ERROR GETTING USER DATA', err);
+        });
+
+    }
+  }
+
+  viewCommDetail(cname: string) {
+    console.log('VIEW COMM DETAIL');
+    this.router.navigate(['/community', cname]);
   }
 }

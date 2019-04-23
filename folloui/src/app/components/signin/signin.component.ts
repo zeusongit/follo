@@ -7,6 +7,8 @@ import { Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 import * as TokenActions from './../../token-store/actions';
+import { Router } from '@angular/router';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 @Component({
   selector: 'app-signin',
@@ -20,13 +22,13 @@ export class SigninComponent implements OnInit {
   private formSubmitAttempt: boolean;
   private isInvalidCred: boolean;
   errorMsg: string;
-  constructor(private ls: LoginService, private fb: FormBuilder, private location: Location, private store: Store<any>) { }
+  loginError: string;
+  constructor(private ls: LoginService, private fb: FormBuilder, private location: Location, private store: Store<any>, private router: Router) { }
 
   reset() {
     this.formSubmitAttempt = false;
     this.isInvalidCred = false;
     this.loginForm.reset();
-    this.location.back();
   }
 
   ngOnInit() {
@@ -43,23 +45,6 @@ export class SigninComponent implements OnInit {
     this.formSubmitAttempt = true;
     if (this.loginForm.valid) {
       this.loginData = new Login(this.loginForm.value);
-      console.log('logging in with');
-      console.log(this.loginData);
-      // const httpOptions = {
-      //   headers: new HttpHeaders({
-      //     'Content-Type': 'application/json'
-      //   })
-      // };
-
-
-      // contonue from here
-      // this.http.post('http://localhost:3000/login/', {username: this.loginData.username, password: this.loginData.password}, httpOptions)
-      // .subscribe((data) =>{
-      //   console.log()
-      // })
-      // this.store.dispatch(new LoginActions.LoggedInStatus(true));
-      // this.isInvalidCred = false;
-      // this.reset();
       this.ls.doLogin(this.loginData).toPromise()
       .then(res => {
         if (res.status === 200) {
@@ -68,15 +53,14 @@ export class SigninComponent implements OnInit {
           console.log('localStorage');
           console.log(localStorage.getItem('userAuth'));
           this.store.dispatch(new TokenActions.AddToken(res.body));
-          this.isInvalidCred = false;
           this.reset();
-        } else {
-          // Show error on UI
-          this.isInvalidCred = true;
-          this.errorMsg = res.statusText;
+          console.log('now navigating');
+          this.router.navigate(['content']);
         }
       }).catch(e => {
         console.log(e);
+        this.isInvalidCred = true;
+        this.loginError = "Invalid Credentials";
       })
       ;
     }
@@ -110,5 +94,6 @@ export class SigninComponent implements OnInit {
         return '';
       }
     }
+
   }
 }

@@ -1,4 +1,4 @@
-let mongoose = require(__dirname+'/../db/mongoose.js');
+let mongoose = require(__dirname + '/../db/mongoose.js');
 
 const mediaTemplate = {
     url: String
@@ -6,9 +6,15 @@ const mediaTemplate = {
 const eventTemplate = {
     name: String,
     desc: String,
-    location:String,
+    location: String,
     date: Date,
     url: String
+}
+
+const commentTemplate = {
+    username: String,
+    commentDate: Date,
+    commentText: String
 }
 
 let postSchemaTemplate = {
@@ -30,7 +36,7 @@ let postSchemaTemplate = {
         default: 'text'
     },
 
-    event_desc:[{
+    event_desc: [{
         event: eventTemplate
     }],
 
@@ -58,37 +64,44 @@ let postSchemaTemplate = {
         username: String
     },
 
-    posted_on:{
+    posted_on: {
         type: Date,
-		default: Date.now
+        default: Date.now
     },
 
-    last_updated_on:{
+    last_updated_on: {
         type: Date,
-		default: Date.now
+        default: Date.now
     },
 
-    is_active:{
+    is_active: {
         type: Boolean,
         default: true
-    }
+    },
+    comments: [{
+        comment: commentTemplate
+    }]
 };
 
 let postSchema = new mongoose.Schema(postSchemaTemplate, {
-  collection: "posts"
+    collection: "posts"
 });
 
-postSchema.statics.findById = async function (id){
-    let post = await this.findOne({"_id":id})
-    if (!post){
+postSchema.statics.findById = async function (id) {
+    let post = await this.findOne({
+        "_id": id
+    })
+    if (!post) {
         return null;
     }
     return post;
 }
 
-postSchema.statics.updateById = async function (id,oldPost){
-    let post = await this.findOne({"_id":id})
-    if (!post){
+postSchema.statics.updateById = async function (id, oldPost) {
+    let post = await this.findOne({
+        "_id": id
+    })
+    if (!post) {
         return null;
     }
     return post;
@@ -96,16 +109,20 @@ postSchema.statics.updateById = async function (id,oldPost){
 
 
 postSchema.statics.findByCommunity = async function (community) {
-    let posts = await this.find({"parent_community.cname": community})
-    if (!posts){
+    let posts = await this.find({
+        "parent_community.cname": community
+    })
+    if (!posts) {
         return [];
     }
     return posts;
 }
 
 postSchema.statics.findByUser = async function (username) {
-    let posts = await this.find({"created_by.username": username})
-    if (!posts){
+    let posts = await this.find({
+        "created_by.username": username
+    })
+    if (!posts) {
         return [];
     }
     return posts;
@@ -115,19 +132,32 @@ postSchema.statics.searchPost = async function (key) {
     //let posts = await this.find({title: new RegExp('^'+key+'$', "i")})
     console.log(key)
     let posts = await this.find({
-        $and: [
-            { $or: [{title: { $regex: '.*' + key + '.*', $options: 'i' } }] },
-            { $or: [{content: { $regex: '.*' + key + '.*', $options: 'i' } }] }
+        $and: [{
+                $or: [{
+                    title: {
+                        $regex: '.*' + key + '.*',
+                        $options: 'i'
+                    }
+                }]
+            },
+            {
+                $or: [{
+                    content: {
+                        $regex: '.*' + key + '.*',
+                        $options: 'i'
+                    }
+                }]
+            }
         ]
     })
-    if (!posts){
+    if (!posts) {
         return [];
     }
     return posts;
 }
 
 
-postSchema.methods.ok = async function(){
+postSchema.methods.ok = async function () {
     console.log("OK");
     return true;
 }

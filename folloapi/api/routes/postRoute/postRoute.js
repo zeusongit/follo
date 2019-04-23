@@ -17,4 +17,12 @@ routes.get('/:community/post/:id/upvote', authChecker, postController.upvotePost
 
 routes.get('/:community/post/:id/downvote', authChecker, postController.downvotePost);
 
+routes.post('/:community/:post/comment',authChecker, postController.checkFollower, postController.createComment);
+
+//routes.put('/:commentId',authChecker, postController.updateComment);
+
+routes.put('/:post/delete/:comment',authChecker, postController.checkCreator, postController.deleteComment);
+
+//routes.get('/:post/comment',authChecker, postController.getAllPostComments);
+
 module.exports = routes;

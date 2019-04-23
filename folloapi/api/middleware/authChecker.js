@@ -1,14 +1,17 @@
-const jwt = require('jsonwebtoken');
-const config = require(__dirname+'/../../config/config.js');
+const jwt = require("jsonwebtoken");
+const config = require(__dirname + "/../../config/config.js");
 const jwtKey = config.JWT_KEY;
 console.log(jwtKey);
-let User = require(__dirname+'/../models/userModel/userModel.js');
+let User = require(__dirname + "/../models/userModel/userModel.js");
 
 let authChecker = async (req, res, next) => {
     if (req.header('Authorization')){
+        console.log('some authorization header found');
         try{
             const token = req.header('Authorization').replace('Bearer ','');
             console.log(token);
+            console.log(jwtKey);
+            
     
             const decodedToken = jwt.verify(token, jwtKey);
             const user = await User.findOne({email: decodedToken.email, 'tokens.token': token});
@@ -35,8 +38,9 @@ let authChecker = async (req, res, next) => {
             status: 401,
             msg:"unauthenticated"
         });
-    }
-}
 
+    }
+  }
 
 module.exports = authChecker;
+
