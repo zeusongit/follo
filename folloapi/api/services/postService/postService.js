@@ -132,12 +132,8 @@ let createCommentForPost = (comments, postId, user) => {
 
 let checkCreator = (postId, user) => {
   return new Promise((resolve, reject) => {
-    Post.findById(postId).then((doc) => {
-      console.log("Community Creator "+doc.created_by._id);
-      console.log("Authorozed Use"+ user._id);
-      console.log(doc.created_by._id == user._id);    
-      
-      
+    Post.findById(postId).then((doc) => {     
+      console.log(doc.created_by._id == user._id);
       if (doc.created_by._id == user._id) {
         resolve({
           follower: true
@@ -162,18 +158,22 @@ let checkCreator = (postId, user) => {
 
 let checkFollower = (user, communityName) => {
   return new Promise((resolve, reject) => {
-    commModel.findOne({
+    console.log(user._id,communityName);    
+    commModel.find({
       cname: communityName,
-      isActive: true
+      isActive: true,
+      memberIds:{
+        $elemMatch:{ "member.id": user._id}
+      }
     }).exec().then((doc) => {
-      console.log(doc);
-      if (doc.memberIds.members.filter(e => e.id === user._id)) {
-        resolve({
-          follower: true
+      console.log(doc);      
+      if(doc && doc.length > 0){
+         resolve({
+          followerStatus: true
         })
-      } else {
-        resolve({
-          follower: false
+      }else{
+         resolve({
+          followerStatus: false
         })
       }
     }).catch(err => {

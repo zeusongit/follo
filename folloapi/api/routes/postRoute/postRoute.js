@@ -14,7 +14,7 @@ routes.get('/:community/post', authChecker, postController.getAllPostOfComm);
 
 routes.get('/:community/post/:id', authChecker, postController.getSinglePost);
 
-routes.post('/:community/:post/comment',authChecker, postController.createComment);
+routes.post('/:community/:post/comment',authChecker, postController.checkFollower, postController.createComment);
 
 //routes.put('/:commentId',authChecker, postController.updateComment);
 
