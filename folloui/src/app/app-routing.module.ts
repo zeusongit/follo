@@ -1,3 +1,4 @@
+import { ViewPostDetailComponent } from './components/view-post-detail/view-post-detail.component';
 import { ViewSearchResultComponent } from './components/view-search-result/view-search-result.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { ViewCommunityDetailComponent } from './components/view-community-detail/view-community-detail.component';
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'community/post/create', component: CreatePostComponent },
   { path: 'community/:cname', component: ViewCommunityDetailComponent },
   { path: 'content', component: ContentComponent },
-  { path: 'search/:searchkey', component: ViewSearchResultComponent }
+  { path: 'search/:searchkey', component: ViewSearchResultComponent },
+  { path: 'community/:cname/post/:postId', component: ViewPostDetailComponent }
 ];
 
 @NgModule({

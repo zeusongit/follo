@@ -7,13 +7,13 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item" *ngFor="let comm of communities" [routerLink]="[ '/community', comm.cname ]">
           <div class="row">
-            <div class="col-sm-5">
+            <div class="col-sm-4">
               <div class="image">
                 <img src="../../../assets/images/f1.png">
               </div>
               <b>{{comm.cname}}</b>
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-8">
               <p>{{comm.description}}</p>
             </div>
           </div>

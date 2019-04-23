@@ -23,7 +23,8 @@
         <hr>
         <p>{{post.content}}</p>
         <hr>
-        <button type="button" class="btn btn-link comment"><i class="fas fa-comments"></i></button>
+        <button type="button" class="btn btn-link comment"
+          [routerLink]="[ '/community/'+ communityName +'/post/', post._id ]"><i class="fas fa-comments"></i></button>
         <button type="button" class="btn btn-link up"><i class="fas fa-angle-double-up"></i></button>
         <button type="button" class="btn btn-link down"><i class="fas fa-angle-double-down"></i></button>
       </div>

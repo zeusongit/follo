@@ -24,6 +24,7 @@ import { ViewCommunityDetailComponent } from './components/view-community-detail
 import { MainComponent } from './components/main/main.component';
 import { ContentComponent } from './components/content/content.component';
 import { ViewSearchResultComponent } from './components/view-search-result/view-search-result.component';
+import { ViewPostDetailComponent } from './components/view-post-detail/view-post-detail.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { ViewSearchResultComponent } from './components/view-search-result/view-
     MainComponent,
     ContentComponent,
     CreatePostComponent,
-    ViewSearchResultComponent
+    ViewSearchResultComponent,
+    ViewPostDetailComponent
   ],
   imports: [
     BrowserModule,
