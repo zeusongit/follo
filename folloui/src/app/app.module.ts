@@ -16,7 +16,6 @@ import { FormsModule } from '@angular/forms';
 import { MainContentGridComponent } from './components/main-content-grid/main-content-grid.component';
 import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.component';
 import { CreateCommunityComponent } from './components/create-community/create-community.component';
-import { HomeComponent } from './components/home/home.component';
 import { StoreModule } from '@ngrx/store';
 import { loginReducer } from './reducers/login.reducers';
 import { reducer as authTokenReducer } from './token-store/reducer';
@@ -37,7 +36,6 @@ import { ViewSearchResultComponent } from './components/view-search-result/view-
     MainContentGridComponent,
     RightSidebarComponent,
     CreateCommunityComponent,
-    HomeComponent,
     ViewCommunityDetailComponent,
     MainComponent,
     ContentComponent,
