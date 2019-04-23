@@ -18,6 +18,7 @@ let createPost = async (req, res) => {
       message: "cannot create post"
     });
   }
+};
 
 
 let updatePost = async (req, res) => {
@@ -50,7 +51,7 @@ let getAllPostOfUser = async (req, res) => {
         });
     }
   }
-};
+
 
 let getAllPostOfComm = async (req, res) => {
   let result = {};
