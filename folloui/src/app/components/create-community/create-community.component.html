@@ -1,5 +1,5 @@
 <div class="row create-comm">
-  <div class="col-sm-9">
+  <div class="col-sm-12">
     <div class="card">
       <h5 class="card-header"><img src="../../../assets/images/create-community-header.png"></h5>
       <div class="card-body">
@@ -8,13 +8,13 @@
         <form [formGroup]="createComForm">
           <div class="form-group">
             <label>Community name</label>
-            <input type="text" class="form-control" name="communityName" formControlName="communityName"
+            <input type="text" class="form-control" name="cname" formControlName="cname"
               aria-describedby="emailHelp" placeholder="Enter community name">
             <small id="emailHelp" class="form-text text-muted">This will be added to your favorite communities.</small>
           </div>
           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" rows="4" name="commDesc" formControlName="commDesc"
+            <textarea class="form-control" rows="4" name="description" formControlName="description"
               placeholder="Tell about this community in few word"></textarea>
           </div>
           <div class="form-group">
@@ -32,7 +32,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-3">
+  <!-- <div class="col-sm-3">
     <div class="card">
       <h5 class="card-header"><img src="../../../assets/images/rightbar-header.png"></h5>
       <div class="card-body">
@@ -41,5 +41,5 @@
           culpa sequi nesciunt ad eos, dolor nulla! Laborum, velit alias rerum deserunt commodi distinctio officia?</p>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

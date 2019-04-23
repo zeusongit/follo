@@ -69,24 +69,30 @@
 .card {
     margin-top: 20px;
 
-    a {
-        display: block;
-        font-size: 20px;
+    button {
+        font-size: 15px;
         text-decoration: none;
+        font-weight: 700;
     }
 }
 
 .community {
     max-height: 90%;
 
+    .mrg {
+        margin-top: 0;
+    }
+
     ul {
         overflow-y: scroll;
         overflow-x: hidden;
 
-        a {
+        .btn-link {
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
+            width: 100%;
+            text-align: left;
 
             &:hover {
                 overflow: visible;
@@ -106,4 +112,21 @@
     position: fixed;
     top: 107px;
     z-index: 2;
+}
+
+#headingOne,
+#headingTwo {
+    padding: 0;
+    cursor: pointer;
+}
+
+.heading {
+    font-size: 18px;
+    color: #000;
+}
+
+i {
+    float: right;
+    margin-top: 6px;
+    margin-right: 6px;
 }
