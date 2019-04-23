@@ -1,3 +1,4 @@
+import { CreatePostComponent } from './components/create-post/create-post.component';
 import { ViewCommunityDetailComponent } from './components/view-community-detail/view-community-detail.component';
 import { CreateCommunityComponent } from './components/create-community/create-community.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'login', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'community/create', component: CreateCommunityComponent },
+  { path: 'community/post/create', component: CreatePostComponent },
   { path: 'community/:commname', component: ViewCommunityDetailComponent },
   { path: 'content', component: ContentComponent }
 ];

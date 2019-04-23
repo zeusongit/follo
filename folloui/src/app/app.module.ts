@@ -1,3 +1,4 @@
+import { CreatePostComponent } from './components/create-post/create-post.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -18,7 +19,7 @@ import { CreateCommunityComponent } from './components/create-community/create-c
 import { HomeComponent } from './components/home/home.component';
 import { StoreModule } from '@ngrx/store';
 import { loginReducer } from './reducers/login.reducers';
-import { reducer as authTokenReducer } from "./token-store/reducer";
+import { reducer as authTokenReducer } from './token-store/reducer';
 import { ViewCommunityDetailComponent } from './components/view-community-detail/view-community-detail.component';
 import { MainComponent } from './components/main/main.component';
 import { ContentComponent } from './components/content/content.component';
@@ -38,7 +39,8 @@ import { ContentComponent } from './components/content/content.component';
     HomeComponent,
     ViewCommunityDetailComponent,
     MainComponent,
-    ContentComponent
+    ContentComponent,
+    CreatePostComponent
   ],
   imports: [
     BrowserModule,
