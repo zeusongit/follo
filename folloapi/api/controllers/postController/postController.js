@@ -3,7 +3,12 @@ let postService = require(__dirname +
     
 let createPost = async (req, res) => {
   let postJSON=req.body;
-  let result = await postService.createPost(postJSON,req.params.community,req.user);
+  console.log("file-"+req.files);
+  let ufile=null;
+  if(ufile){
+    ufile=req.files;
+  }
+  let result = await postService.createPost(postJSON,req.params.community,req.user,ufile);
   console.log(result);
   if (result) {
       res.send(result);
@@ -22,11 +27,11 @@ let updatePost = async (req, res) => {
     let result = await postService.updatePost(req.params.id,postJSON);
     console.log(result);
     if (result) {
-        res.send(result);
+        res.status(200).send(result);
     }
     else {
-        res.status(400).send({
-            status: 400,
+        res.status(404).send({
+            status: 404,
             message: 'cannot update post'
         });
     }
@@ -36,11 +41,11 @@ let getAllPostOfUser = async (req, res) => {
     let result = await postService.getAllPostsByUser(req.user);
     console.log(result);
     if (result) {
-        res.send(result);
+        res.status(200).send(result);
     }
     else {
-        res.status(400).send({
-            status: 400,
+        res.status(404).send({
+            status: 404,
             message: 'cannot get posts'
         });
     }
@@ -71,26 +76,56 @@ let getAllPostOfUser = async (req, res) => {
     let result = await postService.getPostById(req.params.id);
     console.log(result);
     if (result) {
-        res.send(result);
+        res.status(200).send(result);
     }
     else {
-        res.status(400).send({
-            status: 400,
+        res.status(404).send({
+            status: 404,
             message: 'cannot get post'
         });
     }
   }
 
-  let searchPost = async (req, res) => {
-    console.log(req.params.key);
-    let result = await postService.searchPost(req.params.key);
+//   let searchPost = async (req, res) => {
+//     console.log(req.params.key);
+//     let result = await postService.searchPost(req.params.key);
+//     console.log(result);
+//     if (result) {
+//         res.status(200).send(result);
+//     }
+//     else {
+//         res.status(404).send({
+//             status: 404,
+//             message: 'cannot get post'
+//         });
+//     }
+//   }
+
+  let upvotePost = async (req, res) => {
+    console.log("--"+req.params.id);
+    let result = await postService.upvotePost(req.params.id,req.user);
     console.log(result);
     if (result) {
-        res.send(result);
+        res.status(200).send(result);
     }
     else {
-        res.status(400).send({
-            status: 400,
+        res.status(404).send({
+            status: 404,
+            message: 'cannot get post'
+        });
+    }
+  }
+
+  let downvotePost = async (req, res) => {
+    console.log("--"+req.params.id);
+    let result = await postService.downvotePost(req.params.id,req.user);
+    console.log(result);
+    if (result) {
+        res.status(200).send(result);
+    }
+    else {
+        res.status(404).send({
+            status: 404,
             message: 'cannot get post'
         });
     }
@@ -102,6 +137,7 @@ let getAllPostOfUser = async (req, res) => {
     getAllPostOfUser,
     getAllPostOfComm,
     getSinglePost,
-    searchPost
+    upvotePost,
+    downvotePost
   };
   

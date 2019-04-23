@@ -1,7 +1,6 @@
 let mongoose = require(__dirname+'/../db/mongoose.js');
 
 const mediaTemplate = {
-    name: String,
     url: String
 }
 const eventTemplate = {
@@ -42,6 +41,16 @@ let postSchemaTemplate = {
     parent_community: {
         _id: String,
         cname: String
+    },
+
+    upvotes: {
+        type: Number,
+		default: 1
+    },
+
+    downvotes: {
+        type: Number,
+		default: 0
     },
 
     created_by: {
