@@ -23,6 +23,7 @@ import { reducer as authTokenReducer } from './token-store/reducer';
 import { ViewCommunityDetailComponent } from './components/view-community-detail/view-community-detail.component';
 import { MainComponent } from './components/main/main.component';
 import { ContentComponent } from './components/content/content.component';
+import { ViewSearchResultComponent } from './components/view-search-result/view-search-result.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { ContentComponent } from './components/content/content.component';
     ViewCommunityDetailComponent,
     MainComponent,
     ContentComponent,
-    CreatePostComponent
+    CreatePostComponent,
+    ViewSearchResultComponent
   ],
   imports: [
     BrowserModule,

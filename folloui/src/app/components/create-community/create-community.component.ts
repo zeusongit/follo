@@ -1,3 +1,4 @@
+import { Store } from '@ngrx/store';
 import { CommunityService } from './../../services/community.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -16,12 +17,19 @@ export class CreateCommunityComponent implements OnInit {
   fileToUpload: File;
   @ViewChild('labelImport')
   labelImport: ElementRef;
-  constructor(private commService: CommunityService, private fb: FormBuilder, private router: Router) { }
+  authToken: string;
+  constructor(private commService: CommunityService, private store: Store<any>, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
+    this.store.select('userAuth').subscribe((userAuth) => {
+      console.log(`TOKENS STATUS CHANGED IN CREATE POST: ${userAuth}`);
+      console.log(userAuth);
+      this.authToken = userAuth.token;
+    });
+
     this.createComForm = this.fb.group({
-      communityName: [null, Validators.required],
-      commDesc: [null, Validators.required]
+      cname: [null, Validators.required],
+      description: [null, Validators.required]
     });
   }
 
@@ -36,12 +44,15 @@ export class CreateCommunityComponent implements OnInit {
     if (this.createComForm.valid) {
       this.community = new Community(this.createComForm.value);
       // Call the community service to add this community to the fav list
-      this.commService.createCommunity(this.community, this.fileToUpload);
-      // .toPromise().then(resp => {
-      //   if (resp.status === 200) {
-      //     this.router.navigate(['']);
-      //   }
-      // });
+      this.commService.createCommunity(this.community, this.fileToUpload, this.authToken)
+        .toPromise().then(resp => {
+          if (resp.status === 200) {
+            console.log("SUCCESS CREATE COMMUNITY");
+            this.router.navigate(['/community', resp.body.cname]);
+          }
+        }).catch(err => {
+          console.log("CANNOT CREATE COMMUNITY", err);
+        });
     }
   }
 }

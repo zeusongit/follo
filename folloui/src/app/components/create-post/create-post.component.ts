@@ -43,8 +43,8 @@ export class CreatePostComponent implements OnInit {
     this.selectedPostType = 'Text';
     this.getUserDetails();
     this.createPostForm = this.fb.group({
-      posttitle: [null, Validators.required],
-      postdesc: [null, Validators.required]
+      title: [null, Validators.required],
+      content: [null, Validators.required]
     });
 
 

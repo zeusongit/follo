@@ -10,12 +10,17 @@ export class CommunityService {
 
   constructor(private http: HttpClient) { }
 
-  createCommunity(community: Community, commImage: File) {
+  createCommunity(community: Community, commImage: File, token: string) {
     const formData = new FormData();
     formData.append('commImage', commImage, commImage.name);
     formData.append('commName', community.communityName);
     formData.append('commDesc', community.commDesc);
-    // return this.http.post('', formData, { observe: 'response' });
+    return this.http.post<any>('http:.//localhost:3000/community', formData, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }, observe: 'response'
+    });
   }
 
   getAllCommunities() {
@@ -30,7 +35,6 @@ export class CommunityService {
     return this.http.get('http://localhost:3000/community/' + commName + '/post/', {
       headers: {
         'Content-Type': 'application/json',
-        // tslint:disable-next-line:object-literal-key-quotes
         'Authorization': 'Bearer ' + token
       }, observe: 'response'
     });
@@ -44,5 +48,12 @@ export class CommunityService {
         'Authorization': 'Bearer ' + token
       }, observe: 'response'
     });
+  }
+
+
+  getCommunitySearchResult(cname: string) {
+    return this.http.get('http://localhost:3000/community/?key=' + cname, {
+      observe: 'response'
+    })
   }
 }

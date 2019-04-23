@@ -26,12 +26,13 @@ export class ViewCommunityDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute, private userService: UserService, private commService: CommunityService, private store: Store<any>) { }
 
   ngOnInit() {
-    console.log('INSIDE VIEW DETAILS');
+
     this.canFollow = false;
     this.route.params.subscribe(name => {
+      console.log('INSIDE VIEW DETAILS', name);
       this.community = [];
       this.posts = [];
-      this.communityName = name.commname;
+      this.communityName = name.cname;
       this.viewCommunityDetails();
     });
   }

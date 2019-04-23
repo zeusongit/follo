@@ -47,13 +47,13 @@
           </div>
           <div class="form-group">
             <label>Post Title</label>
-            <input type="text" class="form-control" name="posttitle" formControlName="posttitle"
+            <input type="text" class="form-control" name="title" formControlName="title"
               aria-describedby="emailHelp" placeholder="Enter post title">
             <small id="emailHelp" class="form-text text-muted">This will be added to the community.</small>
           </div>
           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" rows="4" name="postdesc" formControlName="postdesc"
+            <textarea class="form-control" rows="4" name="content" formControlName="content"
               placeholder="Tell about this post in few word"></textarea>
           </div>
           <a type="submit" class="btn btn-primary app-button" (click)="addPost()">CREATE</a>

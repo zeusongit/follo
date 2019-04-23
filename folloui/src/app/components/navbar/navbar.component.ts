@@ -37,4 +37,9 @@ export class NavbarComponent implements OnInit {
       console.log('ERROR LOGGING OUT', err);
     });
   }
+
+  search(input: any, searchKey: string) {
+    input.value = "";
+    this.router.navigate(['search', searchKey]);
+  }
 }

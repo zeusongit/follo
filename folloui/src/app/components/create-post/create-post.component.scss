@@ -16,3 +16,11 @@ img {
 .create-post {
     margin-top: 20px;
 }
+
+a {
+  cursor: pointer;
+  &:hover {
+    background-color: #007bff;
+  }
+}
+
