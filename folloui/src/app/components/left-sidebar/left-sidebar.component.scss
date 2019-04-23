@@ -87,10 +87,12 @@
         overflow-y: scroll;
         overflow-x: hidden;
 
-        a {
+        .btn-link {
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
+            width: 100%;
+            text-align: left;
 
             &:hover {
                 overflow: visible;
