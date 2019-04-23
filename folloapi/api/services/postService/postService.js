@@ -67,28 +67,7 @@ let getPostById = async (id) => {
   }
 }
 
-let getAllPostsByUser = async (user) => {
-  try {
-    let posts = await Post.findByUser(user.username);
-    return posts;
-  } catch (e) {
-    console.log(e);
-    return null;
 
-  }
-}
-let getAllPostsByCommunity = async (community) => {
-  try {
-    console.log(community);
-    let posts = await Post.findByCommunity(community);
-    console.log(posts);
-    return posts;
-  } catch (e) {
-    console.log(e);
-    return null;
-
-  }
-}
 let searchPosts = async (key) => {
   try {
     let posts = await Post.searchPost(key);
@@ -220,37 +199,26 @@ let deleteComment = (postId, commentId) => {
     try {
       let posts = await Post.findByUser(user.username);
       return posts;
-    }
-    catch (e) {
+    } catch (e) {
       console.log(e);
       return null;
   
     }
   }
+
   let getAllPostsByCommunity = async (community) => {
     try {
       console.log(community);
       let posts = await Post.findByCommunity(community);
       console.log(posts);
       return posts;
-    }
-    catch (e) {
+    } catch (e) {
       console.log(e);
       return null;
   
     }
   }
-  let searchPosts = async (key) => {
-    try {
-      let posts = await Post.searchPost(key);
-      return posts;
-    }
-    catch (e) {
-      console.log(e);
-      return null;
-  
-    }
-  }
+
   let upvotePost = (currPost,currUser) => {
     return new Promise((resolve, reject) => {
     userModel.findOne({'upvotes': {$elemMatch: {'post.id': currPost}}}, (err, user) => {

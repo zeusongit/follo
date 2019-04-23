@@ -71,19 +71,6 @@ let getAllPostOfComm = async (req, res) => {
   }
 };
 
-let getSinglePost = async (req, res) => {
-  console.log(req.params.id);
-  let result = await postService.getPostById(req.params.id);
-  console.log(result);
-  if (result) {
-    res.send(result);
-  } else {
-    res.status(400).send({
-      status: 400,
-      message: "cannot get post"
-    });
-  }
-};
 
   let getSinglePost = async (req, res) => {
     console.log(req.params.id);
