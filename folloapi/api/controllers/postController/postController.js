@@ -18,7 +18,7 @@ let createPost = async (req, res) => {
       message: "cannot create post"
     });
   }
-};
+
 
 let updatePost = async (req, res) => {
     console.log(req.body+req.params.id);
@@ -35,7 +35,7 @@ let updatePost = async (req, res) => {
         });
     }
   }
-};
+
 
 let getAllPostOfUser = async (req, res) => {
     let result = await postService.getAllPostsByUser(req.user);
