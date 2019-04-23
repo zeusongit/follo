@@ -20,4 +20,6 @@ routes.post('/:community/:post/comment',authChecker, postController.createCommen
 
 routes.put('/:post/delete/:comment',authChecker, postController.checkCreator, postController.deleteComment);
 
+//routes.get('/:post/comment',authChecker, postController.getAllPostComments);
+
 module.exports = routes;

@@ -204,6 +204,24 @@ let deleteComment = (postId, commentId) => {
         })
       })
     }
+  
+  // let getAllPostComments = (postId) =>{
+  //   return new Promise((resolve,reject) => {
+  //     Post.findOne({
+  //       _id: postId
+  //     }).sort('comments.comment.commentDate').then(result => {
+  //       resolve({
+          
+  //       })
+  //     }).catch(err => {
+  //         console.log(err);
+  //         reject({
+  //           deleteStatus: false
+  //         })
+  //       })
+  //   })
+
+  // }
 
     module.exports = {
       createPost,
@@ -215,5 +233,6 @@ let deleteComment = (postId, commentId) => {
       createCommentForPost,
       checkFollower,
       checkCreator,
-      deleteComment
+      deleteComment,
+      //getAllPostComments
     };

@@ -137,6 +137,19 @@ let deleteComment = (req, res) => {
         });
     })
 }
+
+// let getAllPostComments = (req,res) =>{
+//     postService.getAllPostComments(req.params.post).then(result => {
+//        res.send({
+//            comments: result.comments
+//        })
+//     }).catch((err) => {
+//         res.status(500).send({
+//             message: err.message || "Could not get comments"
+//         });
+//     })
+// }
+
 // let updateComment = async (req,res) => {
 //     let updateCommentJSON = req.body;
 //     let result = await postService.updateComment(updateCommentJSON, req.params.comment, req.user);
@@ -150,8 +163,6 @@ let deleteComment = (req, res) => {
 //     }
 // }
 
-
-
 let checkFollower = (req) => {
     let user = req.user;
     let communityName = req.params.community;
@@ -162,7 +173,6 @@ let checkFollower = (req) => {
         return false;
     }
 }
-
 
 
 module.exports = {
@@ -176,5 +186,6 @@ module.exports = {
     checkFollower,
     //updateComment,
     checkCreator,
-    deleteComment
+    deleteComment,
+    //getAllPostComments
 };
