@@ -22,9 +22,9 @@ export class CreatePostComponent implements OnInit {
   selectCommunity: string;
   postType = [
     'Text',
-    'Image',
-    'Event'
+    'Image'
   ];
+  err: string;
   selectedPostType: string;
   @ViewChild('labelImport')
   labelImport: ElementRef;
@@ -61,15 +61,17 @@ export class CreatePostComponent implements OnInit {
           this.post.post_media.push(file.name);
         });
       }
+
       this.postService.createPost(this.post, this.selectCommunity, this.authToken).toPromise()
         .then(res => {
           if (res.status === 200) {
-            console.log('CREATED POST SUCCESSFULLY');
-            this.router.navigate(['/community/' + this.selectCommunity + '/post/', res.body.title]);
+            console.log('CREATED POST SUCCESSFULLY', res);
+            this.router.navigateByUrl('/community/' + this.selectCommunity + "/post/" + res.body.post._id);
           }
         }).catch(err => {
           console.log(err);
           console.log('ERROR CREATING POST');
+          this.err = "Cannot create post"
         });
     }
   }
@@ -85,6 +87,7 @@ export class CreatePostComponent implements OnInit {
           }
         }).catch(err => {
           console.log('ERROR GETTING USER DATA', err);
+          this.err = "Not able to get User data";
         });
     }
   }

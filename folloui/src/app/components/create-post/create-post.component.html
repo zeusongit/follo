@@ -19,7 +19,8 @@
                   (click)="onSelectComm($event)">{{createdComm.community.name}}</a>
                 <div class=" dropdown-header">Following Communities
                 </div>
-                <a class="dropdown-item" *ngFor="let follComm of followingCommunities">{{follComm.community.name}}</a>
+                <a class="dropdown-item" *ngFor="let follComm of followingCommunities"
+                  (click)="onSelectComm($event)">{{follComm.community.name}}</a>
               </div>
             </div>
           </div>
@@ -47,8 +48,8 @@
           </div>
           <div class="form-group">
             <label>Post Title</label>
-            <input type="text" class="form-control" name="title" formControlName="title"
-              aria-describedby="emailHelp" placeholder="Enter post title">
+            <input type="text" class="form-control" name="title" formControlName="title" aria-describedby="emailHelp"
+              placeholder="Enter post title">
             <small id="emailHelp" class="form-text text-muted">This will be added to the community.</small>
           </div>
           <div class="form-group">
@@ -57,6 +58,7 @@
               placeholder="Tell about this post in few word"></textarea>
           </div>
           <a type="submit" class="btn btn-primary app-button" (click)="addPost()">CREATE</a>
+          <span class="error" *ngIf="err">{{err}}</span>
         </form>
       </div>
     </div>

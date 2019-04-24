@@ -40,10 +40,17 @@ img {
 i {
     font-size: 25px;
 
-    &.fa-plus {
+    &.fa-plus,
+    &.fa-minus {
         margin-right: 5px;
         font-size: 12px;
     }
+
+    &.fa-angle-double-down,
+    &.fa-angle-double-up {
+        margin-left: 5px;
+    }
+
 }
 
 button[type="button"] {

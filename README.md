@@ -1,6 +1,11 @@
-# Follo-ing
+# Follo
 INFO6150 - Final Project
 
+Follo is all about being part of something beaiful.
+You can create, share your content with tons of user created communities that match your interests.
+The most interested 
+You Can follow "Follo" communities of specific interests or simply have a look around!
+ 
 ## Team Information
 
 | Name | NEU ID          | Email Address                    |
@@ -11,6 +16,15 @@ INFO6150 - Final Project
 | Vikas Singh | 001821392 | singh.vika@husky.neu.edu |
 
 ## Technology Stack
-- AngularJS
+
+### Backend
 - NodeJS
-- MongoDB
+- ExpressJS
+- MongoDB, Mongoose
+- JWT
+- AWS S3
+
+### Frontent
+- Angular
+- BootStrap 4
+- FontAwesome

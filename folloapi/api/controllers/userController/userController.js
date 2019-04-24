@@ -38,6 +38,27 @@ let getPersonalPost = (req, res) => {
   })
 }
 
+let getPersonalPost = (req, res) => {
+  let user = req.user;
+  userService.getPersonalPost(user).then(result => {
+    if (result.posts && result.posts.length > 0) {
+      res.send({
+        posts: result.posts
+      })
+    } else {
+      res.send({
+        message: "No Posts Found",
+        getAllStatus: result.getAllStatus,
+        posts: []
+      })
+    }
+  }).catch(err => {
+    res.status(500).send({
+      message: err.message || "Error while Checking Comment Creator"
+    });
+  })
+}
+
   module.exports = {
     getUser,
     getPersonalPost
