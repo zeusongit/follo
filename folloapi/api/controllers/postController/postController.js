@@ -9,7 +9,7 @@ let createPost = async (req, res) => {
     ufile=req.files;
   }
   let result = await postService.createPost(postJSON,req.params.community,req.user,ufile);
-  console.log(result);
+  //console.log("res of create post"+result);
   if (result) {
     res.send(result);
   } else {
@@ -19,7 +19,6 @@ let createPost = async (req, res) => {
     });
   }
 };
-
 
 let updatePost = async (req, res) => {
     console.log(req.body+req.params.id);
@@ -87,7 +86,7 @@ let getAllPostOfComm = async (req, res) => {
     }
   }
 
-    let upvotePost = async (req, res) => {
+  let upvotePost = async (req, res) => {
     console.log("--"+req.params.id);
     let result = await postService.upvotePost(req.params.id,req.user);
     console.log(result);
@@ -189,31 +188,6 @@ let deleteComment = (req, res) => {
       });
     });
 };
-
-// let getAllPostComments = (req,res) =>{
-//     postService.getAllPostComments(req.params.post).then(result => {
-//        res.send({
-//            comments: result.comments
-//        })
-//     }).catch((err) => {
-//         res.status(500).send({
-//             message: err.message || "Could not get comments"
-//         });
-//     })
-// }
-
-// let updateComment = async (req,res) => {
-//     let updateCommentJSON = req.body;
-//     let result = await postService.updateComment(updateCommentJSON, req.params.comment, req.user);
-//     if (result) {
-//         res.send(result);
-//     } else {
-//         res.status(400).send({
-//             status: 400,
-//             message: 'cannot update comment'
-//         });
-//     }
-// }
 
 let checkFollower = (req, res, next) => {
   let user = req.user;
