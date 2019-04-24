@@ -68,6 +68,7 @@ export class CreatePostComponent implements OnInit {
             this.router.navigate(['/community/' + this.selectCommunity + '/post/', res.body.title]);
           }
         }).catch(err => {
+          console.log(err);
           console.log('ERROR CREATING POST');
         });
     }

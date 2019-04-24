@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 var cors = require('cors');
 let app = express();
 
-//console.log(routes);
+console.log(process.env.DB_HOST);
 app.use(cors())
 app.use(bodyParser.json());
 app.use('/', authRoutes);

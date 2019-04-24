@@ -1,7 +1,5 @@
 require('dotenv').config();
 
-
-
 module.exports = {
     DB_HOST : process.env.DB_HOST || 'mongodb://localhost:27017/follo',
    // DB_HOST : process.env.DB_HOST || 'mongodb+srv://shruti:shruti@webdesign-mhvzg.mongodb.net/follo?retryWrites=true',

@@ -8,8 +8,7 @@ const communityTemplate = {
 }
 
 const postTemplate = {
-    id: String,
-    name: String
+    id: String
 }
 
 let userSchemaTemplate = {
