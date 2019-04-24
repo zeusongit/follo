@@ -10,4 +10,6 @@ routes.get('/user/post', authChecker, postController.getAllPostOfUser);
 
 routes.get('/user/personal', authChecker, userController.getPersonalPost);
 
+routes.get('/user/post/discover/:pageNo', postController.getPostsForDiscover);
+
 module.exports = routes;
