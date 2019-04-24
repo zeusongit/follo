@@ -22,7 +22,7 @@ export class ViewCommunityDetailComponent implements OnInit {
   authUser: any;
   canFollow: boolean;
   commPicture: string;
-  // tslint:disable-next-line:max-line-length
+  isPresentInFollowing: boolean;
   constructor(private route: ActivatedRoute, private userService: UserService, private commService: CommunityService, private store: Store<any>) { }
 
   ngOnInit() {
@@ -32,8 +32,10 @@ export class ViewCommunityDetailComponent implements OnInit {
       console.log('INSIDE VIEW DETAILS', name);
       this.community = [];
       this.posts = [];
+      this.isPresentInFollowing ? false : true;
       this.communityName = name.cname;
       this.viewCommunityDetails();
+      this.getUserDetails();
     });
   }
 
@@ -44,6 +46,13 @@ export class ViewCommunityDetailComponent implements OnInit {
         .then(res => {
           if (res.status === 200) {
             this.followingCommunities = res.body.followingCommunities;
+            for (let i = 0; i < this.followingCommunities.length; i++) {
+              console.log("FOLLOWING ", this.followingCommunities[i].community.name);
+              if (this.followingCommunities[i].community.name === this.communityName) {
+                this.isPresentInFollowing = true;
+                break;
+              }
+            }
           }
         }).catch(err => {
           console.log('ERROR GETTING USER DATA', err);
@@ -68,6 +77,7 @@ export class ViewCommunityDetailComponent implements OnInit {
           this.canFollow = this.community.createdBy.user.username === this.currentUserName ? false : true;
           this.commPicture = (this.community.communityPicture != null) ?
             this.community.communityPicture : '../../../assets/images/create-community-header.png';
+
         }
       }).catch(err => {
         console.log('ERROR GETTING COMMUNITY DETAILS', err);
@@ -81,6 +91,31 @@ export class ViewCommunityDetailComponent implements OnInit {
         }
       }).catch(err => {
         console.log('Error viewing community details', err);
+      });
+  }
+
+  follow() {
+    console.log("FOLLOW TOKEN ", this.authToken);
+    this.commService.followCommunity(this.communityName, this.authToken).toPromise()
+      .then(res => {
+        // if (res.status === 200) {
+        console.log("FOLLOWING COM SUCCESS");
+        this.isPresentInFollowing = true;
+        //}
+      }).catch(err => {
+        console.log("ERROR FOLLOWING COM", err);
+      });
+  }
+
+  unFollow() {
+    this.commService.unFollowCommunity(this.communityName, this.authToken).toPromise()
+      .then(res => {
+        // if (res.status === 200) {
+        console.log("UN FOLLOWING COM SUCCESS");
+        this.isPresentInFollowing = false;
+        //}
+      }).catch(err => {
+        console.log("ERROR UN FOLLOWING COM", err);
       });
   }
 }

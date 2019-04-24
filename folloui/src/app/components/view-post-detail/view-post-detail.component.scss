@@ -37,3 +37,23 @@ i {
     float: right;
     cursor: pointer;
 }
+
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+.cmtUser {
+    color: #0069d9;
+}
+
+.cmtBorder {
+    border-bottom: 0;
+    border-top: 0;
+}
+
+.cornor {
+    border-radius: 18px !important;
+    background-color: #f2f3f5;
+    padding: 12px;
+}

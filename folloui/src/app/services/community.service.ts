@@ -14,7 +14,7 @@ export class CommunityService {
     const formData = new FormData();
     console.log('community details');
     console.log(community);
-    if (commImage){
+    if (commImage) {
       formData.append('commImage', commImage, commImage.name);
     }
     formData.append('cname', community.cname);
@@ -57,8 +57,32 @@ export class CommunityService {
 
 
   getCommunitySearchResult(cname: string) {
-    return this.http.get('http://localhost:3000/community/?key=' + cname, {
+    return this.http.get<any>('http://localhost:3000/community?key=' + cname, {
       observe: 'response'
-    })
+    });
+  }
+
+  getPostSearchResult(cname: string) {
+    return this.http.get<any>('http://localhost:3000/community/search/post?key=' + cname, {
+      observe: 'response'
+    });
+  }
+
+  followCommunity(cname: string, token: string) {
+    return this.http.put("http://localhost:3000/community/follow/" + cname, "", {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      },
+      observe: 'response'
+    });
+  }
+
+  unFollowCommunity(cname: string, token: string) {
+    return this.http.put("http://localhost:3000/community/unfollow/" + cname, "", {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      },
+      observe: 'response'
+    });
   }
 }

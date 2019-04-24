@@ -40,10 +40,12 @@ img {
 i {
     font-size: 25px;
 
-    &.fa-plus {
+    &.fa-plus,
+    &.fa-minus {
         margin-right: 5px;
         font-size: 12px;
     }
+
 }
 
 button[type="button"] {

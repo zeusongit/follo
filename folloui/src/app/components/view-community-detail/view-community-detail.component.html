@@ -4,10 +4,11 @@
       <div class="card-header "><img [src]="commPicture">
         <div class="commDetail">
           <h4>{{community.cname | titlecase}}</h4>
-          <button *ngIf="canFollow && followingCommunities?.indexOf(community.cname) === -1" type="button"
-            class="btn btn-success join"><i class="fas fa-plus"></i> FOLLOW</button>
-          <button *ngIf="canFollow && followingCommunities?.indexOf(community.cname) > -1" type="button"
-            class="btn btn-secondary join">FOLLOWING</button>
+          <button *ngIf="!isPresentInFollowing" type="button" class="btn btn-success join" (click)="follow()"><i
+              class="fas fa-plus"></i>
+            FOLLOW</button>
+          <button *ngIf="isPresentInFollowing" type="button" class="btn btn-danger join" (click)="unFollow()"><i
+              class="fas fa-minus"></i>UNFOLLOW</button>
         </div>
       </div>
       <div class="card-body">

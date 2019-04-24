@@ -19,6 +19,8 @@ export class ViewPostDetailComponent implements OnInit {
   postPostedOn: string;
   upVotes: number;
   downVotes: number;
+  errMsg: string;
+  postContent: string;
   constructor(private store: Store<any>, private postService: PostService, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -48,28 +50,35 @@ export class ViewPostDetailComponent implements OnInit {
           this.postPostedOn = res.body.posted_on;
           this.upVotes = res.body.upvotes;
           this.downVotes = res.body.downvotes;
+          this.postContent = res.body.content;
         }
       }).catch(err => {
         console.log("POST DATA FAILED", err);
       });
   }
 
-  addComment(comment: string) {
-    console.log('COMMENT TEXT', comment);
-    this.postService.addCommentToPost(this.authUser.token, this.postId, this.cname, comment).toPromise()
-      .then(res => {
-        if (res.status === 200) {
-          console.log("COMMENT ADDED SUCCESS");
-          this.postTitle = res.body.title;
-          this.comments = res.body.comments;
-          this.postCreatedBy = res.body.created_by.username;
-          this.postPostedOn = res.body.posted_on;
-          this.upVotes = res.body.upvotes;
-          this.downVotes = res.body.downvotes;
-        }
-      }).catch(err => {
-        console.log("COMMENT ADDED FAILED");
-      });
+  addComment(c: any, comment: string) {
+    if (comment === "") {
+      this.errMsg = "Cannot be empty";
+    } else {
+      c.value = "";
+      this.postService.addCommentToPost(this.authUser.token, this.postId, this.cname, comment).toPromise()
+        .then(res => {
+          if (res.status === 200) {
+            console.log("COMMENT ADDED SUCCESS", res.body.post);
+            this.postTitle = res.body.post.title;
+            this.comments = res.body.post.comments;
+            this.postCreatedBy = res.body.post.created_by.username;
+            this.postPostedOn = res.body.post.posted_on;
+            this.upVotes = res.body.post.upvotes;
+            this.downVotes = res.body.post.downvotes;
+            this.postContent = res.body.post.content;
+          }
+        }).catch(err => {
+          console.log("COMMENT ADDED FAILED");
+        });
+    }
+
   }
 
   upVote() {
@@ -77,7 +86,7 @@ export class ViewPostDetailComponent implements OnInit {
       .then(res => {
         if (res.status === 200) {
           console.log('UPVOTES SUCCESS');
-          this.upVotes = res.body.upvotes;
+          this.upVotes = res.body.post.upvotes;
         }
       }).catch(err => {
         console.log("UVOTES FAILED", err);
@@ -88,11 +97,11 @@ export class ViewPostDetailComponent implements OnInit {
     this.postService.getUpVotes(this.authUser.token, this.postId, this.cname).toPromise()
       .then(res => {
         if (res.status === 200) {
-          console.log('UPVOTES SUCCESS');
-          this.downVotes = res.body.downvotes;
+          console.log('DOWNVOTES SUCCESS');
+          this.downVotes = res.body.post.downvotes;
         }
       }).catch(err => {
-        console.log("UVOTES FAILED", err);
+        console.log("DOWNVOTES FAILED", err);
       });
   }
 
