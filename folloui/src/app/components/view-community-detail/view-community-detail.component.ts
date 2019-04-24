@@ -22,16 +22,27 @@ export class ViewCommunityDetailComponent implements OnInit {
   authUser: any;
   canFollow: boolean;
   commPicture: string;
+  err: string;
   // tslint:disable-next-line:max-line-length
   constructor(private route: ActivatedRoute, private userService: UserService, private commService: CommunityService, private store: Store<any>) { }
 
   ngOnInit() {
+
+    this.store.select('userAuth').subscribe((userAuth) => {
+      console.log(`TOKENS STATUS CHANGED IN VIEW COMMUNITY: ${userAuth}`);
+      console.log(userAuth);
+      this.authUser = userAuth;
+      this.authToken = userAuth.token;
+      this.currentUserName = userAuth.username;
+    });
+
 
     this.canFollow = false;
     this.route.params.subscribe(name => {
       console.log('INSIDE VIEW DETAILS', name);
       this.community = [];
       this.posts = [];
+      this.err = null;
       this.communityName = name.cname;
       this.viewCommunityDetails();
     });
@@ -52,25 +63,22 @@ export class ViewCommunityDetailComponent implements OnInit {
   }
 
   viewCommunityDetails() {
-    this.store.select('userAuth').subscribe((userAuth) => {
-      console.log(`TOKENS STATUS CHANGED IN VIEW COMMUNITY: ${userAuth}`);
-      console.log(userAuth);
-      this.authUser = userAuth;
-      this.authToken = userAuth.token;
-      this.currentUserName = userAuth.username;
-    });
 
     this.commService.getCommunityDetails(this.communityName, this.authToken).toPromise()
       .then(res => {
         if (res.status === 200) {
           console.log('RESPONSE FOR GET COMM DETAILS ', res);
           this.community = res.body;
+          console.log('found community:');
+          console.log(this.community);
           this.canFollow = this.community.createdBy.user.username === this.currentUserName ? false : true;
           this.commPicture = (this.community.communityPicture != null) ?
             this.community.communityPicture : '../../../assets/images/create-community-header.png';
         }
       }).catch(err => {
         console.log('ERROR GETTING COMMUNITY DETAILS', err);
+        this.err = err;
+        this.commPicture = '../../../assets/images/404.jpg'
       });
 
     this.commService.getCommunityPostsByCommName(this.communityName, this.authToken).toPromise()
