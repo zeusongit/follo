@@ -61,11 +61,12 @@ export class CreatePostComponent implements OnInit {
           this.post.post_media.push(file.name);
         });
       }
+
       this.postService.createPost(this.post, this.selectCommunity, this.authToken).toPromise()
         .then(res => {
           if (res.status === 200) {
-            console.log('CREATED POST SUCCESSFULLY');
-            this.router.navigate(['/community/' + this.selectCommunity + '/post/', res.body.title]);
+            console.log('CREATED POST SUCCESSFULLY', res);
+            this.router.navigateByUrl('/community/' + this.selectCommunity + "/post/" + res.body.post._id);
           }
         }).catch(err => {
           console.log(err);

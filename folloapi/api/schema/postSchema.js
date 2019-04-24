@@ -127,26 +127,27 @@ postSchema.statics.findByUser = async function (username) {
 
 postSchema.statics.searchPost = async function (key) {
     //let posts = await this.find({title: new RegExp('^'+key+'$', "i")})
-    console.log(key)
-    let posts = await this.find({
-        $and: [{
+    
+    key=key.trim();
+    console.log("--"+key)
+    let posts = await this.find()
+        .and([
+            {
                 $or: [{
                     title: {
                         $regex: '.*' + key + '.*',
                         $options: 'i'
                     }
-                }]
-            },
-            {
-                $or: [{
+                },{
                     content: {
                         $regex: '.*' + key + '.*',
                         $options: 'i'
                     }
                 }]
             }
-        ]
-    })
+        ])
+    
+    //let posts = await this.find({title: {$regex: '.*' + key + '.*',$options: 'i'}})
     if (!posts) {
         return [];
     }

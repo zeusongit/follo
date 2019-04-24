@@ -100,14 +100,14 @@ let getSinglePost = async (req, res) => {
 
 
 let searchPost = async (req, res) => {
-  console.log(req.params.key);
-  let result = await postService.searchPost(req.params.key);
+  console.log(req.query.key);
+  let result = await postService.searchPosts(req.query.key);
   console.log(result);
   if (result) {
     res.send(result);
   } else {
-    res.status(400).send({
-      status: 400,
+    res.status(404).send({
+      status: 404,
       message: "cannot get post"
     });
   }

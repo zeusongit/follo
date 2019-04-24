@@ -10,6 +10,4 @@ routes.post('/user/login/', authenticationController.login);
 
 routes.post('/user/logout', authChecker, authenticationController.logout);
 
-//routes.get('/user/personal', authChecker, authenticationController.getPersonalPost);
-
 module.exports = routes;

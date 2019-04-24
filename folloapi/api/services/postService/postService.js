@@ -296,7 +296,8 @@ let upvotePost = (currPost, currUser) => {
           }, { new: true }).exec().then((doc)=>{
             console.log("Post Updated upvote added!");
             resolve({
-              upvotes: doc.upvotes
+              upvotes: doc.upvotes,
+              downvotes:doc.downvotes
             });
           })
         })
@@ -321,7 +322,8 @@ let upvotePost = (currPost, currUser) => {
         }, { new: true }).exec().then((doc)=>{
           console.log("Post Updated upvote removed!");
           resolve({
-            upvotes: doc.upvotes
+            upvotes: doc.upvotes,
+            downvotes:doc.downvotes
           });
         })
       })         
@@ -359,6 +361,7 @@ let upvotePost = (currPost, currUser) => {
           }, { new: true }).exec().then((doc)=>{
             console.log("Post Updated downvote added!");
             resolve({
+              upvotes:doc.upvotes,
               downvotes: doc.downvotes
             });
           })
@@ -384,6 +387,7 @@ let upvotePost = (currPost, currUser) => {
         }, { new: true }).exec().then((doc)=>{
           console.log("Post Updated downvote removed!");
           resolve({
+            upvotes:doc.upvotes,
             downvotes: doc.downvotes
           });
         })
