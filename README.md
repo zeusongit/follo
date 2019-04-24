@@ -1,4 +1,4 @@
-# Follo-ing
+# Follo
 INFO6150 - Final Project
 
 ## Team Information
