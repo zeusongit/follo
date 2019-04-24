@@ -1,9 +1,10 @@
 let User = require(__dirname + '/../../models/userModel/userModel.js');
+
 let bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require(__dirname + '/../../../config/config.js');
 const jwtkey = config.JWT_KEY;
-const env = require(__dirname + "/../../../config/s3.env.js");
+
 
 
 // let hashPassword = (pwd) => {

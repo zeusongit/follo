@@ -2,6 +2,8 @@ const User = require(__dirname + "/../../models/userModel/userModel.js");
 let authenticationService = require(__dirname +
   "/../../services/authenticationService/authenticationService.js");
 
+let Post = require(__dirname + "/../../models/post/postModel.js");
+
 // searches for a user with credentials, adds a new jwt token, and returns the user
 let getUser = async (email,token) => {
     try {
@@ -33,6 +35,31 @@ let getUser = async (email,token) => {
   //   }
   // }
 
+  let getPersonalPost = (user) => {
+    //let communityNames = user.followingCommunities.community.name;
+    console.log(user.followingCommunities);  
+    return new Promise((resolve,reject)=>{
+      Post.find().exec().then(doc =>{
+        if (doc && doc.length > 0) {
+          resolve({
+            getAllStatus: true,
+            posts: doc
+          })
+        } else {
+          resolve({
+            getAllStatus: false
+          })
+        }
+      }).catch((err) => {
+        console.log("cannot update post");
+        console.log(err);
+        reject(null);
+      })
+    })
+  
+  }
+
   module.exports = {
-    getUser
+    getUser,
+    getPersonalPost
   };
