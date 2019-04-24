@@ -8,8 +8,8 @@
         <form [formGroup]="createComForm">
           <div class="form-group">
             <label>Community name</label>
-            <input type="text" class="form-control" name="cname" formControlName="cname"
-              aria-describedby="emailHelp" placeholder="Enter community name">
+            <input type="text" class="form-control" name="cname" formControlName="cname" aria-describedby="emailHelp"
+              placeholder="Enter community name">
             <small id="emailHelp" class="form-text text-muted">This will be added to your favorite communities.</small>
           </div>
           <div class="form-group">
@@ -28,7 +28,7 @@
             </div>
           </div>
           <a type="submit" class="btn btn-primary app-button" (click)="addCommunity()">CREATE</a>
-          {{err}}
+          <span class="error" *ngIf="err">{{err}}</span>
         </form>
       </div>
     </div>

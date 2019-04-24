@@ -31,6 +31,7 @@
           The community you were looking for was not found
         </div>
       </div>
+      <span class="error" *ngIf="!err && errMsg">{{errMsg}}</span>
     </div>
     <div class="card post" *ngFor="let post of posts">
       <div class="card-body">

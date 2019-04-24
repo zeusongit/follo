@@ -21,7 +21,8 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   private formSubmitAttempt: boolean;
   private isInvalidCred: boolean;
-  // tslint:disable-next-line:max-line-length
+  errorMsg: string;
+
   constructor(private ss: SignupService, private fb: FormBuilder, private location: Location, private route: Router, private store: Store<AppState>) { }
 
   reset() {
@@ -69,6 +70,7 @@ export class SignupComponent implements OnInit {
         .catch(e => {
           console.log(e);
           console.log('user signup in error');
+          this.errorMsg = "Not able to Sign up";
         });
     }
   }

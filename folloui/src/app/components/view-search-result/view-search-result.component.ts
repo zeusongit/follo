@@ -14,6 +14,8 @@ export class ViewSearchResultComponent implements OnInit {
   communities: any;
   isCommunities: boolean;
   posts: any;
+  commNullMsg: string;
+  postNullMsg: string;
   constructor(private route: ActivatedRoute, private commService: CommunityService) { }
 
   ngOnInit() {
@@ -36,6 +38,7 @@ export class ViewSearchResultComponent implements OnInit {
         }
       }).catch(err => {
         console.log("ERROR GETTING SEARCH RESULT", err);
+        this.commNullMsg = "No Communities found for the searched key";
       });
   }
 
@@ -48,6 +51,7 @@ export class ViewSearchResultComponent implements OnInit {
         }
       }).catch(err => {
         console.log("ERROR GETTING SEARCH RESULT", err);
+        this.postNullMsg = "No posts found for the searched key";
       });
   }
 

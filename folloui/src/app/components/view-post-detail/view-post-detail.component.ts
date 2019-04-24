@@ -54,6 +54,7 @@ export class ViewPostDetailComponent implements OnInit {
         }
       }).catch(err => {
         console.log("POST DATA FAILED", err);
+        this.errMsg = "Not able to get post data";
       });
   }
 
@@ -76,6 +77,7 @@ export class ViewPostDetailComponent implements OnInit {
           }
         }).catch(err => {
           console.log("COMMENT ADDED FAILED");
+          this.errMsg = "Not able to add comment";
         });
     }
 
@@ -91,6 +93,7 @@ export class ViewPostDetailComponent implements OnInit {
         }
       }).catch(err => {
         console.log("UVOTES FAILED", err);
+        this.errMsg = "Not able to vote up";
       });
   }
 
@@ -104,6 +107,7 @@ export class ViewPostDetailComponent implements OnInit {
         }
       }).catch(err => {
         console.log("DOWNVOTES FAILED", err);
+        this.errMsg = "Not able to vote down";
       });
   }
 
@@ -112,9 +116,6 @@ export class ViewPostDetailComponent implements OnInit {
       .then(res => {
         if (res.status === 200) {
           console.log("DELETE COMMENT SUCCESS");
-          // this.comments = this.comments.filter((c) => {
-          //   return c.comment_id != commentId;
-          // })
           this.ngOnInit();
         }
       }).catch(err => {
