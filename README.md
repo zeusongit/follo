@@ -11,6 +11,17 @@ INFO6150 - Final Project
 | Vikas Singh | 001821392 | singh.vika@husky.neu.edu |
 
 ## Technology Stack
-- AngularJS
+
+### Backend
 - NodeJS
-- MongoDB
+- ExpressJS
+- MongoDB, Mongoose
+- JWT
+- AWS S3
+
+### Frontent
+- Angular
+- BootStrap 4
+- FontAwesome
+
+
