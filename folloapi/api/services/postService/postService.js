@@ -7,7 +7,7 @@ let communityService = require(__dirname +
 let createPost = async (newPostObj,commname,user,ufile) => {
   
     let community = await communityService.getCommunityByName(commname); //get community
-    console.log(commname);
+    console.log("create post under"+commname);
     return new Promise((resolve, reject) => {    
     let newPost = new Post(newPostObj);
     if(ufile){
@@ -15,10 +15,10 @@ let createPost = async (newPostObj,commname,user,ufile) => {
         newpost.post_media.push({"url":f});  
       });      
     }
-    console.log(ufile);
+    //console.log("file:"+ufile);
     newPost.created_by = (({ _id,username }) => ({ _id,username }))(user);
     newPost.parent_community = (({ _id,cname }) => ({ _id,cname }))(community);
-    console.log("np"+newPost);
+    //console.log("np"+newPost);
     newPost.save()
         .then((doc) => {
           console.log(doc);
@@ -125,10 +125,6 @@ let checkCreator = (postId, user) => {
   })
 }
 
-// let updateComment = (updatedComment, postId, user) => {
-//   console.log(updatedComment, postId, user);
-//   Post.update({'comments._id': })
-// }
 
 let checkFollower = (user, communityName) => {
   return new Promise((resolve, reject) => {
@@ -178,22 +174,6 @@ let deleteComment = (postId, commentId) => {
         })
       })
     }
-  
-  // let getAllPostComments = (postId) =>{
-  //   return new Promise((resolve,reject) => {
-  //     Post.findOne({
-  //       _id: postId
-  //     }).sort('comments.comment.commentDate').then(result => {
-  //       resolve({
-          
-  //       })
-  //     }).catch(err => {
-  //         console.log(err);
-  //         reject({
-  //           deleteStatus: false
-  //         })
-  //       })
-  //   })
 
   let getAllPostsByUser = async (user) => {
     try {
@@ -228,111 +208,17 @@ let deleteComment = (postId, commentId) => {
       }    
       if (user) {
           console.log("user did upvote already, so remove it from user object upvoted posts and decrement upvote count");
-          userModel.findByIdAndUpdate(currUser._id, {
-            $pull: {
-              "upvotes": {
-                "post.id": currPost
-              }
-            }          
-          }, { new: true }).exec()
-            .then(() => {
-              console.log("-s-s");
-              Post.findByIdAndUpdate(currPost, {
-                $inc: { upvotes: -1 }         
-              }, { new: true }).exec().then((doc)=>{
-                resolve({
-                  upvotes: doc.upvotes
-                });
-              })
-            })         
-            .catch((err) => {
-              console.log("cannot update post");
-              console.log(err);
-              reject(null);
-            })
+          removeUpvote(currUser,currPost,resolve, reject);
       } else {
         console.log("user did not vote already so add upvote");
-        userModel.findByIdAndUpdate(currUser._id, {
-          $push: {
-            "upvotes": {
-              "post.id": currPost
-            }
-          }     
-        }, { new: true }).exec()
-            .then(() => {
-              console.log("-g-g"+currPost);
-              Post.findByIdAndUpdate(currPost, {
-                $inc: { upvotes: 1 }         
-              }, { new: true }).exec().then((doc)=>{
-                resolve({
-                  upvotes: doc.upvotes
-                });
-              })
-            })
-            .catch((err) => {
-              console.log("cannot update post");
-              console.log(err);
-              reject(null);
-            })    
-      }
-      userModel.findOne({'downvotes': {$elemMatch: {'post.id': currPost}}}, (err, user) => {
-        if (err){
-          console.log("errrrr"+err);
-            return err;
-        }    
-        if (user) {
-            console.log("user did downvote already, so remove it from user object downvoted posts and decrement downvote count");
-            userModel.findByIdAndUpdate(currUser._id, {
-              $pull: {
-                "upvotes": {
-                  "post.id": currPost
-                }
-              }          
-            }, { new: true }).exec()
-              .then(() => {
-                console.log("-s-s");
-                Post.findByIdAndUpdate(currPost, {
-                  $inc: { upvotes: -1 }         
-                }, { new: true }).exec().then((doc)=>{
-                  resolve({
-                    upvotes: doc.upvotes
-                  });
-                })
-              })         
-              .catch((err) => {
-                console.log("cannot update post");
-                console.log(err);
-                reject(null);
-              })
-        } else {
-          console.log("user did not vote already so add upvote");
-          userModel.findByIdAndUpdate(currUser._id, {
-            $push: {
-              "upvotes": {
-                "post.id": currPost
-              }
-            }     
-          }, { new: true }).exec()
-              .then(() => {
-                console.log("-g-g"+currPost);
-                Post.findByIdAndUpdate(currPost, {
-                  $inc: { upvotes: 1 }         
-                }, { new: true }).exec().then((doc)=>{
-                  resolve({
-                    upvotes: doc.upvotes
-                  });
-                })
-              })
-              .catch((err) => {
-                console.log("cannot update post");
-                console.log(err);
-                reject(null);
-              })    
-        }  
-      });  
+        addUpvote(currUser,currPost,resolve, reject);
+        console.log("check if he downvoted before and then remove downvote");
+        removeDownvoteAfterUpvote(currUser,currPost,resolve, reject);
+      }       
     });
   })
   }
+
   let downvotePost = (currPost,currUser) => {
     return new Promise((resolve, reject) => {
     userModel.findOne({'downvotes': {$elemMatch: {'post.id': currPost}}}, (err, user) => {
@@ -341,60 +227,146 @@ let deleteComment = (postId, commentId) => {
           return err;
       }    
       if (user) {
-          console.log("user did downvote already, so remove it from user object downvoted posts and decrement downvote count");
-          userModel.findByIdAndUpdate(currUser._id, {
-            $pull: {
-              "downvotes": {
-                "post.id": currPost
-              }
-            }          
-          }, { new: true,safe: true, }).exec()
-            .then(() => {
-              console.log("-s-s");
-              Post.findByIdAndUpdate(currPost, {
-                $inc: { downvotes: -1 }         
-              }, { new: true }).exec().then((doc)=>{
-                resolve({
-                  downvotes: doc.downvotes
-                });
-              })
-            })         
-            .catch((err) => {
-              console.log("cannot update post");
-              console.log(err);
-              reject(null);
-            })
+          console.log("user did Downvote already, so remove it from user object Downvoted posts and decrement Downvote count");
+          removeDownvote(currUser,currPost,resolve, reject);
       } else {
-        console.log("user did not vote already so add downvotes");
-        userModel.findByIdAndUpdate(currUser._id, {
-          $push: {
-            "downvotes": {
-              "post.id": currPost
-            }
-          }, $pull: {
-            "upvotes": {
-              "post.id": currPost
-            }
-          }
-        }, { new: true,safe: true, }).exec()
-            .then(() => {
-              console.log("-g-g"+currPost);
-              Post.findByIdAndUpdate(currPost, {
-                $inc: { downvotes: 1 }         
-              }, { new: true }).exec().then((doc)=>{
-                resolve({
-                  downvotes: doc.downvotes
-                });
-              })
-            })
-            .catch((err) => {
-              console.log("cannot update post");
-              console.log(err);
-              reject(null);
-            })    
+        console.log("user did not vote already so add Downvote");
+        addDownvote(currUser,currPost,resolve, reject);
+        console.log("check if he upvoted before and then remove upvote");
+        removeUpvoteAfterDownvote(currUser,currPost,resolve, reject);
       }  
     });
   })
+  }
+
+
+
+  //Functions used internally in this class
+  let addUpvote=(currUser,currPost,resolve, reject)=>{
+    userModel.findByIdAndUpdate(currUser._id, {
+      $push: {
+        "upvotes": {
+          "post.id": currPost
+        }
+      }     
+    }, { new: true }).exec()
+        .then(() => {
+          console.log("User Updated upvote added!");
+
+          Post.findByIdAndUpdate(currPost, {
+            $inc: { upvotes: 1 }         
+          }, { new: true }).exec().then((doc)=>{
+            console.log("Post Updated upvote added!");
+            resolve({
+              upvotes: doc.upvotes
+            });
+          })
+        })
+        .catch((err) => {
+          console.log("cannot update post");
+          console.log(err);
+          reject(null);
+        })  
+  }
+  let removeUpvote=(currUser,currPost,resolve, reject)=>{
+    userModel.findByIdAndUpdate(currUser._id, {
+      $pull: {
+        "upvotes": {
+          "post.id": currPost
+        }
+      }          
+    }, { new: true }).exec()
+      .then(() => {
+        console.log("User Updated upvote removed!");
+        Post.findByIdAndUpdate(currPost, {
+          $inc: { upvotes: -1 }         
+        }, { new: true }).exec().then((doc)=>{
+          console.log("Post Updated upvote removed!");
+          resolve({
+            upvotes: doc.upvotes
+          });
+        })
+      })         
+      .catch((err) => {
+        console.log("cannot update post");
+        console.log(err);
+        reject(null);
+      })
+  }
+  let removeDownvoteAfterUpvote=(currUser,currPost,resolve, reject)=>{
+    userModel.findOne({'downvotes': {$elemMatch: {'post.id': currPost}}}, (err, user) => {
+      if (err){
+        console.log("errrrr"+err);
+          return err;
+      }    
+      if (user) {
+          console.log("user did downvote already, so remove it from user object downvoted posts and decrement downvote count");
+          removeDownvote(currUser,currPost,resolve, reject);
+      } 
+    });
+  }
+
+  let addDownvote=(currUser,currPost,resolve, reject)=>{
+    userModel.findByIdAndUpdate(currUser._id, {
+      $push: {
+        "downvotes": {
+          "post.id": currPost
+        }
+      }
+    }, { new: true,safe: true, }).exec()
+        .then(() => {
+          console.log("User Updated downvote added!");
+          Post.findByIdAndUpdate(currPost, {
+            $inc: { downvotes: 1 }         
+          }, { new: true }).exec().then((doc)=>{
+            console.log("Post Updated downvote added!");
+            resolve({
+              downvotes: doc.downvotes
+            });
+          })
+        })
+        .catch((err) => {
+          console.log("cannot add downvote");
+          console.log(err);
+          reject(null);
+        })    
+  }
+  let removeDownvote=(currUser,currPost,resolve, reject)=>{
+    userModel.findByIdAndUpdate(currUser._id, {
+      $pull: {
+        "downvotes": {
+          "post.id": currPost
+        }
+      }          
+    }, { new: true,safe: true, }).exec()
+      .then(() => {
+        console.log("User Updated downvote removed!");
+        Post.findByIdAndUpdate(currPost, {
+          $inc: { downvotes: -1 }         
+        }, { new: true }).exec().then((doc)=>{
+          console.log("Post Updated downvote removed!");
+          resolve({
+            downvotes: doc.downvotes
+          });
+        })
+      })         
+      .catch((err) => {
+        console.log("cannot downvote");
+        console.log(err);
+        reject(null);
+      })
+  }
+  let removeUpvoteAfterDownvote=(currUser,currPost,resolve, reject)=>{
+    userModel.findOne({'upvotes': {$elemMatch: {'post.id': currPost}}}, (err, user) => {
+      if (err){
+        console.log("errrrr"+err);
+          return err;
+      }    
+      if (user) {
+          console.log("user did upvote already, so remove it from user object upvoted posts and decrement upvote count");
+          removeUpvote(currUser,currPost,resolve, reject);
+      }       
+    });
   }
 
   let addPostToUser = (post, user) => {
@@ -424,7 +396,7 @@ let deleteComment = (postId, commentId) => {
     }).exec();  
   }
   
-  // }
+  //end
 
     module.exports = {
       createPost,
