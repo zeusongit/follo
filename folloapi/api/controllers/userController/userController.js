@@ -28,7 +28,8 @@ let getPersonalPost = (req, res) => {
     } else {
       res.send({
         message: "No Posts Found",
-        getAllStatus: result.getAllStatus
+        getAllStatus: result.getAllStatus,
+        posts: []
       })
     }
   }).catch(err => {
