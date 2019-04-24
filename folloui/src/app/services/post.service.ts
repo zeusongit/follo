@@ -80,7 +80,7 @@ export class PostService {
   }
 
   deleteComment(token: string, postId: number, commentId: string) {
-    return this.http.put<any>("http://localhost:3000/community/" + postId + "/delete/" + commentId, {
+    return this.http.put<any>("http://localhost:3000/community/" + postId + "/delete/" + commentId, "", {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token

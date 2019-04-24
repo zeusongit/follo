@@ -112,6 +112,10 @@ export class ViewPostDetailComponent implements OnInit {
       .then(res => {
         if (res.status === 200) {
           console.log("DELETE COMMENT SUCCESS");
+          // this.comments = this.comments.filter((c) => {
+          //   return c.comment_id != commentId;
+          // })
+          this.ngOnInit();
         }
       }).catch(err => {
         console.log("ERROR DELETING COMMENT", err);

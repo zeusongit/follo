@@ -46,6 +46,11 @@ i {
         font-size: 12px;
     }
 
+    &.fa-angle-double-down,
+    &.fa-angle-double-up {
+        margin-left: 5px;
+    }
+
 }
 
 button[type="button"] {
