@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/models/post';
 import { UserService } from '../../services/user.service';
+import { PostService } from 'src/app/services/post.service';
+import { Store } from '@ngrx/store';
 
 
 @Component({
@@ -16,37 +18,76 @@ export class ContentComponent implements OnInit {
   personalPosts: Array<Post> = [];
   viewToDisplay: string = 'discover'
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private postService: PostService, private store: Store<any>) { }
 
-  ngOnInit() { 
+  authUser: any;
+  authToken: string;
+  errMsg: string;
+  ngOnInit() {
+    this.store.select('userAuth').subscribe((userAuth) => {
+      console.log(`TOKENS STATUS CHANGED IN main content: ${userAuth}`);
+      console.log(userAuth);
+      this.authUser = userAuth;
+      if (this.authUser) {
+        this.authToken = userAuth.token;
+      }
+    });
     this.fetchDiscoverPosts();
   }
 
 
   fetchDiscoverPosts() {
-     console.log('fetching with offset' +this.currentDiscoverPage);
-     this.userService.getDiscoverPosts(this.currentDiscoverPage)
-     .then(res => {
-       console.log('discovered posts');
-       
-       console.log(res.body.posts);
-       if (res.body.posts.length > 0){
-        this.currentDiscoverPage += this.currentDiscoverPage + 1;
-       }
+    console.log('fetching with offset' + this.currentDiscoverPage);
+    this.userService.getDiscoverPosts(this.currentDiscoverPage)
+      .then(res => {
+        console.log('discovered posts');
 
-       this.discoverPosts = [...this.discoverPosts,...res.body.posts];
-     })
-     .catch(err => {
-       console.log(err);
-     })
+        console.log(res.body.posts);
+        if (res.body.posts.length > 0) {
+          this.currentDiscoverPage += this.currentDiscoverPage + 1;
+        }
+
+        this.discoverPosts = [...this.discoverPosts, ...res.body.posts];
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   fetchPersonalPosts() {
 
   }
 
-  setView(view: string) { 
+  setView(view: string) {
     this.viewToDisplay = view;
+  }
+
+  voteUp(vu: any, vd: any, postId: number, cname: string) {
+    this.postService.getUpVotes(this.authUser.token, postId, cname).toPromise()
+      .then(res => {
+        if (res.status === 200) {
+          console.log('UPVOTES SUCCESS', res.body);
+          vu.innerText = res.body.upvotes;
+          vd.innerText = res.body.downvotes;
+        }
+      }).catch(err => {
+        console.log("UVOTES FAILED", err);
+        this.errMsg = "Not able to vote up";
+      });
+  }
+
+  voteDown(vu: any, vd: any, postId: number, cname: string) {
+    this.postService.getDownVotes(this.authUser.token, postId, cname).toPromise()
+      .then(res => {
+        if (res.status === 200) {
+          console.log('DOWNVOTES SUCCESS', res.body);
+          vu.innerText = res.body.upvotes;
+          vd.innerText = res.body.downvotes;
+        }
+      }).catch(err => {
+        console.log("DOWNVOTES FAILED", err);
+        this.errMsg = "Not able to down vote";
+      });
   }
 
 }

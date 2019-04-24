@@ -89,3 +89,7 @@ button[type="button"] {
     width: 100%;
     // right: 1%;
 }
+
+a:not([href]) {
+    color: #007bff;
+}

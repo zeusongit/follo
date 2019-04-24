@@ -77,7 +77,7 @@ export class ViewPostDetailComponent implements OnInit {
           }
         }).catch(err => {
           console.log("COMMENT ADDED FAILED");
-          this.errMsg = "Not able to add comment";
+          this.errMsg = "Please Follow Community";
         });
     }
 
