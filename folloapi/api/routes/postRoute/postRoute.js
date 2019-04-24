@@ -21,8 +21,10 @@ routes.post('/:community/:post/comment',authChecker, postController.checkFollowe
 
 //routes.put('/:commentId',authChecker, postController.updateComment);
 
-routes.put('/:post/delete/:comment',authChecker, postController.checkCreator, postController.deleteComment);
+routes.put('/:post/delete/:comment',authChecker, postController.checkCommentCreator, postController.deleteComment);
 
 //routes.get('/:post/comment',authChecker, postController.getAllPostComments);
+
+routes.get('/post/discover/:pageNo', postController.getPostsForDiscover);
 
 module.exports = routes;
