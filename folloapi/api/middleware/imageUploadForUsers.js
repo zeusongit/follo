@@ -24,7 +24,7 @@ const upload = multer({
 });
 
 let uploadImage = (req, res, next) => {
-
+console.log("In image");
     const singleUpload = upload.single('image');
     singleUpload(req, res, function (err, some) {
         if (!err){

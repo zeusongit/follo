@@ -34,43 +34,44 @@ let getUser = async (email, token) => {
 //   }
 // }
 
-let getPersonalPost = (user) => {
-  //let communityNames = user.followingCommunities.community;
-  let communityNames = [];
-
-  user.followingCommunities.forEach(element => {
-    communityNames.push(element.community.name);
-
-  })
-
-  console.log(communityNames);
-
-  return new Promise((resolve, reject) => {
-    Post.find({
-      "parent_community.cname": {
-        $in: communityNames
-      }
-    }).exec().then(doc => {
-      if (doc && doc.length > 0) {
-        resolve({
-          getAllStatus: true,
-          posts: doc
-        })
-      } else {
-        resolve({
-          getAllStatus: false
-        })
-      }
-    }).catch((err) => {
-      console.log("cannot update post");
-      console.log(err);
-      reject(null);
+  let getPersonalPost = (user) => {
+    //let communityNames = user.followingCommunities.community;
+    let communityNames = [];
+  
+    user.followingCommunities.forEach(element => {
+      communityNames.push(element.community.name);
+  
     })
-  })
+  
+    console.log(communityNames);
+  
+    return new Promise((resolve, reject) => {
+      Post.find({
+        "parent_community.cname": {
+          $in: communityNames
+        }
+      }).exec().then(doc => {
+        if (doc && doc.length > 0) {
+          resolve({
+            getAllStatus: true,
+            posts: doc
+          })
+        } else {
+          resolve({
+            getAllStatus: false
+          })
+        }
+      }).catch((err) => {
+        console.log("cannot update post");
+        console.log(err);
+        reject(null);
+      })
+    })
+  
+  }
 
-}
+  module.exports = {
+    getUser,
+    getPersonalPost
+  };
 
-module.exports = {
-  getUser,
-  getPersonalPost
-};

@@ -3,6 +3,7 @@ let postController = require (__dirname+'/../../controllers/postController/postC
 let routes = require('express').Router();
 const authChecker = require (__dirname+'/../../middleware/authChecker.js');
 const imageUploadForPost = require (__dirname+'/../../middleware/imageUploadForPost.js');
+const imageUploadForUsers = require (__dirname+'/../../middleware/imageUploadForUsers.js')
 
 
 routes.post('/:community/post', authChecker,imageUploadForPost, postController.createPost);
