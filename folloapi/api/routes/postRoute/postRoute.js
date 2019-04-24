@@ -11,6 +11,8 @@ routes.put('/:community/post/:id', authChecker,imageUploadForPost, postControlle
 
 routes.get('/:community/post', postController.getAllPostOfComm);
 
+routes.get('/post/search', postController.searchPost);
+
 routes.get('/:community/post/:id', postController.getSinglePost);
 
 routes.get('/:community/post/:id/upvote', authChecker, postController.upvotePost);
