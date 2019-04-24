@@ -67,7 +67,6 @@ let getPostById = async (id) => {
   }
 }
 
-
 let searchPosts = async (key) => {
   try {
     let posts = await Post.searchPost(key);
@@ -125,7 +124,6 @@ let checkCreator = (postId, user) => {
   })
 }
 
-
 let checkFollower = (user, communityName) => {
   return new Promise((resolve, reject) => {
     console.log(user._id,communityName);    
@@ -175,16 +173,16 @@ let deleteComment = (postId, commentId) => {
       })
     }
 
-  let getAllPostsByUser = async (user) => {
-    try {
-      let posts = await Post.findByUser(user.username);
-      return posts;
-    } catch (e) {
-      console.log(e);
-      return null;
-  
-    }
+let getAllPostsByUser = async (user) => {
+  try {
+    let posts = await Post.findByUser(user.username);
+    return posts;
+  } catch (e) {
+    console.log(e);
+    return null;
+
   }
+}
 
   let getAllPostsByCommunity = async (community) => {
     try {
