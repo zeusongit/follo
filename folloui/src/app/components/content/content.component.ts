@@ -29,10 +29,16 @@ export class ContentComponent implements OnInit {
       console.log(userAuth);
       this.authUser = userAuth;
       if (this.authUser) {
+        console.log('user changed for feed');
         this.authToken = userAuth.token;
       }
     });
+
     this.fetchDiscoverPosts();
+    if (this.authUser){
+      this.fetchPersonalPosts();
+    }
+    
   }
 
 
@@ -56,6 +62,11 @@ export class ContentComponent implements OnInit {
 
   fetchPersonalPosts() {
 
+    this.userService.getPersonalPosts(this.authToken)
+    .then(res => {
+      this.personalPosts = res.body.posts;
+
+    })
   }
 
   setView(view: string) {

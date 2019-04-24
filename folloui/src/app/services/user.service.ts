@@ -28,4 +28,14 @@ export class UserService {
     let url = `http://localhost:3000/user/post/discover/${page}`;
     return this.http.get(url,{observe: 'response'}).toPromise();
   }
+
+  getPersonalPosts(token: string): Promise<any> {
+    let url = `http://localhost:3000/user/personal`;
+
+    const headers= {
+      "Authorization" : "Bearer "+token
+    }
+
+    return this.http.get(url, {headers, observe: 'response'}).toPromise();
+  }
 }

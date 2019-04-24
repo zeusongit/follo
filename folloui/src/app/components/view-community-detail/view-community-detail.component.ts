@@ -133,10 +133,11 @@ export class ViewCommunityDetailComponent implements OnInit {
         if (res.status === 200) {
           console.log("UN FOLLOWING COM SUCCESS");
           this.isPresentInFollowing = false;
-          this.errMsg = "Not able to unfollow";
+         
         }
       }).catch(err => {
         console.log("ERROR UN FOLLOWING COM", err);
+        this.errMsg = "Not able to unfollow";
       });
   }
 
