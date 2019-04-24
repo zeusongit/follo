@@ -1,6 +1,6 @@
 export class Post {
-  postTitle: string;
-  postContent: string;
+  title: string;
+  content: string;
   type: string;
   post_media: string[];
   public constructor(init?: Partial<Post>) {

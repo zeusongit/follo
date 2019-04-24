@@ -8,8 +8,8 @@ let createPost = async (req, res) => {
   if (ufile) {
     ufile = req.files;
   }
-  let result = await postService.createPost(postJSON, req.params.community, req.user, ufile);
-  console.log(result);
+  let result = await postService.createPost(postJSON,req.params.community,req.user,ufile);
+  //console.log("res of create post"+result);
   if (result) {
     res.send(result);
   } else {
@@ -19,7 +19,6 @@ let createPost = async (req, res) => {
     });
   }
 };
-
 
 let updatePost = async (req, res) => {
   console.log(req.body + req.params.id);
@@ -84,19 +83,21 @@ let getSinglePost = async (req, res) => {
   }
 }
 
-let upvotePost = async (req, res) => {
-  console.log("--" + req.params.id);
-  let result = await postService.upvotePost(req.params.id, req.user);
-  console.log(result);
-  if (result) {
-    res.status(200).send(result);
-  } else {
-    res.status(404).send({
-      status: 404,
-      message: 'cannot get post'
-    });
+  let upvotePost = async (req, res) => {
+    console.log("--"+req.params.id);
+    let result = await postService.upvotePost(req.params.id,req.user);
+    console.log(result);
+    if (result) {
+        res.status(200).send(result);
+    }
+    else {
+        res.status(404).send({
+            status: 404,
+            message: 'cannot get post'
+        });
+    }
   }
-}
+
 
 let searchPost = async (req, res) => {
   console.log(req.params.key);

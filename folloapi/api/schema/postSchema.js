@@ -1,8 +1,5 @@
 let mongoose = require(__dirname + '/../db/mongoose.js');
 
-const mediaTemplate = {
-    url: String
-}
 const eventTemplate = {
     name: String,
     desc: String,
@@ -41,7 +38,7 @@ let postSchemaTemplate = {
     }],
 
     post_media: [{
-        media: mediaTemplate
+        media: String
     }],
 
     parent_community: {
