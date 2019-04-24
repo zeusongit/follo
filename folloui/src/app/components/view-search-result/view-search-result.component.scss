@@ -18,5 +18,13 @@ img {
 }
 
 li {
-  cursor: pointer;
+    cursor: pointer;
+}
+
+.nav-tabs {
+    margin-left: 10px;
+}
+
+a:not([href]) {
+    color: #007bff;
 }
