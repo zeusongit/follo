@@ -42,6 +42,7 @@ export class PostService {
     });
   }
 
+
   getPostById(token: string, postId: number, cname: string) {
     return this.http.get<any>("http://localhost:3000/community/" + cname + "/post/" + postId, {
       headers: {
@@ -87,4 +88,5 @@ export class PostService {
       }, observe: 'response'
     })
   }
+
 }
