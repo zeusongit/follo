@@ -2,11 +2,11 @@ let postService = require(__dirname +
   "/../../services/postService/postService.js");
 
 let createPost = async (req, res) => {
-  let postJSON=req.body;
-  console.log("file-"+req.files);
-  let ufile=null;
-  if(ufile){
-    ufile=req.files;
+  let postJSON = req.body;
+  console.log("file-" + req.files);
+  let ufile = null;
+  if (ufile) {
+    ufile = req.files;
   }
   let result = await postService.createPost(postJSON,req.params.community,req.user,ufile);
   //console.log("res of create post"+result);
@@ -21,35 +21,33 @@ let createPost = async (req, res) => {
 };
 
 let updatePost = async (req, res) => {
-    console.log(req.body+req.params.id);
-    let postJSON=req.body;
-    let result = await postService.updatePost(req.params.id,postJSON);
-    console.log(result);
-    if (result) {
-        res.status(200).send(result);
-    }
-    else {
-        res.status(404).send({
-            status: 404,
-            message: 'cannot update post'
-        });
-    }
+  console.log(req.body + req.params.id);
+  let postJSON = req.body;
+  let result = await postService.updatePost(req.params.id, postJSON);
+  console.log(result);
+  if (result) {
+    res.status(200).send(result);
+  } else {
+    res.status(404).send({
+      status: 404,
+      message: 'cannot update post'
+    });
   }
+}
 
 
 let getAllPostOfUser = async (req, res) => {
-    let result = await postService.getAllPostsByUser(req.user);
-    console.log(result);
-    if (result) {
-        res.status(200).send(result);
-    }
-    else {
-        res.status(404).send({
-            status: 404,
-            message: 'cannot get posts'
-        });
-    }
+  let result = await postService.getAllPostsByUser(req.user);
+  console.log(result);
+  if (result) {
+    res.status(200).send(result);
+  } else {
+    res.status(404).send({
+      status: 404,
+      message: 'cannot get posts'
+    });
   }
+}
 
 
 let getAllPostOfComm = async (req, res) => {
@@ -71,20 +69,19 @@ let getAllPostOfComm = async (req, res) => {
 };
 
 
-  let getSinglePost = async (req, res) => {
-    console.log(req.params.id);
-    let result = await postService.getPostById(req.params.id);
-    console.log(result);
-    if (result) {
-        res.status(200).send(result);
-    }
-    else {
-        res.status(404).send({
-            status: 404,
-            message: 'cannot get post'
-        });
-    }
+let getSinglePost = async (req, res) => {
+  console.log(req.params.id);
+  let result = await postService.getPostById(req.params.id);
+  console.log(result);
+  if (result) {
+    res.status(200).send(result);
+  } else {
+    res.status(404).send({
+      status: 404,
+      message: 'cannot get post'
+    });
   }
+}
 
   let upvotePost = async (req, res) => {
     console.log("--"+req.params.id);
@@ -100,6 +97,7 @@ let getAllPostOfComm = async (req, res) => {
         });
     }
   }
+
 
 let searchPost = async (req, res) => {
   console.log(req.params.key);
@@ -151,20 +149,19 @@ let checkCreator = (req, res, next) => {
     });
 };
 
-  let downvotePost = async (req, res) => {
-    console.log("--"+req.params.id);
-    let result = await postService.downvotePost(req.params.id,req.user);
-    console.log(result);
-    if (result) {
-        res.status(200).send(result);
-    }
-    else {
-        res.status(404).send({
-            status: 404,
-            message: 'cannot get post'
-        });
-    }
+let downvotePost = async (req, res) => {
+  console.log("--" + req.params.id);
+  let result = await postService.downvotePost(req.params.id, req.user);
+  console.log(result);
+  if (result) {
+    res.status(200).send(result);
+  } else {
+    res.status(404).send({
+      status: 404,
+      message: 'cannot get post'
+    });
   }
+}
 
 let deleteComment = (req, res) => {
   postService
@@ -173,7 +170,8 @@ let deleteComment = (req, res) => {
       if (result) {
         res.send({
           message: " Comment deleted Successfully",
-          deleteStatus: result.deleteStatus
+          deleteStatus: result.deleteStatus,
+          post: result.post
         });
       } else {
         res.status(400).send({
@@ -196,7 +194,6 @@ let checkFollower = (req, res, next) => {
   postService
     .checkFollower(user, communityName)
     .then(result => {
-        console.log(result.followerStatus);        
       if (result.followerStatus) {
         next();
       } else {
@@ -206,14 +203,55 @@ let checkFollower = (req, res, next) => {
         });
       }
     })
-    .catch(err =>{
-        res.status(500).send({
-            message: err.message || "Error while Checking Follower"
-        })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Error while Checking Follower"
+      })
     });
 };
 
-  
+let checkCommentCreator = (req, res, next) => {
+  let user = req.user;
+  let postId = req.params.post;
+
+  postService.checkCommentCreator(postId, user).then(result => {
+    console.log(result.commentCreator);
+    if (result.commentCreator) {
+      next();
+    } else {
+      res.status(400).send({
+        commentCreator: false,
+        message: "You are not the creator"
+      });
+    }
+  }).catch(err => {
+    res.status(500).send({
+      message: err.message || "Error while Checking Comment Creator"
+    });
+  });
+}
+
+let getPostsForDiscover = (req, res) => {
+  let pageNo = req.params.pageNo;
+  postService.getPostsForDiscover(pageNo).then(result => {
+    if (result.posts && result.posts.length > 0) {
+      res.send({
+        posts: result.posts
+      })
+    } else {
+      res.send({
+        message: "No Posts Found",
+        getAllStatus: result.getAllStatus
+      })
+    }
+  }).catch(err => {
+    res.status(500).send({
+      message: err.message || "Error while Checking Comment Creator"
+    });
+  })
+}
+
+
 module.exports = {
   createPost,
   updatePost,
@@ -228,6 +266,7 @@ module.exports = {
   deleteComment,
   //getAllPostComments
   upvotePost,
-  downvotePost
+  downvotePost,
+  checkCommentCreator,
+  getPostsForDiscover
 };
-

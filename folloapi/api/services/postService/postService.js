@@ -10,31 +10,33 @@ let createPost = async (newPostObj,commname,user,ufile) => {
     console.log("create post under"+commname);
     return new Promise((resolve, reject) => {    
     let newPost = new Post(newPostObj);
-    if(ufile){
+    if (ufile) {
       ufile.forEach(f => {
-        newpost.post_media.push({"url":f});  
-      });      
+        newpost.post_media.push({
+          "url": f
+        });
+      });
     }
     //console.log("file:"+ufile);
     newPost.created_by = (({ _id,username }) => ({ _id,username }))(user);
     newPost.parent_community = (({ _id,cname }) => ({ _id,cname }))(community);
     //console.log("np"+newPost);
     newPost.save()
-        .then((doc) => {
-          console.log(doc);
-          addPostToUser(doc,user);
-          addPostToCommunity(doc,community);
-          resolve({
-            post: doc
-          });
-        })
-        .catch((err) => {
-          console.log("cannot save post");
-          console.log(err);
-          reject(null);
-        })
-    })
-  }
+      .then((doc) => {
+        console.log(doc);
+        addPostToUser(doc, user);
+        addPostToCommunity(doc, community);
+        resolve({
+          post: doc
+        });
+      })
+      .catch((err) => {
+        console.log("cannot save post");
+        console.log(err);
+        reject(null);
+      })
+  })
+}
 
 let updatePost = (id, newPostObj) => {
   return new Promise((resolve, reject) => {
@@ -105,7 +107,7 @@ let createCommentForPost = (comments, postId, user) => {
 
 let checkCreator = (postId, user) => {
   return new Promise((resolve, reject) => {
-    Post.findById(postId).then((doc) => {     
+    Post.findById(postId).then((doc) => {
       console.log(doc.created_by._id == user._id);
       if (doc.created_by._id == user._id) {
         resolve({
@@ -126,21 +128,23 @@ let checkCreator = (postId, user) => {
 
 let checkFollower = (user, communityName) => {
   return new Promise((resolve, reject) => {
-    console.log(user._id,communityName);    
+    console.log(user._id, communityName);
     commModel.find({
       cname: communityName,
       isActive: true,
-      memberIds:{
-        $elemMatch:{ "member.id": user._id}
+      memberIds: {
+        $elemMatch: {
+          "member.id": user._id
+        }
       }
     }).exec().then((doc) => {
-      console.log(doc);      
-      if(doc && doc.length > 0){
-         resolve({
+      console.log(doc);
+      if (doc && doc.length > 0) {
+        resolve({
           followerStatus: true
         })
-      }else{
-         resolve({
+      } else {
+        resolve({
           followerStatus: false
         })
       }
@@ -151,27 +155,56 @@ let checkFollower = (user, communityName) => {
   })
 }
 
-let deleteComment = (postId, commentId) => {
-    return new Promise((resolve, reject) => {
-        Post.findByIdAndUpdate(postId, {
-          $pull: {
-            "comments": {
-              "_id": commentId
-            }
-          },
-          new: true
-        }).then(() => {
-          resolve({
-            deleteStatus: true
-          })
-        }).catch(err => {
-          console.log(err);
-          reject({
-            deleteStatus: false
-          })
+let checkCommentCreator = (postId, user) => {
+  return new Promise((resolve, reject) => {
+    console.log(postId, user.username);
+    Post.find({
+      _id: postId,
+      comments: {
+        $elemMatch: {
+          "comment.username": user.username
+        }
+      }
+    }).exec().then((doc) => {
+      console.log(doc);
+      if (doc && doc.length > 0) {
+        resolve({
+          commentCreator: true
         })
+      } else {
+        resolve({
+          commentCreator: false
+        })
+      }
+    }).catch(err => {
+      console.log(err);
+      reject(null);
+    });
+  });
+}
+
+let deleteComment = (postId, commentId) => {
+  return new Promise((resolve, reject) => {
+    Post.findByIdAndUpdate(postId, {
+      $pull: {
+        "comments": {
+          "_id": commentId
+        }
+      },
+      new: true
+    }).then((doc) => {
+      resolve({
+        deleteStatus: true,
+        post: doc
       })
-    }
+    }).catch(err => {
+      console.log(err);
+      reject({
+        deleteStatus: false
+      })
+    })
+  })
+}
 
 let getAllPostsByUser = async (user) => {
   try {
@@ -184,26 +217,33 @@ let getAllPostsByUser = async (user) => {
   }
 }
 
-  let getAllPostsByCommunity = async (community) => {
-    try {
-      console.log(community);
-      let posts = await Post.findByCommunity(community);
-      console.log(posts);
-      return posts;
-    } catch (e) {
-      console.log(e);
-      return null;
-  
+let getAllPostsByCommunity = async (community) => {
+  try {
+    console.log(community);
+    let posts = await Post.findByCommunity(community);
+    console.log(posts);
+    return posts;
+  } catch (e) {
+    console.log(e);
+    return null;
     }
+
   }
 
-  let upvotePost = (currPost,currUser) => {
-    return new Promise((resolve, reject) => {
-    userModel.findOne({'upvotes': {$elemMatch: {'post.id': currPost}}}, (err, user) => {
-      if (err){
-        console.log("errrrr"+err);
-          return err;
-      }    
+
+let upvotePost = (currPost, currUser) => {
+  return new Promise((resolve, reject) => {
+    userModel.findOne({
+      'upvotes': {
+        $elemMatch: {
+          'post.id': currPost
+        }
+      }
+    }, (err, user) => {
+      if (err) {
+        console.log("errrrr" + err);
+        return err;
+      }
       if (user) {
           console.log("user did upvote already, so remove it from user object upvoted posts and decrement upvote count");
           removeUpvote(currUser,currPost,resolve, reject);
@@ -235,7 +275,7 @@ let getAllPostsByUser = async (user) => {
       }  
     });
   })
-  }
+}
 
 
 
@@ -372,43 +412,69 @@ let getAllPostsByUser = async (user) => {
     userModel.findByIdAndUpdate(user._id, {
       $push: {
         "createdPosts": {
-          "post.id": post._id
-        }
+          "post.id": post._id        
       }
-    }, {
-      new: true,
-      upsert: false
-    }).exec();  
-  }
-  let addPostToCommunity = (post, community) => {
-    console.log(post._id, community._id, community.cname);
-    commModel.findByIdAndUpdate(community._id, {
-      $push: {
-        "posts": {
-          "post.id": post._id
-        }
+    }
+  }, {
+    new: true,
+    upsert: false
+  }).exec();
+}
+
+let addPostToCommunity = (post, community) => {
+  console.log(post._id, community._id, community.cname);
+  commModel.findByIdAndUpdate(community._id, {
+    $push: {
+      "posts": {
+        "post.id": post._id
       }
-    }, {
-      new: true,
-      upsert: false
-    }).exec();  
-  }
-  
-  //end
+    }
+  }, {
+    new: true,
+    upsert: false
+  }).exec();
+}
 
-    module.exports = {
-      createPost,
-      getPostById,
-      getAllPostsByUser,
-      getAllPostsByCommunity,
-      updatePost,
-      searchPosts,
-      createCommentForPost,
-      checkFollower,
-      checkCreator,
-      deleteComment,
-      upvotePost,
-      downvotePost
-      //getAllPostComments
-    };
+let getPostsForDiscover = (pageNo) => {
+  var query = {};
+  var size = 5;
+  query.skip = size * (pageNo - 1);
+  query.limit = size;
 
+  return new Promise((resolve, reject) => {
+    Post.find().sort('-upvotes').skip(query.skip).limit(query.limit).exec().then(doc => {
+      if (doc && doc.length > 0) {
+        resolve({
+          getAllStatus: true,
+          posts: doc
+        })
+      } else {
+        resolve({
+          getAllStatus: false
+        })
+      }
+    }).catch((err) => {
+      console.log("cannot update post");
+      console.log(err);
+      reject(null);
+    });
+  });
+}
+
+module.exports = {
+  createPost,
+  getPostById,
+  getAllPostsByUser,
+  getAllPostsByCommunity,
+  updatePost,
+  searchPosts,
+  createCommentForPost,
+  checkFollower,
+  checkCreator,
+  deleteComment,
+  upvotePost,
+  downvotePost,
+  checkCommentCreator,
+  getPostsForDiscover
+  //getAllPostComments
+};
