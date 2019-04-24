@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Community } from './../../models/community';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 @Component({
   selector: 'app-create-community',
@@ -18,21 +19,28 @@ export class CreateCommunityComponent implements OnInit {
   @ViewChild('labelImport')
   labelImport: ElementRef;
   authToken: any;
+  err: string;
   constructor(private commService: CommunityService, private store: Store<any>, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
+   
     this.store.select('userAuth').subscribe((userAuth) => {
-      
       console.log(userAuth);
       this.authToken = userAuth;
-
-      
     });
+
+    if(!this.authToken){
+      console.log('cannot create community due to unauthenticated user');
+      console.log('redirecting');
+      this.router.navigate(['login']);
+    }
 
     this.createComForm = this.fb.group({
       cname: [null, Validators.required],
       description: [null, Validators.required]
     });
+
+
   }
 
   processFile(files: FileList) {
@@ -54,6 +62,7 @@ export class CreateCommunityComponent implements OnInit {
           }
         }).catch(err => {
           console.log("CANNOT CREATE COMMUNITY", err);
+          err = 'Cannot Create Community';
         });
     }
   }
