@@ -22,9 +22,9 @@ export class CreatePostComponent implements OnInit {
   selectCommunity: string;
   postType = [
     'Text',
-    'Image',
-    'Event'
+    'Image'
   ];
+  err: string;
   selectedPostType: string;
   @ViewChild('labelImport')
   labelImport: ElementRef;
@@ -71,6 +71,7 @@ export class CreatePostComponent implements OnInit {
         }).catch(err => {
           console.log(err);
           console.log('ERROR CREATING POST');
+          this.err = "Cannot create post"
         });
     }
   }
@@ -86,6 +87,7 @@ export class CreatePostComponent implements OnInit {
           }
         }).catch(err => {
           console.log('ERROR GETTING USER DATA', err);
+          this.err = "Not able to get User data";
         });
     }
   }

@@ -28,6 +28,7 @@ export class ViewCommunityDetailComponent implements OnInit {
   isPresentInFollowing: boolean;
 
   err: string;
+  errMsg: string;
 
   constructor(private postService: PostService, private route: ActivatedRoute, private userService: UserService, private commService: CommunityService, private store: Store<any>) { }
 
@@ -37,8 +38,10 @@ export class ViewCommunityDetailComponent implements OnInit {
       console.log(`TOKENS STATUS CHANGED IN VIEW COMMUNITY: ${userAuth}`);
       console.log(userAuth);
       this.authUser = userAuth;
-      this.authToken = userAuth.token;
-      this.currentUserName = userAuth.username;
+      if (this.authUser) {
+        this.authToken = userAuth.token;
+        this.currentUserName = userAuth.username;
+      }
     });
 
 
@@ -47,11 +50,8 @@ export class ViewCommunityDetailComponent implements OnInit {
       console.log('INSIDE VIEW DETAILS', name);
       this.community = [];
       this.posts = [];
-
       this.isPresentInFollowing ? false : true;
-
       this.err = null;
-
       this.communityName = name.cname;
       this.viewCommunityDetails();
       this.getUserDetails();
@@ -60,7 +60,7 @@ export class ViewCommunityDetailComponent implements OnInit {
   }
 
   getUserDetails() {
-    if (this.authToken != null) {
+    if (this.authUser != null) {
 
       this.userService.getUserDetail(this.authUser.token, this.authUser.email).toPromise()
         .then(res => {
@@ -76,6 +76,7 @@ export class ViewCommunityDetailComponent implements OnInit {
           }
         }).catch(err => {
           console.log('ERROR GETTING USER DATA', err);
+          this.errMsg = "Not able to get user data";
         });
     }
   }
@@ -108,6 +109,7 @@ export class ViewCommunityDetailComponent implements OnInit {
         }
       }).catch(err => {
         console.log('Error viewing community details', err);
+        this.errMsg = "There is no post for this community";
       });
   }
 
@@ -121,6 +123,7 @@ export class ViewCommunityDetailComponent implements OnInit {
         //}
       }).catch(err => {
         console.log("ERROR FOLLOWING COM", err);
+        this.errMsg = "Not able to follow";
       });
   }
 
@@ -130,6 +133,7 @@ export class ViewCommunityDetailComponent implements OnInit {
         if (res.status === 200) {
           console.log("UN FOLLOWING COM SUCCESS");
           this.isPresentInFollowing = false;
+          this.errMsg = "Not able to unfollow";
         }
       }).catch(err => {
         console.log("ERROR UN FOLLOWING COM", err);
@@ -146,6 +150,7 @@ export class ViewCommunityDetailComponent implements OnInit {
         }
       }).catch(err => {
         console.log("UVOTES FAILED", err);
+        this.errMsg = "Not able to vote up";
       });
   }
 
@@ -159,8 +164,7 @@ export class ViewCommunityDetailComponent implements OnInit {
         }
       }).catch(err => {
         console.log("DOWNVOTES FAILED", err);
+        this.errMsg = "Not able to down vote";
       });
   }
-
-
 }

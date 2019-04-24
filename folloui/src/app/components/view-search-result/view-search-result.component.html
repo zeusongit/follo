@@ -26,6 +26,7 @@
             </div>
           </div>
         </li>
+        <li class="list-group-item error">{{commNullMsg}}</li>
       </ul>
       <ul class="list-group list-group-flush" *ngIf="!isCommunities">
         <li class="list-group-item" *ngFor="let post of posts"
@@ -42,6 +43,7 @@
             </div>
           </div>
         </li>
+        <li class="list-group-item error">{{postNullMsg}}</li>
       </ul>
     </div>
   </div>

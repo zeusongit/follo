@@ -58,6 +58,7 @@
               placeholder="Tell about this post in few word"></textarea>
           </div>
           <a type="submit" class="btn btn-primary app-button" (click)="addPost()">CREATE</a>
+          <span class="error" *ngIf="err">{{err}}</span>
         </form>
       </div>
     </div>
