@@ -1,3 +1,4 @@
+import { PostService } from './../../services/post.service';
 import { Observable } from 'rxjs';
 import { UserService } from './../../services/user.service';
 import { Store } from '@ngrx/store';
@@ -22,12 +23,13 @@ export class ViewCommunityDetailComponent implements OnInit {
   authUser: any;
   canFollow: boolean;
   commPicture: string;
-
+  // upVotes: number;
+  // downVotes: number;
   isPresentInFollowing: boolean;
 
   err: string;
 
-  constructor(private route: ActivatedRoute, private userService: UserService, private commService: CommunityService, private store: Store<any>) { }
+  constructor(private postService: PostService, private route: ActivatedRoute, private userService: UserService, private commService: CommunityService, private store: Store<any>) { }
 
   ngOnInit() {
 
@@ -53,6 +55,7 @@ export class ViewCommunityDetailComponent implements OnInit {
       this.communityName = name.cname;
       this.viewCommunityDetails();
       this.getUserDetails();
+
     });
   }
 
@@ -124,12 +127,40 @@ export class ViewCommunityDetailComponent implements OnInit {
   unFollow() {
     this.commService.unFollowCommunity(this.communityName, this.authToken).toPromise()
       .then(res => {
-        // if (res.status === 200) {
-        console.log("UN FOLLOWING COM SUCCESS");
-        this.isPresentInFollowing = false;
-        //}
+        if (res.status === 200) {
+          console.log("UN FOLLOWING COM SUCCESS");
+          this.isPresentInFollowing = false;
+        }
       }).catch(err => {
         console.log("ERROR UN FOLLOWING COM", err);
       });
   }
+
+  voteUp(vu: any, vd: any, postId: number) {
+    this.postService.getUpVotes(this.authUser.token, postId, this.communityName).toPromise()
+      .then(res => {
+        if (res.status === 200) {
+          console.log('UPVOTES SUCCESS', res.body);
+          vu.innerText = res.body.upvotes;
+          vd.innerText = res.body.downvotes;
+        }
+      }).catch(err => {
+        console.log("UVOTES FAILED", err);
+      });
+  }
+
+  voteDown(vu: any, vd: any, postId: number) {
+    this.postService.getDownVotes(this.authUser.token, postId, this.communityName).toPromise()
+      .then(res => {
+        if (res.status === 200) {
+          console.log('DOWNVOTES SUCCESS', res.body);
+          vu.innerText = res.body.upvotes;
+          vd.innerText = res.body.downvotes;
+        }
+      }).catch(err => {
+        console.log("DOWNVOTES FAILED", err);
+      });
+  }
+
+
 }

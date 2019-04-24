@@ -63,7 +63,7 @@ export class CommunityService {
   }
 
   getPostSearchResult(cname: string) {
-    return this.http.get<any>('http://localhost:3000/community/search/post?key=' + cname, {
+    return this.http.get<any>('http://localhost:3000/community/post/search?key=' + cname, {
       observe: 'response'
     });
   }

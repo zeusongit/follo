@@ -62,7 +62,7 @@ export class PostService {
   }
 
   getUpVotes(token: string, postId: number, cname: string) {
-    return this.http.get<any>("http://localhost:3000/community" + cname + "/post/" + postId + "/upvote", {
+    return this.http.get<any>("http://localhost:3000/community/" + cname + "/post/" + postId + "/upvote", {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
@@ -71,7 +71,7 @@ export class PostService {
   }
 
   getDownVotes(token: string, postId: number, cname: string) {
-    return this.http.get<any>("http://localhost:3000/community" + cname + "/post/" + postId + "/downvote", {
+    return this.http.get<any>("http://localhost:3000/community/" + cname + "/post/" + postId + "/downvote", {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
@@ -80,7 +80,7 @@ export class PostService {
   }
 
   deleteComment(token: string, postId: number, commentId: string) {
-    return this.http.put<any>("http://localhost:3000/community/" + postId + "/delete/" + commentId, {
+    return this.http.put<any>("http://localhost:3000/community/" + postId + "/delete/" + commentId, "", {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token

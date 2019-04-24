@@ -85,8 +85,9 @@ export class ViewPostDetailComponent implements OnInit {
     this.postService.getUpVotes(this.authUser.token, this.postId, this.cname).toPromise()
       .then(res => {
         if (res.status === 200) {
-          console.log('UPVOTES SUCCESS');
-          this.upVotes = res.body.post.upvotes;
+          console.log('UPVOTES SUCCESS', res.body);
+          this.upVotes = res.body.upvotes;
+          this.downVotes = res.body.downvotes;
         }
       }).catch(err => {
         console.log("UVOTES FAILED", err);
@@ -94,11 +95,12 @@ export class ViewPostDetailComponent implements OnInit {
   }
 
   downVote() {
-    this.postService.getUpVotes(this.authUser.token, this.postId, this.cname).toPromise()
+    this.postService.getDownVotes(this.authUser.token, this.postId, this.cname).toPromise()
       .then(res => {
         if (res.status === 200) {
-          console.log('DOWNVOTES SUCCESS');
-          this.downVotes = res.body.post.downvotes;
+          console.log('DOWNVOTES SUCCESS', res.body);
+          this.upVotes = res.body.upvotes;
+          this.downVotes = res.body.downvotes;
         }
       }).catch(err => {
         console.log("DOWNVOTES FAILED", err);
@@ -110,6 +112,10 @@ export class ViewPostDetailComponent implements OnInit {
       .then(res => {
         if (res.status === 200) {
           console.log("DELETE COMMENT SUCCESS");
+          // this.comments = this.comments.filter((c) => {
+          //   return c.comment_id != commentId;
+          // })
+          this.ngOnInit();
         }
       }).catch(err => {
         console.log("ERROR DELETING COMMENT", err);

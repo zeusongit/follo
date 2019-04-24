@@ -25,7 +25,7 @@
           <div class="cornor">
             <span class="posted-by"><b class="cmtUser">{{com.comment.username}}</b> -
               {{com.comment.commentDate |  date:'MM/dd/yyyy'}}</span>
-            <i class="fas fa-comment-slash" (click)="deleteComment(com.comment._id)"></i>
+            <i class="fas fa-trash-alt" (click)="deleteComment(com._id)"></i>
             <p>{{com.comment.commentText}}</p>
           </div>
         </li>
