@@ -3,11 +3,17 @@ let postService = require(__dirname +
 
 let createPost = async (req, res) => {
   let postJSON = req.body;
-  console.log("file-" + req.files);
+  console.log(req.files);
   let ufile = null;
-  if (ufile) {
+  if (req.file) {
+    console.log("11111111111111111111111");
+    ufile = req.file;
+  }
+  if (req.files) {
+    console.log("122222222222222211");
     ufile = req.files;
   }
+  console.log(ufile);
   let result = await postService.createPost(postJSON,req.params.community,req.user,ufile);
   //console.log("res of create post"+result);
   if (result) {

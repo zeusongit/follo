@@ -5,17 +5,24 @@ let communityService = require(__dirname +
   "/../../services/communityService/communityService.js");
 
 let createPost = async (newPostObj,commname,user,ufile) => {
-  
     let community = await communityService.getCommunityByName(commname); //get community
     console.log("create post under"+commname);
     return new Promise((resolve, reject) => {    
     let newPost = new Post(newPostObj);
+    console.log("file:"+ufile);
     if (ufile) {
-      ufile.forEach(f => {
-        newpost.post_media.push({
-          "url": f
+      if(Array.isArray(ufile)){      
+        ufile.forEach(f => {
+          newPost.post_media.push({
+            "media": f.location
+          });
         });
-      });
+      }
+      else{
+        newPost.post_media.push({
+          "media": f.location
+        });
+      }
     }
     //console.log("file:"+ufile);
     newPost.created_by = (({ _id,username }) => ({ _id,username }))(user);
@@ -267,6 +274,7 @@ let upvotePost = (currPost, currUser) => {
       if (user) {
           console.log("user did Downvote already, so remove it from user object Downvoted posts and decrement Downvote count");
           removeDownvote(currUser,currPost,resolve, reject);
+
       } else {
         console.log("user did not vote already so add Downvote");
         addDownvote(currUser,currPost,resolve, reject);
@@ -315,12 +323,12 @@ let upvotePost = (currPost, currUser) => {
         }
       }          
     }, { new: true }).exec()
-      .then(() => {
-        console.log("User Updated upvote removed!");
+      .then((d) => {
+        console.log("User Updated upvote removed!"+d.username+"--"+d.upvotes);
         Post.findByIdAndUpdate(currPost, {
           $inc: { upvotes: -1 }         
         }, { new: true }).exec().then((doc)=>{
-          console.log("Post Updated upvote removed!");
+          console.log("Post Updated upvote removed!"+doc.upvotes);
           resolve({
             upvotes: doc.upvotes,
             downvotes:doc.downvotes
@@ -354,8 +362,8 @@ let upvotePost = (currPost, currUser) => {
         }
       }
     }, { new: true,safe: true, }).exec()
-        .then(() => {
-          console.log("User Updated downvote added!");
+        .then((d) => {
+          console.log("User Updated downvote added!"+d.downvotes);
           Post.findByIdAndUpdate(currPost, {
             $inc: { downvotes: 1 }         
           }, { new: true }).exec().then((doc)=>{
@@ -412,7 +420,7 @@ let upvotePost = (currPost, currUser) => {
   }
 
   let addPostToUser = (post, user) => {
-    console.log(post._id, user._id);
+    //console.log(post._id, user._id);
     userModel.findByIdAndUpdate(user._id, {
       $push: {
         "createdPosts": {
@@ -426,7 +434,7 @@ let upvotePost = (currPost, currUser) => {
 }
 
 let addPostToCommunity = (post, community) => {
-  console.log(post._id, community._id, community.cname);
+  //console.log(post._id, community._id, community.cname);
   commModel.findByIdAndUpdate(community._id, {
     $push: {
       "posts": {
