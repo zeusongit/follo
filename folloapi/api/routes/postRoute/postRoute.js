@@ -25,6 +25,6 @@ routes.put('/:post/delete/:comment',authChecker, postController.checkCommentCrea
 
 //routes.get('/:post/comment',authChecker, postController.getAllPostComments);
 
-routes.get('/post/discover/:pageNo', postController.getPostsForDiscover);
+
 
 module.exports = routes;
