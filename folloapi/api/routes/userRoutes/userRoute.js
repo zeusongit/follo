@@ -8,4 +8,6 @@ routes.post('/user/me', authChecker, userController.getUser);
 
 routes.get('/user/post', authChecker, postController.getAllPostOfUser);
 
+routes.get('/user/post/discover/:pageNo', postController.getPostsForDiscover);
+
 module.exports = routes;
