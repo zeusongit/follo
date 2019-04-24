@@ -23,7 +23,7 @@ export class UserService {
   }
 
   getDiscoverPosts(page: Number): Promise<any> {
-    let url = `http://localhost:3000/user/post/discover/page`;
+    let url = `http://localhost:3000/user/post/discover/${page}`;
     return this.http.get(url,{observe: 'response'}).toPromise();
   }
 }

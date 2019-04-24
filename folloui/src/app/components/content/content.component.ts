@@ -10,7 +10,7 @@ import { UserService } from '../../services/user.service';
 })
 export class ContentComponent implements OnInit {
 
-  currentDiscoverPage: number = 0;
+  currentDiscoverPage: number = 1;
   currentPersonalPage: number = 0;
   discoverPosts: Array<Post> = [];
   personalPosts: Array<Post> = [];
@@ -24,11 +24,16 @@ export class ContentComponent implements OnInit {
 
 
   fetchDiscoverPosts() {
+     console.log('fetching with offset' +this.currentDiscoverPage);
      this.userService.getDiscoverPosts(this.currentDiscoverPage)
      .then(res => {
        console.log('discovered posts');
-       this.currentDiscoverPage += this.currentDiscoverPage + 1;
+       
        console.log(res.body.posts);
+       if (res.body.posts.length > 0){
+        this.currentDiscoverPage += this.currentDiscoverPage + 1;
+       }
+
        this.discoverPosts = [...this.discoverPosts,...res.body.posts];
      })
      .catch(err => {
