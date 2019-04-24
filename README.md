@@ -1,6 +1,11 @@
 # Follo
 INFO6150 - Final Project
 
+Follo is all about being part of something beaiful.
+You can create, share your content with tons of user created communities that match your interests.
+The most interested 
+You Can follow "Follo" communities of specific interests or simply have a look around!
+ 
 ## Team Information
 
 | Name | NEU ID          | Email Address                    |
@@ -23,5 +28,3 @@ INFO6150 - Final Project
 - Angular
 - BootStrap 4
 - FontAwesome
-
-
