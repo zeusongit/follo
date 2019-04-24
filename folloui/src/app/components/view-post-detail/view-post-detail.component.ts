@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewPostDetailComponent implements OnInit {
 
+  imgSrc: string;
   authUser: any;
   postTitle: string;
   comments: any;
@@ -51,6 +52,9 @@ export class ViewPostDetailComponent implements OnInit {
           this.upVotes = res.body.upvotes;
           this.downVotes = res.body.downvotes;
           this.postContent = res.body.content;
+          if (res.body.post_media.length>0){
+            this.imgSrc = res.body.post_media[0].media;
+          }
         }
       }).catch(err => {
         console.log("POST DATA FAILED", err);

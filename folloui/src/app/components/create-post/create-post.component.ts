@@ -62,7 +62,7 @@ export class CreatePostComponent implements OnInit {
         });
       }
 
-      this.postService.createPost(this.post, this.selectCommunity, this.authToken).toPromise()
+      this.postService.createPost(this.post, this.selectCommunity, this.authToken, this.filesToUpload).toPromise()
         .then(res => {
           if (res.status === 200) {
             console.log('CREATED POST SUCCESSFULLY', res);

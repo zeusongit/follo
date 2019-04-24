@@ -10,7 +10,7 @@ export class PostService {
 
   constructor(private http: HttpClient) { }
 
-  createPost(post: Post, commName: string, token: string) {
+  createPost(post: Post, commName: string, token: string, filestoUpload: FileList) {
     console.log('post from component');
     console.log(post);
     let headers;
@@ -19,7 +19,8 @@ export class PostService {
     formData.append('title', post.title);
     formData.append('content', post.content);
     if (post.type === 'image') {
-      // handle adding of image in formData here
+      console.log('adding imgaeg');
+      formData.append('media_image', filestoUpload.item(0),filestoUpload.item(0).name);
     }
 
     switch (post.type) {
