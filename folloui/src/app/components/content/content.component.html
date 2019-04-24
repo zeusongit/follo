@@ -13,7 +13,18 @@
     <div class="card-body">
       <span class="posted-by">Posted by {{post.created_by.username}} on {{post.posted_on |  date:'MM/dd/yyyy'}}</span>
       <h5 class="card-title">{{post.title}}</h5>
-      <hr>
+
+      <div *ngFor="let image of post.post_media">
+        <hr>
+
+        <div class="post-image">
+          <img src="{{image.media}}" class="post-image" />
+        </div>
+        <hr>
+      </div>
+
+
+
       <p>{{post.content}}</p>
       <hr>
       <button type="button" class="btn btn-link comment"
@@ -36,16 +47,23 @@
 
 
 
-  <div *ngIf="viewToDisplay=='personal'">
-    <div *ngIf="!authUser">
-      Please Login to access your personal feed
-    </div>
-    <div *ngIf="authUser">
+<div *ngIf="viewToDisplay=='personal'">
+  <div *ngIf="!authUser">
+    Please Login to access your personal feed
+  </div>
+  <div *ngIf="authUser">
     <div class="card post" *ngFor="let post of personalPosts">
       <div class="card-body">
         <span class="posted-by">Posted by {{post.created_by.username}} on {{post.posted_on |  date:'MM/dd/yyyy'}}</span>
         <h5 class="card-title">{{post.title}}</h5>
-        <hr>
+        <div *ngFor="let image of post.post_media">
+            <hr>
+    
+            <div class="post-image">
+              <img src="{{image.media}}" class="post-image" />
+            </div>
+            <hr>
+          </div>
         <p>{{post.content}}</p>
         <hr>
         <button type="button" class="btn btn-link comment"
@@ -62,5 +80,5 @@
     </div>
   </div>
 
-  
+
 </div>

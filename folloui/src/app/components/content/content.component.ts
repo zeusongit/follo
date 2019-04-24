@@ -35,6 +35,7 @@ export class ContentComponent implements OnInit {
     });
 
     this.fetchDiscoverPosts();
+    console.log(this.discoverPosts);
     if (this.authUser){
       this.fetchPersonalPosts();
     }
