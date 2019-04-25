@@ -11,19 +11,20 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./content.component.scss']
 })
 export class ContentComponent implements OnInit {
-
-  currentDiscoverPage: number = 1;
-  currentPersonalPage: number = 0;
+  currentDiscoverPage:number = 1;
   discoverPosts: Array<Post> = [];
   personalPosts: Array<Post> = [];
   viewToDisplay: string = 'discover'
 
-  constructor(private userService: UserService, private postService: PostService, private store: Store<any>) { }
+  constructor(private userService: UserService, private postService: PostService, private store: Store<any>) {
+    
+   }
 
   authUser: any;
   authToken: string;
   errMsg: string;
   ngOnInit() {
+    this.currentDiscoverPage = 1;
     this.store.select('userAuth').subscribe((userAuth) => {
       console.log(`TOKENS STATUS CHANGED IN main content: ${userAuth}`);
       console.log(userAuth);
@@ -35,7 +36,6 @@ export class ContentComponent implements OnInit {
     });
 
     this.fetchDiscoverPosts();
-    console.log(this.discoverPosts);
     if (this.authUser){
       this.fetchPersonalPosts();
     }
@@ -48,10 +48,10 @@ export class ContentComponent implements OnInit {
     this.userService.getDiscoverPosts(this.currentDiscoverPage)
       .then(res => {
         console.log('discovered posts');
-
+        console.log(res);
         console.log(res.body.posts);
         if (res.body.posts.length > 0) {
-          this.currentDiscoverPage += this.currentDiscoverPage + 1;
+          this.currentDiscoverPage = this.currentDiscoverPage + 1;
         }
 
         this.discoverPosts = [...this.discoverPosts, ...res.body.posts];
